@@ -18,6 +18,7 @@ class SongFactory extends Factory
     {
         return [
             'spotify_id' => $this->faker->uuid,
+            'name' => $this->faker->name,
             'data' => $this->makeFakeData(),
         ];
     }
