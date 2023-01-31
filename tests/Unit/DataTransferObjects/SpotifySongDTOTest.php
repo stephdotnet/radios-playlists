@@ -16,7 +16,7 @@ class SpotifySongDtoTest extends TestCase
     {
         $transformedData = SpotifySongDTO::toModel($this->getSongFixture());
 
-        $this->assertArrayHasKey('id', $transformedData);
+        $this->assertArrayHasKey('spotify_id', $transformedData);
         $this->assertArrayHasKey('name', $transformedData);
         $this->assertArrayHasKey('data', $transformedData);
         $this->assertArrayHasKey('album', $transformedData['data']);
