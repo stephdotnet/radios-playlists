@@ -33,7 +33,7 @@ class ParseOneCommand extends Command
      */
     public function handle()
     {
-        if (!$this->isRadioAllowed($this->argument('radio'))) {
+        if (! $this->isRadioAllowed($this->argument('radio'))) {
             $this->error('Radio not allowed');
 
             return;
