@@ -10,14 +10,14 @@ on:
 jobs:
   tests:
     concurrency:
-      group: ${{ github.head_ref }}
+      group: ${{ github.head_ref || github.run_id }}
       cancel-in-progress: true
 
     runs-on: ubuntu-latest
     steps:
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
-          php-version: '8.1'
+          php-version: "8.1"
           coverage: pcov
 
       - uses: actions/checkout@v3
@@ -77,7 +77,7 @@ jobs:
         uses: slavcodev/coverage-monitor-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          coverage_path: './clover.xml'
+          coverage_path: "./clover.xml"
 
       - name: Send coverage report to Codecov
         if: ${{ success() }}
