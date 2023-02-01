@@ -20,4 +20,9 @@ class PlaylistFactory extends Factory
             'slug' => $this->faker->slug,
         ];
     }
+
+    public function withSongs(int $count = 10)
+    {
+        return $this->has(SongFactory::new()->count($count));
+    }
 }

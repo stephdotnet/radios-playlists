@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PlaylistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/playlists', PlaylistController::class.'@index')
+    ->name('playlist.index');
+
+Route::get('/playlists/{playlist}', PlaylistController::class.'@show')
+    ->name('playlist.show');

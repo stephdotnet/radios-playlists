@@ -28,4 +28,9 @@ class Song extends Model
     {
         return collect(data_get($this->data, 'artists'))->pluck('name')->implode(', ');
     }
+
+    public function getSpotifyUrlAttribute()
+    {
+        return data_get($this->data, 'external_urls.spotify');
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Features\Commands;
 
 use App\Facades\Parser;
 use Tests\TestCase;
