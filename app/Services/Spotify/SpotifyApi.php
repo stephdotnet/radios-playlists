@@ -3,10 +3,9 @@
 namespace App\Services\Spotify;
 
 use App\Services\Parser\ParserResponse;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Client\PendingRequest;
 
 class SpotifyApi
 {
