@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Header from '@/layouts/Header';
-import { useRouteErrorType } from '@/types/react-router-dom';
+import { useRouteErrorType } from '@/types';
 
 function ErrorPage() {
   const error = useRouteError() as useRouteErrorType;

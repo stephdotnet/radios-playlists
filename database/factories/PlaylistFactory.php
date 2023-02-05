@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Playlist>
@@ -17,7 +18,7 @@ class PlaylistFactory extends Factory
     public function definition()
     {
         return [
-            'slug' => $this->faker->slug,
+            'slug' => Str::slug($this->faker->name),
         ];
     }
 

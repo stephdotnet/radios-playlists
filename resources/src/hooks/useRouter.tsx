@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import ErrorPage from '@/pages/ErrorPage';
 import Home from '@/pages/home/Home';
+import PlaylistDetail from '@/pages/playlistDetail/PlaylistDetail';
 import i18n from '@/utils/localisation/i18n';
 import Layout from '@layouts/Layout';
 
@@ -9,14 +10,18 @@ export interface headerNavItem {
   label: string;
 }
 
-const useRouter = () => {
-  const pages = {
-    home: {
-      path: '/',
-      slug: 'home',
-    },
-  };
+export const pages = {
+  home: {
+    path: '/',
+    slug: 'home',
+  },
+  playlistDetail: {
+    path: 'playlists/:id',
+    slug: 'playlist-detail',
+  },
+};
 
+const useRouter = () => {
   const isActive = (locationPathname: string, toPathname: string) => {
     return (
       locationPathname === toPathname ||
@@ -31,6 +36,10 @@ const useRouter = () => {
         {
           path: pages.home.path,
           element: <Home />,
+        },
+        {
+          path: pages.playlistDetail.path,
+          element: <PlaylistDetail />,
         },
       ],
       errorElement: <ErrorPage />,

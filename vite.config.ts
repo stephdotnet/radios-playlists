@@ -36,6 +36,7 @@ export default defineConfig(({ mode }) => {
         '@hooks': path.resolve(__dirname, 'resources', 'src', 'hooks'),
         '@pages': path.resolve(__dirname, 'resources', 'src', 'pages'),
         '@utils': path.resolve(__dirname, 'resources', 'src', 'utils'),
+        '@types': path.resolve(__dirname, 'resources', 'src', 'utils'),
       },
     },
     server: {

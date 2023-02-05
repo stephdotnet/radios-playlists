@@ -22,6 +22,7 @@
       "@pages/*": ["./resources/src/pages/*"],
       "@components/*": ["./resources/src/components/*"],
       "@layouts/*": ["./resources/src/layouts/*"],
+      "@types/*": ["./resources/src/types/*"],
       "@utils/*": ["./resources/src/utils/*"]
     }
   },

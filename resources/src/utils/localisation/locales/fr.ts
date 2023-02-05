@@ -1,15 +1,11 @@
 const pages = {
-  'pages.home': 'Accueil',
-  'pages.history': 'Historique',
+  'pages.playlists.title': 'Playlists',
+  'pages.playlist.go_back_to_playlists': 'Retour aux playlists',
 };
 
-const components = {
-  'components.fileLoader.load_a_file': 'Charger un fichier',
-};
+const components = {};
 
-const system = {
-  'system.send': 'Envoyer',
-};
+const system = {};
 
 export default {
   ...components,
