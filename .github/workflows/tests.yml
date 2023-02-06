@@ -72,6 +72,9 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: php artisan test --coverage-clover ./clover.xml
 
+      - name: Setup Tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Monitor coverage
         if: ${{ success() }}
         uses: slavcodev/coverage-monitor-action@v1
