@@ -19,7 +19,7 @@ class SpotifyApi
             'limit' => 1,
         ]);
 
-        return Arr::get($response, 'tracks.items.0');
+        return Arr::get($response, 'tracks.items.0', []);
     }
 
     public function sendRequest(string $method, string $endpoint, array $params = []): array

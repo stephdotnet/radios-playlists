@@ -14,10 +14,7 @@ return [
     |
     */
     'parser' => [
-        'radios' => [
-            'swissjazz',
-            'nostalgie',
-        ],
+        'radios' => explode(',', env('PARSER_RADIOS', '')),
     ],
 
     'spotify' => [

@@ -36,7 +36,7 @@ class ParseOneCommand extends Command
         if (! $this->isRadioAllowed($this->argument('radio'))) {
             $this->error('Radio not allowed');
 
-            return;
+            return Command::FAILURE;
         }
 
         $response = Parser::driver('radiosFr')
