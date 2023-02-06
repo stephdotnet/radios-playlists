@@ -3,7 +3,7 @@
 namespace App\Features\Commands;
 
 use App\Services\Spotify\SpotifyApi;
-use Tests\Fixtures\SpotifyApiFixtures;
+use Tests\Fixtures\SpotifySearchFixtures;
 use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
 use Tests\Traits\Mock\SpotifyApiMockTrait;
@@ -43,7 +43,7 @@ class ParseOneCommandTest extends TestCase
         $this->mockParserDriver()->shouldReceive('parse');
 
         $this->partialMock(SpotifyApi::class, function ($mock) {
-            $this->mockGetMatchingSong($mock, SpotifyApiFixtures::getMatchingSong('spotify/search/no-matching-song.json'));
+            $this->mockGetMatchingSong($mock, SpotifySearchFixtures::getMatchingSong('spotify/search/no-matching-song.json'));
         });
 
         $this->artisan('parse:one', ['radio' => 'mock'])

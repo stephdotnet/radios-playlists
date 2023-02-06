@@ -5,7 +5,7 @@ namespace Tests\Traits\Mock;
 use App\Services\Spotify\SpotifyApi;
 use Illuminate\Support\Arr;
 use Mockery\MockInterface;
-use Tests\Fixtures\SpotifyApiFixtures;
+use Tests\Fixtures\SpotifySearchFixtures;
 
 trait SpotifyApiMockTrait
 {
@@ -22,7 +22,7 @@ trait SpotifyApiMockTrait
     protected function mockGetMatchingSong($mock, array $response = null)
     {
         if (is_null($response)) {
-            $response = SpotifyApiFixtures::getMatchingSong();
+            $response = SpotifySearchFixtures::getMatchingSong();
         }
 
         $mock->shouldReceive('getMatchingSong')

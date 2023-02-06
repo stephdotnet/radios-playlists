@@ -4,7 +4,7 @@ namespace Tests\Fixtures;
 
 use Illuminate\Support\Facades\Storage;
 
-class SpotifyApiFixtures
+class SpotifySearchFixtures
 {
     public static function getMatchingSong($file = 'spotify/search/matching-song.json'): array
     {
