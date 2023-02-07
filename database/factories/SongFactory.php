@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Playlist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,11 @@ class SongFactory extends Factory
             'name' => $this->faker->name,
             'data' => $this->makeFakeData(),
         ];
+    }
+
+    public function playlist(Playlist $playlist)
+    {
+        return $this->hasAttached($playlist);
     }
 
     protected function makeFakeData()

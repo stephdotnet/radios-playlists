@@ -19,7 +19,7 @@ class Song extends Model
         'data' => 'array',
     ];
 
-    public function playlistss()
+    public function playlists()
     {
         return $this->belongsToMany(Playlist::class);
     }
