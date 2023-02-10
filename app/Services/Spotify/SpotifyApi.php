@@ -3,52 +3,27 @@
 namespace App\Services\Spotify;
 
 use App\Services\Parser\ParserResponse;
-use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
+use SpotifyWebAPI\SpotifyWebAPI;
 
 class SpotifyApi
 {
     public function getMatchingSong(ParserResponse $parserResponse): array
     {
-        $queryParameters = "artist:{$parserResponse->artist} track:{$parserResponse->song}";
+        $query = "artist:{$parserResponse->artist} track:{$parserResponse->song}";
+        $response = $this->getClientCredentialsClient()
+            ->search($query, 'track', ['limit' => 1]);
 
-        $response = $this->sendRequest('get', 'search', [
-            'q' => $queryParameters,
-            'type' => 'track',
-            'limit' => 1,
-        ]);
-
-        return Arr::get($response, 'tracks.items.0', []);
+        return Arr::get($this->convertReponseToArray($response), 'tracks.items.0', []);
     }
 
-    public function sendRequest(string $method, string $endpoint, array $params = []): array
+    protected function convertReponseToArray($response): array
     {
-        $response = $this->getClient()
-            ->withToken($this->getToken())
-            ->$method($endpoint, $params)
-            ->throw()
-            ->json();
-
-        return $response;
+        return json_decode(json_encode($response), true);
     }
 
-    protected function getToken(): string
+    protected function getClientCredentialsClient(): SpotifyWebAPI
     {
-        return Http::withBasicAuth(config('services.spotify.client_id'), config('services.spotify.client_secret'))
-            ->asForm()
-            ->post('https://accounts.spotify.com/api/token', [
-                'grant_type' => 'client_credentials',
-            ])
-            ->throw()
-            ->json('access_token');
-    }
-
-    protected function getClient(): PendingRequest
-    {
-        return Http::withHeaders([
-            'Accept' => 'application/json',
-        ])
-            ->baseUrl('https://api.spotify.com/v1');
+        return app(SpotifyApiClient::class)->getClientCredentialsClient();
     }
 }
