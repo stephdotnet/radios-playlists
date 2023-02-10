@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PlaylistResource;
 use App\Models\Playlist;
 
 class PlaylistController extends Controller
 {
     public function index()
     {
-        return view('playlist.index', [
-            'playlists' => Playlist::all(),
-        ]);
+        return PlaylistResource::collection(Playlist::all());
     }
 
     public function show(Playlist $playlist)
     {
-        return view('playlist.show', [
-            'playlist' => $playlist->load('songs'),
-        ]);
+        return PlaylistResource::make($playlist->load('songs'));
     }
 }

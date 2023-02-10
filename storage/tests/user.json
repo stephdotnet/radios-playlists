@@ -1,0 +1,27 @@
+{
+    "country": "FR",
+    "display_name": "John Doe",
+    "explicit_content": {
+        "filter_enabled": false,
+        "filter_locked": false
+    },
+    "external_urls": {
+        "spotify": "https:\/\/open.spotify.com\/user\/123456789"
+    },
+    "followers": {
+        "href": null,
+        "total": 18
+    },
+    "href": "https:\/\/api.spotify.com\/v1\/users\/123456789",
+    "id": "1176884304",
+    "images": [
+        {
+            "height": null,
+            "url": null,
+            "width": null
+        }
+    ],
+    "product": "premium",
+    "type": "user",
+    "uri": "spotify:user:123456789"
+}

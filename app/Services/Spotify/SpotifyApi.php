@@ -3,12 +3,13 @@
 namespace App\Services\Spotify;
 
 use App\Services\Parser\ParserResponse;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class SpotifyApi
 {
-    public function getMatchingSong(ParserResponse $parserResponse)
+    public function getMatchingSong(ParserResponse $parserResponse): array
     {
         $queryParameters = "artist:{$parserResponse->artist} track:{$parserResponse->song}";
 
@@ -18,7 +19,7 @@ class SpotifyApi
             'limit' => 1,
         ]);
 
-        return Arr::get($response, 'tracks.items.0');
+        return Arr::get($response, 'tracks.items.0', []);
     }
 
     public function sendRequest(string $method, string $endpoint, array $params = []): array
@@ -43,7 +44,7 @@ class SpotifyApi
             ->json('access_token');
     }
 
-    protected function getClient()
+    protected function getClient(): PendingRequest
     {
         return Http::withHeaders([
             'Accept' => 'application/json',

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 
 class ParseAllCommand extends Command
 {
@@ -28,7 +29,7 @@ class ParseAllCommand extends Command
     public function handle()
     {
         foreach (config('services.parser.radios') as $radio) {
-            $this->call('parse:one', ['radio' => $radio]);
+            Artisan::call('parse:one', ['radio' => $radio]);
         }
 
         return Command::SUCCESS;

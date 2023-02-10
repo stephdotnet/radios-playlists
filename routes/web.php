@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PlaylistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', PlaylistController::class.'@index')
-    ->name('playlist.index');
-
-Route::get('/playlists/{playlist}', PlaylistController::class.'@show')
-    ->name('playlist.show');
+Route::get('/{path}', fn () => view('index'))->where(['path' => '.*'])->name('app');

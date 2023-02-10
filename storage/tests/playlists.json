@@ -1,0 +1,46 @@
+{
+    "href": "https://api.spotify.com/v1/users/1176884304/playlists?offset=0&limit=20",
+    "items": [
+        {
+        "collaborative": false,
+        "description": "This is Muse. The essential tracks, all in one playlist.",
+        "external_urls": {
+            "spotify": "https://open.spotify.com/playlist/37i9dQZF1DZ06evO0yp56w"
+        },
+        "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DZ06evO0yp56w",
+        "id": "37i9dQZF1DZ06evO0yp56w",
+        "images": [
+            {
+            "height": null,
+            "url": "https://thisis-images.scdn.co/37i9dQZF1DZ06evO0yp56w-large.jpg",
+            "width": null
+            }
+        ],
+        "name": "This Is Muse",
+        "owner": {
+            "display_name": "Spotify",
+            "external_urls": {
+            "spotify": "https://open.spotify.com/user/spotify"
+            },
+            "href": "https://api.spotify.com/v1/users/spotify",
+            "id": "spotify",
+            "type": "user",
+            "uri": "spotify:user:spotify"
+        },
+        "primary_color": null,
+        "public": false,
+        "snapshot_id": "Mjc5MjY3NTcsMDAwMDAwMDBjMDEzZTM4NjIzMjI4OTdlYzIxNzdlZjNhMDMzZjIwOQ==",
+        "tracks": {
+            "href": "https://api.spotify.com/v1/playlists/37i9dQZF1DZ06evO0yp56w/tracks",
+            "total": 50
+        },
+        "type": "playlist",
+        "uri": "spotify:playlist:37i9dQZF1DZ06evO0yp56w"
+        }
+    ],
+    "limit": 20,
+    "next": "https://api.spotify.com/v1/users/1176884304/playlists?offset=20&limit=20",
+    "offset": 0,
+    "previous": null,
+    "total": 1
+}

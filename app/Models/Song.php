@@ -19,7 +19,7 @@ class Song extends Model
         'data' => 'array',
     ];
 
-    public function playlistss()
+    public function playlists()
     {
         return $this->belongsToMany(Playlist::class);
     }
@@ -27,5 +27,10 @@ class Song extends Model
     public function getArtistsAttribute()
     {
         return collect(data_get($this->data, 'artists'))->pluck('name')->implode(', ');
+    }
+
+    public function getSpotifyUrlAttribute()
+    {
+        return data_get($this->data, 'external_urls.spotify');
     }
 }
