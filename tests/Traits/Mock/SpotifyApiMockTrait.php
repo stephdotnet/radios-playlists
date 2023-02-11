@@ -5,7 +5,7 @@ namespace Tests\Traits\Mock;
 use App\Services\Spotify\SpotifyApi;
 use Illuminate\Support\Arr;
 use Mockery\MockInterface;
-use Tests\Fixtures\SpotifySearchFixtures;
+use Tests\Fixtures\Spotify\SpotifySearchFixtures;
 
 trait SpotifyApiMockTrait
 {

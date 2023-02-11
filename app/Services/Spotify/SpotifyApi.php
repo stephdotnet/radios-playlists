@@ -14,16 +14,14 @@ class SpotifyApi
         $response = $this->getClientCredentialsClient()
             ->search($query, 'track', ['limit' => 1]);
 
-        return Arr::get($this->convertReponseToArray($response), 'tracks.items.0', []);
-    }
-
-    protected function convertReponseToArray($response): array
-    {
-        return json_decode(json_encode($response), true);
+        return Arr::get($response, 'tracks.items.0', []);
     }
 
     protected function getClientCredentialsClient(): SpotifyWebAPI
     {
-        return app(SpotifyApiClient::class)->getClientCredentialsClient();
+        $client = app(SpotifyApiClient::class)->getClientCredentialsClient();
+        $client->setOptions(['return_assoc' => true]);
+
+        return $client;
     }
 }

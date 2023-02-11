@@ -25,7 +25,9 @@ class RadiosFrParser implements ParserInterface
         }
 
         $response = $this->getClient()
-            ->get($this->getUrl())
+            ->get(self::getUrl('now-playing'), [
+                'stationIds' => $this->radio,
+            ])
             ->throw()
             ->json();
 
@@ -48,9 +50,9 @@ class RadiosFrParser implements ParserInterface
         ];
     }
 
-    protected function getUrl(): string
+    public static function getUrl(string $endpoint = ''): string
     {
-        return "https://prod.radio-api.net/stations/now-playing?stationIds=$this->radio";
+        return "https://prod.radio-api.net/stations/$endpoint";
     }
 
     protected function getClient()

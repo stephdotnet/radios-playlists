@@ -54,7 +54,7 @@ class SpotifyApiClientMock
 
     /*
     |--------------------------------------------------------------------------
-    | Public Setters
+    | Public setters
     |--------------------------------------------------------------------------
     */
 
@@ -74,7 +74,23 @@ class SpotifyApiClientMock
 
     /*
     |--------------------------------------------------------------------------
-    | Protected Methods
+    | Mock templates
+    |--------------------------------------------------------------------------
+    */
+
+    public function makeClientCredentialsClientMock()
+    {
+        $this->makeSpotifySessionMock(function ($mock) {
+            $mock->shouldReceive('requestCredentialsToken')->andReturn();
+            $mock->shouldReceive('getAccessToken')->andReturn('token');
+        });
+
+        return $this;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Protected methods
     |--------------------------------------------------------------------------
     */
 

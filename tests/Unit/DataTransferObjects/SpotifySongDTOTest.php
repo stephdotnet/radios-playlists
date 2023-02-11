@@ -3,7 +3,7 @@
 namespace Test\Unit\DataTransferObjects;
 
 use App\DataTransferObjects\SpotifySongDTO;
-use Tests\Fixtures\SpotifySongFixtures;
+use Tests\Fixtures\Spotify\SpotifySongFixtures;
 use Tests\TestCase;
 
 /**
