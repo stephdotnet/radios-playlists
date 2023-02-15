@@ -6,3 +6,6 @@
 ## BACKEND
 - Documentation API
 - Full coverage
+- Sanctum & Spotify User provider
+- Laravel 10
+- Convert to PEST

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a935f634c598afa104ef79e6c55662a",
+    "content-hash": "f22f5aa8d413c45175bc8026aa7bcbc1",
     "packages": [
         {
             "name": "brick/math",
@@ -899,16 +899,16 @@
         },
         {
             "name": "jwilsson/spotify-web-api-php",
-            "version": "5.5.0",
+            "version": "5.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jwilsson/spotify-web-api-php.git",
-                "reference": "c11395b37594c83dc9ea9802311ab1ece32a41ab"
+                "reference": "ecbe3e676f287675aef733e205a440c85658d765"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jwilsson/spotify-web-api-php/zipball/c11395b37594c83dc9ea9802311ab1ece32a41ab",
-                "reference": "c11395b37594c83dc9ea9802311ab1ece32a41ab",
+                "url": "https://api.github.com/repos/jwilsson/spotify-web-api-php/zipball/ecbe3e676f287675aef733e205a440c85658d765",
+                "reference": "ecbe3e676f287675aef733e205a440c85658d765",
                 "shasum": ""
             },
             "require": {
@@ -943,9 +943,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jwilsson/spotify-web-api-php/issues",
-                "source": "https://github.com/jwilsson/spotify-web-api-php/tree/5.5.0"
+                "source": "https://github.com/jwilsson/spotify-web-api-php/tree/5.6.0"
             },
-            "time": "2022-12-12T18:38:05+00:00"
+            "time": "2023-02-11T18:23:56+00:00"
         },
         {
             "name": "laravel/framework",
