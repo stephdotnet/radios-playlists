@@ -17,14 +17,14 @@ class SpotifyApi
         return Arr::get($response, 'tracks.items.0', []);
     }
 
-    protected function getAuthenticatedClient(): SpotifyWebAPI
+    public function getAuthenticatedClient(): SpotifyWebAPI
     {
         return app(SpotifyApiClient::class)
             ->getAuthenticatedClient()
             ->setOptions(['return_assoc' => true]);
-    }    
-    
-    protected function getClientCredentialsClient(): SpotifyWebAPI
+    }
+
+    public function getClientCredentialsClient(): SpotifyWebAPI
     {
         return app(SpotifyApiClient::class)
             ->getClientCredentialsClient()

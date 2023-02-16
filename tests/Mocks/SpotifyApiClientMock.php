@@ -5,6 +5,7 @@ namespace Tests\Mocks;
 use App\Services\Spotify\SpotifyApiClient;
 use Closure;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
+use Mockery;
 use SpotifyWebAPI\Session;
 use SpotifyWebAPI\SpotifyWebAPI;
 
@@ -12,10 +13,21 @@ class SpotifyApiClientMock
 {
     use InteractsWithContainer;
 
+    const FAKE_REDIRECT_URL = 'https://accounts.spotify.com/authorize?client_id=mocked_client_id&redirect_uri=mocked_redirect_uri&response_type=code&scope=playlist-read-private+user-read-private&state=mocked_state';
+
+    const FAKE_ACCESS_TOKEN = 'mocked_access_token';
+
+    const FAKE_REFRESH_TOKEN = 'mocked_refresh_token';
+
+    const FAKE_STATE = 'mocked_state';
+
     protected $app;
 
-    public function __construct(protected $spotifySessionMock = null, protected $spotifyWebApiMock = null, protected $mock = null)
-    {
+    public function __construct(
+        protected $spotifySessionMock = null,
+        protected $spotifyWebApiMock = null,
+        protected $mock = null
+    ) {
         $this->app = app();
     }
 
@@ -80,12 +92,56 @@ class SpotifyApiClientMock
 
     public function makeClientCredentialsClientMock()
     {
-        $this->makeSpotifySessionMock(function ($mock) {
+        return $this->makeSpotifySessionMock(function ($mock) {
             $mock->shouldReceive('requestCredentialsToken')->andReturn();
             $mock->shouldReceive('getAccessToken')->andReturn('token');
         });
+    }
 
-        return $this;
+    public function makeRequestAccessTokenSessionMock()
+    {
+        return $this->makeSpotifySessionMock(function ($mock) {
+            $mock
+                ->shouldReceive('requestAccessToken')
+                ->with('code');
+            $mock
+                ->shouldReceive('getAccessToken')
+                ->andReturn(self::FAKE_ACCESS_TOKEN);
+            $mock
+                ->shouldReceive('getRefreshToken')
+                ->andReturn(self::FAKE_REFRESH_TOKEN);
+        });
+    }
+
+    public function makeGetAuthorizeUrlSessionMock()
+    {
+        return $this->setSpotifySessionMock(Mockery::mock(
+            new Session('mocked_client_id', 'mocked_client_secret', 'mocked_redirect_uri'),
+            function ($mock) {
+                $mock
+                    ->shouldReceive('generateState')
+                    ->andReturn(self::FAKE_STATE);
+            })
+            ->makePartial()
+        );
+    }
+
+    public function makeFullAuthorizationCodeMock()
+    {
+        return $this->makeSpotifySessionMock(function ($mock) {
+            $mock
+                ->shouldReceive('requestAccessToken')
+                ->with('code');
+            $mock
+                ->shouldReceive('generateState')
+                ->andReturn(self::FAKE_STATE);
+            $mock
+                ->shouldReceive('getAccessToken')
+                ->andReturn(self::FAKE_ACCESS_TOKEN);
+            $mock
+                ->shouldReceive('getRefreshToken')
+                ->andReturn(self::FAKE_REFRESH_TOKEN);
+        });
     }
 
     /*

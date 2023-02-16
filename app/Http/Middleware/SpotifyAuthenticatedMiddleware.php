@@ -16,10 +16,10 @@ class SpotifyAuthenticatedMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!app(SpotifyApiClient::class)->isAuthenticated()) {
+        if (! app(SpotifyApiClient::class)->isAuthenticated()) {
             return redirect(route('index'));
         }
-        
+
         return $next($request);
     }
 }

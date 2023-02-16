@@ -11,18 +11,21 @@ class SpotifyApiClient
     {
     }
 
-    public function requestAccessToken(string $code) {
+    public function requestAccessToken(string $code)
+    {
         $this->session->requestAccessToken($code);
-    
+
         session()->put('access_token', $this->session->getAccessToken());
-        session()->put('refresh_token', $this->session->getRefreshToken());        
+        session()->put('refresh_token', $this->session->getRefreshToken());
     }
 
-    public function isAuthenticated() {
+    public function isAuthenticated()
+    {
         return session()->has('access_token');
     }
-    
-    public function getAuthenticatedClient() {
+
+    public function getAuthenticatedClient()
+    {
         return $this->client->setAccessToken(session()->get('access_token'));
     }
 
@@ -33,11 +36,12 @@ class SpotifyApiClient
         return $this->client;
     }
 
-    public function getAuthorizeUrl() {
+    public function getAuthorizeUrl()
+    {
         $state = $this->session->generateState();
-    
+
         session()->put('state', $state);
-    
+
         return $this->session->getAuthorizeUrl([
             'scope' => [
                 'playlist-read-private',
