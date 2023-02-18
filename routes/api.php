@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\SpotifyAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/me', SpotifyAuthController::class.'@me');
 
 Route::get('/playlists', PlaylistController::class.'@index')
     ->name('playlist.index');

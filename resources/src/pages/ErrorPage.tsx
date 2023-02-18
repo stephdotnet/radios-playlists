@@ -2,7 +2,6 @@ import { useRouteError } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Header from '@/layouts/Header';
 import { useRouteErrorType } from '@/types';
 
 function ErrorPage() {
@@ -10,7 +9,6 @@ function ErrorPage() {
 
   return (
     <>
-      <Header />
       <Container>
         <Box>
           <Typography variant="h1" textAlign="center">

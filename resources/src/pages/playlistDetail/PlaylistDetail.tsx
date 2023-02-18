@@ -20,7 +20,7 @@ const PlaylistDetail: React.FC = () => {
     return <></>;
   }
 
-  const { isLoading, error, data, isFetching } = useShowPlaylist(id);
+  const { isLoading, error, data } = useShowPlaylist(id);
 
   return (
     <Container>

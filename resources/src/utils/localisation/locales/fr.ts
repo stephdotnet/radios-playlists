@@ -3,7 +3,12 @@ const pages = {
   'pages.playlist.go_back_to_playlists': 'Retour aux playlists',
 };
 
-const components = {};
+const components = {
+  'auth.error': "Une erreur s'est produite lors de la récupération de votre compte",
+  'auth.login': 'Se connecter à Spotify',
+  'auth.greeting': 'Bonjour {{name}} !',
+  'auth.logout': 'Se déconnecter',
+};
 
 const system = {};
 

@@ -20,5 +20,7 @@ Route::get('/spotify-redirect', SpotifyAuthController::class.'@redirect')
 Route::get('/spotify-callback', SpotifyAuthController::class.'@callback')
     ->name('spotify.callback');
 
+Route::get('/logout', SpotifyAuthController::class.'@logout');
+
 Route::get('/{path?}', fn () => view('index'))->where(['path' => '.*'])
     ->name('index');

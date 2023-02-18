@@ -7,6 +7,12 @@ use SpotifyWebAPI\SpotifyWebAPI;
 
 class SpotifyApiClient
 {
+    const ACCESS_TOKEN_SESSION_KEY = 'access_token';
+
+    const REFRESH_TOKEN_SESSION_KEY = 'refresh_token';
+
+    const STATE_SESSION_KEY = 'state';
+
     public function __construct(protected Session $session, protected SpotifyWebAPI $client)
     {
     }
@@ -15,18 +21,18 @@ class SpotifyApiClient
     {
         $this->session->requestAccessToken($code);
 
-        session()->put('access_token', $this->session->getAccessToken());
-        session()->put('refresh_token', $this->session->getRefreshToken());
+        session()->put(self::ACCESS_TOKEN_SESSION_KEY, $this->session->getAccessToken());
+        session()->put(self::REFRESH_TOKEN_SESSION_KEY, $this->session->getRefreshToken());
     }
 
     public function isAuthenticated()
     {
-        return session()->has('access_token');
+        return session()->has(self::ACCESS_TOKEN_SESSION_KEY);
     }
 
     public function getAuthenticatedClient()
     {
-        return $this->client->setAccessToken(session()->get('access_token'));
+        return $this->client->setAccessToken(session()->get(self::ACCESS_TOKEN_SESSION_KEY));
     }
 
     public function getClientCredentialsClient(): SpotifyWebAPI
@@ -40,7 +46,7 @@ class SpotifyApiClient
     {
         $state = $this->session->generateState();
 
-        session()->put('state', $state);
+        session()->put(self::STATE_SESSION_KEY, $state);
 
         return $this->session->getAuthorizeUrl([
             'scope' => [
@@ -49,6 +55,11 @@ class SpotifyApiClient
             ],
             'state' => $state,
         ]);
+    }
+
+    public function revokeAuthenticatedClientToken()
+    {
+        session()->forget(self::ACCESS_TOKEN_SESSION_KEY);
     }
 
     /*

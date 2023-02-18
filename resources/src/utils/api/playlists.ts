@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { Playlist, playlistHttpResponse, playlistsHttpResponse } from '@/types/Playlist';
-import { dataGetValue, env } from '@/utils';
+import { dataGetValue } from '@/utils';
 import { apiClient } from './api';
 
 interface PlaylistsRequestOptions {
