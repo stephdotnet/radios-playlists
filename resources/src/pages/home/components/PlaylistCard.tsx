@@ -2,7 +2,7 @@ import { Link as RouterLink, generatePath } from 'react-router-dom';
 import { Box, Chip, Link, Typography, useTheme } from '@mui/material';
 import { pages } from '@/hooks/useRouter';
 import { Playlist } from '@/types/Playlist';
-import PlaylistCardStyles from './PlaylistCardStyles';
+import PlaylistCardStyles from './PlaylistCard.style';
 
 export interface PlaylistCardProps {
   playlist: Playlist;

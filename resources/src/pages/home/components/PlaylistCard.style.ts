@@ -9,10 +9,10 @@ const PlaylistCardStyles = (theme: Theme) => {
         outline: `1px auto ${theme.palette.primary.main}`,
       },
       '&:hover .box, &:focus-visible .box': {
-        backgroundColor: theme.palette.grey[100],
+        backgroundColor: theme.palette.action.hover,
       },
       '&:active .box': {
-        backgroundColor: theme.palette.grey[200],
+        backgroundColor: theme.palette.action.selected,
       },
       box: {
         marginY: 1,
