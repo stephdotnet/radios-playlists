@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/me', SpotifyAuthController::class.'@me');
+Route::get('/me', SpotifyAuthController::class.'@me')
+    ->name('spotify.me');
 
 Route::get('/playlists', PlaylistController::class.'@index')
     ->name('playlist.index');

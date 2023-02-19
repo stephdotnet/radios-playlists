@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http;
 
 use App\Services\Spotify\SpotifyApiClient;
+use Tests\Fixtures\Spotify\SpotifyUserFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
 use Tests\TestCase;
 
@@ -13,6 +14,8 @@ use Tests\TestCase;
  */
 class AuthControllerTest extends TestCase
 {
+    const FAKE_CALLBACK_CODE = 'fake_code';
+
     public function test_spotify_redirect()
     {
         SpotifyApiClientMock::make()
@@ -31,13 +34,55 @@ class AuthControllerTest extends TestCase
 
         app(SpotifyApiClient::class)->getAuthorizeUrl();
 
-        $this->get(route('spotify.callback', ['code' => 'code', 'state' => SpotifyApiClientMock::FAKE_STATE]))
+        $this->get(route('spotify.callback', ['code' => self::FAKE_CALLBACK_CODE, 'state' => SpotifyApiClientMock::FAKE_STATE]))
             ->assertRedirect(route('index'));
     }
 
     public function test_spotify_callback_when_state_invalid()
     {
-        $this->get(route('spotify.callback', ['code' => 'code', 'state' => SpotifyApiClientMock::FAKE_STATE]))
+        $this->get(route('spotify.callback', ['code' => self::FAKE_CALLBACK_CODE, 'state' => SpotifyApiClientMock::FAKE_STATE]))
         ->assertForbidden();
+    }
+
+    public function test_get_me_returns_spotify_me_resource()
+    {
+        SpotifyApiClientMock::make()
+            ->makeFullAuthorizationCodeMock()
+            ->makeSpotifyWebApiMock(function ($mock) {
+                $mock->shouldReceive('me')->once()->andReturn(SpotifyUserFixtures::getMe());
+            })
+            ->bind();
+
+        $this->get(route('spotify.me'))
+            ->assertJsonStructure([
+                'data' => [
+                    'display_name',
+                ],
+            ]);
+    }
+
+    public function test_get_me_returns_null_when_service_fails()
+    {
+        SpotifyApiClientMock::make()
+            ->makeFullAuthorizationCodeMock()
+            ->makeSpotifyWebApiMock(function ($mock) {
+                $mock->shouldReceive('me')->once()->andThrow(new \Exception('Fake exception'));
+            })
+            ->bind();
+
+        $this->get(route('spotify.me'))
+            ->assertJsonFragment([
+                'data' => null,
+            ]);
+    }
+
+    public function test_logout()
+    {
+        $this->spy(SpotifyApiClient::class, function ($mock) {
+            $mock->shouldReceive('revokeAuthenticatedClientToken')->once();
+        });
+
+        $this->get(route('spotify.logout'))
+            ->assertRedirect(route('index'));
     }
 }

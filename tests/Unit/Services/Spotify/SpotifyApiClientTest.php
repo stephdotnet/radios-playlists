@@ -16,6 +16,8 @@ use Tests\TestCase;
  */
 class SpotifyApiClientTest extends TestCase
 {
+    const FAKE_CALLBACK_CODE = 'fake_code';
+
     public function test_api_client_service_provider()
     {
         $service = app(SpotifyApiClient::class);
@@ -39,10 +41,16 @@ class SpotifyApiClientTest extends TestCase
             ->makeRequestAccessTokenSessionMock()
             ->bind();
 
-        app(SpotifyApiClient::class)->requestAccessToken('code');
+        app(SpotifyApiClient::class)->requestAccessToken(self::FAKE_CALLBACK_CODE);
 
-        $this->assertEquals(SpotifyApiClientMock::FAKE_ACCESS_TOKEN, Session::get('access_token'));
-        $this->assertEquals(SpotifyApiClientMock::FAKE_REFRESH_TOKEN, Session::get('refresh_token'));
+        $this->assertEquals(
+            SpotifyApiClientMock::FAKE_ACCESS_TOKEN,
+            Session::get(SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY)
+        );
+        $this->assertEquals(
+            SpotifyApiClientMock::FAKE_REFRESH_TOKEN,
+            Session::get(SpotifyApiClient::REFRESH_TOKEN_SESSION_KEY)
+        );
     }
 
     public function test_get_authorize_url_stores_state_in_session()
@@ -53,7 +61,7 @@ class SpotifyApiClientTest extends TestCase
 
         $authorizeUrl = app(SpotifyApiClient::class)->getAuthorizeUrl();
 
-        $this->assertEquals(SpotifyApiClientMock::FAKE_STATE, Session::get('state'));
+        $this->assertEquals(SpotifyApiClientMock::FAKE_STATE, Session::get(SpotifyApiClient::STATE_SESSION_KEY));
         $this->assertEquals(SpotifyApiClientMock::FAKE_REDIRECT_URL, $authorizeUrl);
     }
 
@@ -63,8 +71,23 @@ class SpotifyApiClientTest extends TestCase
             ->makeRequestAccessTokenSessionMock()
             ->bind();
 
-        app(SpotifyApiClient::class)->requestAccessToken('code');
+        app(SpotifyApiClient::class)->requestAccessToken(self::FAKE_CALLBACK_CODE);
 
         $this->assertTrue(app(SpotifyApiClient::class)->isAuthenticated());
+    }
+
+    public function test_revoke_client()
+    {
+        SpotifyApiClientMock::make()
+            ->makeRequestAccessTokenSessionMock()
+            ->bind();
+
+        app(SpotifyApiClient::class)->requestAccessToken(self::FAKE_CALLBACK_CODE);
+
+        $this->assertTrue(app(SpotifyApiClient::class)->isAuthenticated());
+
+        app(SpotifyApiClient::class)->revokeAuthenticatedClientToken();
+
+        $this->assertFalse(app(SpotifyApiClient::class)->isAuthenticated());
     }
 }
