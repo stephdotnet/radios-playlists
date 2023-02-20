@@ -16,8 +16,6 @@ use Tests\TestCase;
  */
 class SpotifyApiClientTest extends TestCase
 {
-    const FAKE_CALLBACK_CODE = 'fake_code';
-
     public function test_api_client_service_provider()
     {
         $service = app(SpotifyApiClient::class);
@@ -41,7 +39,7 @@ class SpotifyApiClientTest extends TestCase
             ->makeRequestAccessTokenSessionMock()
             ->bind();
 
-        app(SpotifyApiClient::class)->requestAccessToken(self::FAKE_CALLBACK_CODE);
+        app(SpotifyApiClient::class)->requestAccessToken(SpotifyApiClientMock::FAKE_CODE);
 
         $this->assertEquals(
             SpotifyApiClientMock::FAKE_ACCESS_TOKEN,
@@ -71,7 +69,7 @@ class SpotifyApiClientTest extends TestCase
             ->makeRequestAccessTokenSessionMock()
             ->bind();
 
-        app(SpotifyApiClient::class)->requestAccessToken(self::FAKE_CALLBACK_CODE);
+        app(SpotifyApiClient::class)->requestAccessToken(SpotifyApiClientMock::FAKE_CODE);
 
         $this->assertTrue(app(SpotifyApiClient::class)->isAuthenticated());
     }
@@ -82,7 +80,7 @@ class SpotifyApiClientTest extends TestCase
             ->makeRequestAccessTokenSessionMock()
             ->bind();
 
-        app(SpotifyApiClient::class)->requestAccessToken(self::FAKE_CALLBACK_CODE);
+        app(SpotifyApiClient::class)->requestAccessToken(SpotifyApiClientMock::FAKE_CODE);
 
         $this->assertTrue(app(SpotifyApiClient::class)->isAuthenticated());
 

@@ -12,10 +12,8 @@ use Tests\TestCase;
  * @group Feature.Http
  * @group Feature.Http.SpotifyAuth
  */
-class AuthControllerTest extends TestCase
+class SpotifyAuthControllerTest extends TestCase
 {
-    const FAKE_CALLBACK_CODE = 'fake_code';
-
     public function test_spotify_redirect()
     {
         SpotifyApiClientMock::make()
@@ -34,13 +32,19 @@ class AuthControllerTest extends TestCase
 
         app(SpotifyApiClient::class)->getAuthorizeUrl();
 
-        $this->get(route('spotify.callback', ['code' => self::FAKE_CALLBACK_CODE, 'state' => SpotifyApiClientMock::FAKE_STATE]))
-            ->assertRedirect(route('index'));
+        $this->get(route('spotify.callback', [
+            'code' => SpotifyApiClientMock::FAKE_CODE,
+            'state' => SpotifyApiClientMock::FAKE_STATE,
+        ]))
+        ->assertRedirect(route('index'));
     }
 
     public function test_spotify_callback_when_state_invalid()
     {
-        $this->get(route('spotify.callback', ['code' => self::FAKE_CALLBACK_CODE, 'state' => SpotifyApiClientMock::FAKE_STATE]))
+        $this->get(route('spotify.callback', [
+            'code' => SpotifyApiClientMock::FAKE_CODE,
+            'state' => SpotifyApiClientMock::FAKE_STATE,
+        ]))
         ->assertForbidden();
     }
 

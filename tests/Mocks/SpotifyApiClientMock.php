@@ -21,6 +21,8 @@ class SpotifyApiClientMock
 
     const FAKE_STATE = 'mocked_state';
 
+    const FAKE_CODE = 'mocked_code';
+
     protected $app;
 
     public function __construct(
@@ -94,7 +96,7 @@ class SpotifyApiClientMock
     {
         return $this->makeSpotifySessionMock(function ($mock) {
             $mock->shouldReceive('requestCredentialsToken')->andReturn();
-            $mock->shouldReceive('getAccessToken')->andReturn('token');
+            $mock->shouldReceive('getAccessToken')->andReturn(self::FAKE_ACCESS_TOKEN);
         });
     }
 
@@ -103,7 +105,7 @@ class SpotifyApiClientMock
         return $this->makeSpotifySessionMock(function ($mock) {
             $mock
                 ->shouldReceive('requestAccessToken')
-                ->with('code');
+                ->with(self::FAKE_CODE);
             $mock
                 ->shouldReceive('getAccessToken')
                 ->andReturn(self::FAKE_ACCESS_TOKEN);
@@ -131,7 +133,7 @@ class SpotifyApiClientMock
         return $this->makeSpotifySessionMock(function ($mock) {
             $mock
                 ->shouldReceive('requestAccessToken')
-                ->with('code');
+                ->with(self::FAKE_CODE);
             $mock
                 ->shouldReceive('generateState')
                 ->andReturn(self::FAKE_STATE);
