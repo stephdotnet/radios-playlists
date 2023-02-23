@@ -1,11 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import ExitToApp from '@mui/icons-material/ExitToApp';
-import { Box, Button, Container, Grid, Link, Skeleton, Typography, useTheme } from '@mui/material';
+import { Box, Container, Grid, Skeleton, Typography, useTheme } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
-import LoadingBox from '@/components/LoadingBox';
+import SpotifyAuth from '@/components/SpotifyAuth';
 import { useGetMe } from '@/hooks/useGetMe';
 import { useGetPlaylists } from '@/hooks/useGetPlaylists';
-import { Me } from '@/types/Me';
 import PlaylistCard from './components/PlaylistCard';
 
 const Home = () => {
@@ -14,10 +12,6 @@ const Home = () => {
   const { isLoading: isLoadingMe, error: errorMe, data: dataMe } = useGetMe();
   const theme = useTheme();
 
-  const ErrorAuth = () => {
-    return <Typography color={theme.palette.error.dark}>{t('auth.error')}</Typography>;
-  };
-
   return (
     <Container>
       <Box paddingY={2}>
@@ -25,25 +19,17 @@ const Home = () => {
           {t('pages.playlists.title')}
         </Typography>
         <Grid container>
-          <Grid item xs={12} md={6}>
-            {isLoadingMe ? (
-              <Skeleton variant="rectangular" height={40} />
-            ) : errorMe ? (
-              <ErrorAuth />
-            ) : (
-              <SpotifyAuth dataMe={dataMe} />
-            )}
+          <Grid item xs={12} md={6} marginY={2}>
+            <SpotifyAuth dataMe={dataMe} isLoading={isLoadingMe} error={errorMe} />
           </Grid>
         </Grid>
         <Box>
           {isLoading ? (
-            <LoadingBox />
+            <PlaylistsSkeleton />
           ) : error ? (
             <HttpErrorBox error={error} />
           ) : (
-            data?.map((playlist) => {
-              return <PlaylistCard playlist={playlist} key={playlist.id} />;
-            })
+            data?.map((playlist) => <PlaylistCard playlist={playlist} key={playlist.id} />)
           )}
         </Box>
       </Box>
@@ -51,22 +37,15 @@ const Home = () => {
   );
 };
 
-const SpotifyAuth = ({ dataMe }: { dataMe?: Me }) => {
-  const { t } = useTranslation();
+const PlaylistsSkeleton = () => {
   return (
-    <Box>
-      {!dataMe?.display_name ? (
-        <Button component={Link} href={'/spotify-redirect'}>
-          {t('auth.login.button_text')}
-        </Button>
-      ) : (
-        <Typography>
-          {t('auth.greeting', { name: dataMe?.display_name })}
-          <Link href="/logout" display="inline-flex" alignItems="center" ml={0.5}>
-            {t('auth.logout')} <ExitToApp sx={{ marginLeft: 0.5 }} />
-          </Link>
-        </Typography>
-      )}
+    <Box display="flex" justifyContent="center" flexDirection="column">
+      <Box marginY={1}>
+        <Skeleton variant="rectangular" height={50} width="100%" component="div" />
+      </Box>
+      <Box marginY={1}>
+        <Skeleton variant="rectangular" height={50} width="100%" component="div" />
+      </Box>
     </Box>
   );
 };

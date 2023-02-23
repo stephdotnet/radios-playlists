@@ -1,10 +1,11 @@
 import { I18nextProvider } from 'react-i18next';
 import { RouterProvider } from 'react-router-dom';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useRouter from '@hooks/useRouter';
 import i18n from '@utils/localisation/i18n';
+import createTheme from './utils/theme/createTheme';
 import '@css/app.scss';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -12,11 +13,6 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 const queryClient = new QueryClient();
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
 
 export default function App() {
   const { router } = useRouter();
@@ -25,7 +21,7 @@ export default function App() {
     <I18nextProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
         <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={createTheme()}>
             <CssBaseline />
             <RouterProvider router={router} />
           </ThemeProvider>
