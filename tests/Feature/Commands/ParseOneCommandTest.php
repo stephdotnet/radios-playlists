@@ -3,7 +3,7 @@
 namespace App\Features\Commands;
 
 use App\Services\Spotify\SpotifyApi;
-use Tests\Fixtures\SpotifySearchFixtures;
+use Tests\Fixtures\Spotify\SpotifySearchFixtures;
 use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
 use Tests\Traits\Mock\SpotifyApiMockTrait;

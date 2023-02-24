@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Fixtures;
+namespace Tests\Fixtures\Spotify;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
+use Tests\Fixtures\FixturesAbstractClass;
 
-class SpotifySongFixtures
+class SpotifySongFixtures extends FixturesAbstractClass
 {
     public static function getSong($file = 'spotify/search/matching-song.json'): array
     {
-        $search = json_decode(Storage::disk('tests')->get($file), true);
+        $search = self::getFixtureFromStorageAsArray($file);
 
         return Arr::get($search, 'tracks.items.0');
     }

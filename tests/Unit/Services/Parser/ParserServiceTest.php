@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Services\Parser;
 
 use App\Services\Parser\Drivers\MockParser;
 use App\Services\Parser\Drivers\RadiosFrParser;

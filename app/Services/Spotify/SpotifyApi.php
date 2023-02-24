@@ -3,52 +3,31 @@
 namespace App\Services\Spotify;
 
 use App\Services\Parser\ParserResponse;
-use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
+use SpotifyWebAPI\SpotifyWebAPI;
 
 class SpotifyApi
 {
     public function getMatchingSong(ParserResponse $parserResponse): array
     {
-        $queryParameters = "artist:{$parserResponse->artist} track:{$parserResponse->song}";
-
-        $response = $this->sendRequest('get', 'search', [
-            'q' => $queryParameters,
-            'type' => 'track',
-            'limit' => 1,
-        ]);
+        $query = "artist:{$parserResponse->artist} track:{$parserResponse->song}";
+        $response = $this->getClientCredentialsClient()
+            ->search($query, 'track', ['limit' => 1]);
 
         return Arr::get($response, 'tracks.items.0', []);
     }
 
-    public function sendRequest(string $method, string $endpoint, array $params = []): array
+    public function getAuthenticatedClient(): SpotifyWebAPI
     {
-        $response = $this->getClient()
-            ->withToken($this->getToken())
-            ->$method($endpoint, $params)
-            ->throw()
-            ->json();
-
-        return $response;
+        return app(SpotifyApiClient::class)
+            ->getAuthenticatedClient()
+            ->setOptions(['return_assoc' => true]);
     }
 
-    protected function getToken(): string
+    public function getClientCredentialsClient(): SpotifyWebAPI
     {
-        return Http::withBasicAuth(config('services.spotify.client_id'), config('services.spotify.client_secret'))
-            ->asForm()
-            ->post('https://accounts.spotify.com/api/token', [
-                'grant_type' => 'client_credentials',
-            ])
-            ->throw()
-            ->json('access_token');
-    }
-
-    protected function getClient(): PendingRequest
-    {
-        return Http::withHeaders([
-            'Accept' => 'application/json',
-        ])
-            ->baseUrl('https://api.spotify.com/v1');
+        return app(SpotifyApiClient::class)
+            ->getClientCredentialsClient()
+            ->setOptions(['return_assoc' => true]);
     }
 }

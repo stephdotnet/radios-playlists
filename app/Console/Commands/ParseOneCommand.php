@@ -62,12 +62,12 @@ class ParseOneCommand extends Command
         }
     }
 
-    public function isRadioAllowed($radio)
+    protected function isRadioAllowed($radio)
     {
         return in_array($radio, config('services.parser.radios'));
     }
 
-    public function logInfo($message)
+    protected function logInfo($message)
     {
         $this->info($message);
         Log::info($message);

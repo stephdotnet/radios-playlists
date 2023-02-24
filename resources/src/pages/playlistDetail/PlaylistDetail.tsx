@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { Box, Chip, Container, Link, Typography } from '@mui/material';
+import { Box, Chip, Container, Typography } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import LoadingBox from '@/components/LoadingBox';
+import Link from '@/components/atoms/Link';
 import { useShowPlaylist } from '@/hooks/useGetPlaylists';
 import { pages } from '@/hooks/useRouter';
 
@@ -20,7 +21,7 @@ const PlaylistDetail: React.FC = () => {
     return <></>;
   }
 
-  const { isLoading, error, data, isFetching } = useShowPlaylist(id);
+  const { isLoading, error, data } = useShowPlaylist(id);
 
   return (
     <Container>

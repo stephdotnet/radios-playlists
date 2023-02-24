@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SpotifyAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{path}', fn () => view('index'))->where(['path' => '.*'])->name('app');
+Route::get('/spotify-redirect', SpotifyAuthController::class.'@redirect')
+    ->name('spotify.redirect');
+
+Route::get('/spotify-callback', SpotifyAuthController::class.'@callback')
+    ->name('spotify.callback');
+
+Route::get('/logout', SpotifyAuthController::class.'@logout')
+    ->name('spotify.logout');
+
+Route::get('/{path?}', fn () => view('index'))->where(['path' => '.*'])
+    ->name('index');

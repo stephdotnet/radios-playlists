@@ -5,6 +5,7 @@ namespace Tests\Traits\Mock;
 use App\Facades\Parser;
 use App\Services\Parser\Drivers\RadiosFrParser;
 use App\Services\Parser\ParserResponse;
+use Illuminate\Support\Facades\Http;
 
 trait ParserMockTrait
 {
@@ -26,5 +27,12 @@ trait ParserMockTrait
             $mock->shouldReceive('parse')
                 ->andReturn($response ?? new ParserResponse('song', 'artist'));
         });
+    }
+
+    protected function mockHttpRequest($response)
+    {
+        Http::fake([
+            RadiosFrParser::getUrl('*') => Http::response($response),
+        ]);
     }
 }
