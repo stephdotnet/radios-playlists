@@ -1,25 +1,36 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import ExitToApp from '@mui/icons-material/ExitToApp';
-import { Box, Button, Link, Skeleton, Typography, useTheme } from '@mui/material';
+import { Box, Link, Skeleton, Typography, useTheme } from '@mui/material';
 import { AxiosError } from 'axios';
+import SpotifyButton from '@/components/SpotifyButton/SpotifyButton';
 import { Me } from '@/types/Me';
-import SpotifyAuthButtonStyle from './SpotifyAuth.style';
 
-const SpotifyAuth = ({ dataMe, isLoading, error }: { dataMe?: Me; isLoading: boolean; error: AxiosError | null }) => {
+interface SpotifyAuthProps {
+  dataMe?: Me;
+  isLoading: boolean;
+  error: AxiosError | null;
+  textAlign?: 'left' | 'right' | 'center';
+}
+
+const SpotifyAuth = ({ dataMe, isLoading, error, textAlign }: SpotifyAuthProps) => {
   const { t } = useTranslation();
-  const authStyle = SpotifyAuthButtonStyle(useTheme());
   const theme = useTheme();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
 
   const AuthComponent = () => {
     if (!dataMe?.display_name) {
       return (
-        <Button sx={authStyle.authButton} component={Link} href={'/spotify-redirect'}>
-          {t('auth.login.button_text')}
-        </Button>
+        <SpotifyButton text={t('auth.login.button_text')} href={`/spotify-redirect?redirect=${location.pathname}`} />
       );
     }
     return (
-      <Typography>
+      <Typography textAlign={textAlign}>
         {t('auth.greeting', { name: dataMe?.display_name })}
         <Link href="/logout" display="inline-flex" alignItems="center" ml={0.5}>
           {t('auth.logout')} <ExitToApp sx={{ marginLeft: 0.5 }} />

@@ -10,7 +10,9 @@ const components = {
   'auth.logout': 'Se déconnecter',
 };
 
-const system = {};
+const system = {
+  'system.app.title': 'Radio playlist',
+};
 
 export default {
   ...components,

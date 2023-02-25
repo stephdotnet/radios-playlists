@@ -1,38 +1,26 @@
-import { NavLink, useLocation } from 'react-router-dom';
-import { Box, Container, List, ListItemButton, ListItemText } from '@mui/material';
-import useRouter, { headerNavItem } from '@hooks/useRouter';
+import { useTranslation } from 'react-i18next';
+import { Container, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import SpotifyAuth from '@/components/SpotifyAuth';
+import { useGetMe } from '@/hooks/useGetMe';
 
 const Header = () => {
-  const { headerNav } = useRouter();
+  const { t } = useTranslation();
+  const { isLoading: isLoadingMe, error: errorMe, data: dataMe } = useGetMe();
 
   return (
-    <Box className="navbar">
-      <Container>
-        <List sx={{ display: 'flex' }} component="nav">
-          {headerNav.map((item, index) => (
-            <HeaderNavItem key={index} item={item} />
-          ))}
-        </List>
-      </Container>
-    </Box>
-  );
-};
-
-const HeaderNavItem = ({ item }: { item: headerNavItem }) => {
-  const { isActive } = useRouter();
-  const { pathname } = useLocation();
-
-  return (
-    <ListItemButton
-      to={item.path}
-      component={NavLink}
-      selected={isActive(pathname, item.path)}
-      sx={{
-        flexGrow: 0,
-      }}
-    >
-      <ListItemText primary={item.label} />
-    </ListItemButton>
+    <Container>
+      <Grid container alignItems="baseline" direction="row" marginY={2}>
+        <Grid item xs={12} md={6}>
+          <Typography variant="h4" component="h1">
+            {t('system.app.title')}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={6} display="flex" justifyContent="right" alignItems="baseline">
+          <SpotifyAuth dataMe={dataMe} isLoading={isLoadingMe} error={errorMe} textAlign="right" />
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

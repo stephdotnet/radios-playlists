@@ -1,6 +1,6 @@
 import { CustomTheme } from '@/types';
 
-const SpotifyAuthStyle = (theme: CustomTheme) => {
+const SpotifyButtonStyle = (theme: CustomTheme) => {
   return {
     authButton: {
       px: 3,
@@ -20,4 +20,4 @@ const SpotifyAuthStyle = (theme: CustomTheme) => {
   };
 };
 
-export default SpotifyAuthStyle;
+export default SpotifyButtonStyle;

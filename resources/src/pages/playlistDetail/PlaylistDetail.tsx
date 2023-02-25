@@ -1,10 +1,17 @@
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { Box, Chip, Container, Typography } from '@mui/material';
+import QueueMusicIcon from '@mui/icons-material/QueueMusic';
+import { Box, Container, Typography } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
-import LoadingBox from '@/components/LoadingBox';
+import { PlaylistCard } from '@/components/PlaylistCard';
+import SpotifyAuth from '@/components/SpotifyAuth';
+import SpotifyButton from '@/components/SpotifyButton';
 import Link from '@/components/atoms/Link';
+import PlaylistsSkeleton from '@/components/skeletons/PlaylistsSkeleton';
+import SongsSkeleton from '@/components/skeletons/SongsSkeleton copy';
+import { useGetMe } from '@/hooks/useGetMe';
 import { useShowPlaylist } from '@/hooks/useGetPlaylists';
+import { useGetSongs } from '@/hooks/useGetSongs';
 import { pages } from '@/hooks/useRouter';
 
 type Props = {
@@ -21,7 +28,9 @@ const PlaylistDetail: React.FC = () => {
     return <></>;
   }
 
-  const { isLoading, error, data } = useShowPlaylist(id);
+  const { isLoading: isLoadingPlaylist, error: errorPlaylist, data: dataPlaylist } = useShowPlaylist(id);
+  const { isLoading: isLoadingSongs, error: errorSongs, data: dataSongs } = useGetSongs(id);
+  const { isLoading: isLoadingMe, error: errorMe, data: dataMe } = useGetMe();
 
   return (
     <Container>
@@ -30,37 +39,38 @@ const PlaylistDetail: React.FC = () => {
           {t('pages.playlist.go_back_to_playlists')}
         </Link>
       </Box>
-      {isLoading ? (
-        <LoadingBox />
-      ) : error ? (
-        <HttpErrorBox error={error} />
+
+      {isLoadingPlaylist ? (
+        <PlaylistsSkeleton count={1} />
+      ) : errorPlaylist ? (
+        <HttpErrorBox error={errorPlaylist} />
       ) : (
-        <>
-          <Box display="flex" alignItems="center" justifyContent="center" marginY="2">
-            <Box>
-              <Typography variant="h3" component="h1">
-                {data.slug}
-              </Typography>
-            </Box>
-            <Box marginLeft={1}>
-              <Chip label={data.songs_count} />
-            </Box>
-          </Box>
-          <Box marginTop={2}>
-            {data.songs &&
-              data.songs.map((song) => {
-                return (
-                  <Box key={song.id} marginBottom={1}>
-                    <Typography>
-                      <Link href={song.spotify_url} target="_blank">
-                        {song.name} ({song.artists})
-                      </Link>
-                    </Typography>
-                  </Box>
-                );
-              })}
-          </Box>
-        </>
+        <PlaylistCard playlist={dataPlaylist} />
+      )}
+
+      <Box display="flex" justifyContent="center">
+        <SpotifyButton text="Synchoniser la playlist" endIcon={<QueueMusicIcon />} />
+      </Box>
+
+      {isLoadingSongs ? (
+        <SongsSkeleton />
+      ) : errorSongs ? (
+        <HttpErrorBox error={errorSongs} />
+      ) : (
+        <Box marginTop={2}>
+          {dataSongs &&
+            dataSongs.map((song) => {
+              return (
+                <Box key={song.id} marginBottom={1}>
+                  <Typography>
+                    <Link href={song.spotify_url} target="_blank">
+                      {song.name} ({song.artists})
+                    </Link>
+                  </Typography>
+                </Box>
+              );
+            })}
+        </Box>
       )}
     </Container>
   );
