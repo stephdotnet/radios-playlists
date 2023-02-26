@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
@@ -20,9 +21,9 @@ type Props = {
 };
 
 const PlaylistDetail: React.FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams<Props>();
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { user } = useAppContext();
 
   if (!id) {
@@ -35,11 +36,18 @@ const PlaylistDetail: React.FC = () => {
     error: errorPlaylist,
     data: dataPlaylist,
   } = useShowPlaylist(id);
+
   const {
     isLoading: isLoadingSongs,
     error: errorSongs,
     data: dataSongs,
   } = useGetSongs(id);
+
+  const [isLoadingSync, setIsLoadingSync] = useState(false); //
+
+  const handleSyncPlaylist = () => {
+    setIsLoadingSync(true);
+  };
 
   return (
     <Container>
@@ -67,12 +75,13 @@ const PlaylistDetail: React.FC = () => {
           <SpotifyButton
             text="Synchoniser la playlist"
             endIcon={<QueueMusicIcon />}
+            onClick={handleSyncPlaylist}
+            loading={isLoadingSync}
+            loadingPosition="end"
           />
         ) : (
           <Box display="flex" flexDirection="column" alignItems="center">
-            <Box marginBottom={1}>
-              Se connecter pour synchroniser la playlist
-            </Box>
+            <Box marginBottom={1}>{t('pages.playlist_detail.login_info')}</Box>
             <Box>
               <SpotifyAuthButton />
             </Box>

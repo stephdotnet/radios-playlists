@@ -16,6 +16,9 @@ const SpotifyButtonStyle = (theme: CustomTheme) => {
       '&:active': {
         backgroundColor: theme.spotify.primary.dark,
       },
+      '& .MuiLoadingButton-loadingIndicator': {
+        right: '22px',
+      },
     },
   };
 };
