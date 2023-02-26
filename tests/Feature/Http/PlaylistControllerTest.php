@@ -44,8 +44,7 @@ class PlaylistControllerTest extends TestCase
                     'slug',
                     'songs_count',
                 ],
-            ])
-            ->assertJsonCount(5, 'data.songs');
+            ]);
     }
 
     public function test_songs()

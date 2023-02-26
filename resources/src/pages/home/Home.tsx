@@ -9,7 +9,7 @@ const Home = () => {
 
   return (
     <Container>
-      <Box paddingY={2}>
+      <Box>
         <Box>
           {isLoading ? (
             <PlaylistsSkeleton />
