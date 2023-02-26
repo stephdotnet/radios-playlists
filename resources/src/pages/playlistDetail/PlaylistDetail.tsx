@@ -1,16 +1,19 @@
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
-import SpotifyButton from '@/components/SpotifyButton';
+import { SpotifyAuthButton } from '@/components/SpotifyAuth';
+import { SpotifyButton } from '@/components/SpotifyButton';
 import Link from '@/components/atoms/Link';
 import PlaylistsSkeleton from '@/components/skeletons/PlaylistsSkeleton';
-import SongsSkeleton from '@/components/skeletons/SongsSkeleton copy';
+import SongsSkeleton from '@/components/skeletons/SongsSkeleton';
 import { useShowPlaylist } from '@/hooks/useGetPlaylists';
 import { useGetSongs } from '@/hooks/useGetSongs';
 import { pages } from '@/hooks/useRouter';
+import { useAppContext } from '@/utils/context/AppContext';
+import SongCard from './SongCard';
 
 type Props = {
   id: string;
@@ -20,14 +23,23 @@ const PlaylistDetail: React.FC = () => {
   const { id } = useParams<Props>();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { user } = useAppContext();
 
   if (!id) {
     navigate('/404');
     return <></>;
   }
 
-  const { isLoading: isLoadingPlaylist, error: errorPlaylist, data: dataPlaylist } = useShowPlaylist(id);
-  const { isLoading: isLoadingSongs, error: errorSongs, data: dataSongs } = useGetSongs(id);
+  const {
+    isLoading: isLoadingPlaylist,
+    error: errorPlaylist,
+    data: dataPlaylist,
+  } = useShowPlaylist(id);
+  const {
+    isLoading: isLoadingSongs,
+    error: errorSongs,
+    data: dataSongs,
+  } = useGetSongs(id);
 
   return (
     <Container>
@@ -45,8 +57,27 @@ const PlaylistDetail: React.FC = () => {
         <PlaylistCard playlist={dataPlaylist} />
       )}
 
-      <Box display="flex" justifyContent="center">
-        <SpotifyButton text="Synchoniser la playlist" endIcon={<QueueMusicIcon />} />
+      <Box
+        display="flex"
+        justifyContent="center"
+        marginBottom={4}
+        marginTop={2}
+      >
+        {user ? (
+          <SpotifyButton
+            text="Synchoniser la playlist"
+            endIcon={<QueueMusicIcon />}
+          />
+        ) : (
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Box marginBottom={1}>
+              Se connecter pour synchroniser la playlist
+            </Box>
+            <Box>
+              <SpotifyAuthButton />
+            </Box>
+          </Box>
+        )}
       </Box>
 
       {isLoadingSongs ? (
@@ -55,18 +86,16 @@ const PlaylistDetail: React.FC = () => {
         <HttpErrorBox error={errorSongs} />
       ) : (
         <Box marginTop={2}>
-          {dataSongs &&
-            dataSongs.map((song) => {
-              return (
-                <Box key={song.id} marginBottom={1}>
-                  <Typography>
-                    <Link href={song.spotify_url} target="_blank">
-                      {song.name} ({song.artists})
-                    </Link>
-                  </Typography>
-                </Box>
-              );
-            })}
+          <Grid container columnSpacing={2} rowSpacing={1}>
+            {dataSongs &&
+              dataSongs.map((song) => {
+                return (
+                  <Grid item key={song.id} xs={12} md={6}>
+                    <SongCard song={song} />
+                  </Grid>
+                );
+              })}
+          </Grid>
         </Box>
       )}
     </Container>

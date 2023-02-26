@@ -1,3 +1,1 @@
-import SpotifyButton from './SpotifyButton';
-
-export default SpotifyButton;
+export { default as SpotifyButton } from './SpotifyButton';

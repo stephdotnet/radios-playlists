@@ -1,11 +1,9 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import ExitToApp from '@mui/icons-material/ExitToApp';
 import { Box, Link, Skeleton, Typography, useTheme } from '@mui/material';
 import { AxiosError } from 'axios';
-import SpotifyButton from '@/components/SpotifyButton/SpotifyButton';
 import { Me } from '@/types/Me';
+import SpotifyAuthButton from './SpotifyAuthButton';
 
 interface SpotifyAuthProps {
   dataMe?: Me;
@@ -17,17 +15,10 @@ interface SpotifyAuthProps {
 const SpotifyAuth = ({ dataMe, isLoading, error, textAlign }: SpotifyAuthProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const location = useLocation();
-
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
 
   const AuthComponent = () => {
     if (!dataMe?.display_name) {
-      return (
-        <SpotifyButton text={t('auth.login.button_text')} href={`/spotify-redirect?redirect=${location.pathname}`} />
-      );
+      return <SpotifyAuthButton />;
     }
     return (
       <Typography textAlign={textAlign}>

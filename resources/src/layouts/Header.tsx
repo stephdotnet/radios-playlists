@@ -1,12 +1,21 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import SpotifyAuth from '@/components/SpotifyAuth';
+import { SpotifyAuth } from '@/components/SpotifyAuth';
 import { useGetMe } from '@/hooks/useGetMe';
+import { useAppContext } from '@/utils/context/AppContext';
 
 const Header = () => {
   const { t } = useTranslation();
   const { isLoading: isLoadingMe, error: errorMe, data: dataMe } = useGetMe();
+  const { setUser } = useAppContext();
+
+  useEffect(() => {
+    if (!isLoadingMe) {
+      setUser(dataMe || null);
+    }
+  }, [dataMe, isLoadingMe]);
 
   return (
     <Container>

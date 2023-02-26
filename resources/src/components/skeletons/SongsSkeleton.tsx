@@ -4,7 +4,7 @@ interface SongsSkeletonProps {
   count?: number;
 }
 
-const SongsSkeleton = ({ count = 5 }: SongsSkeletonProps): JSX.Element => {
+const SongsSkeleton = ({ count = 5 }: SongsSkeletonProps) => {
   return (
     <Box display="flex" justifyContent="left" flexDirection="column">
       {Array.from(Array(count)).map((_, index) => (
