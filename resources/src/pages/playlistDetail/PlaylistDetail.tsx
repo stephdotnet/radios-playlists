@@ -4,12 +4,10 @@ import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import { Box, Container, Typography } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
-import SpotifyAuth from '@/components/SpotifyAuth';
 import SpotifyButton from '@/components/SpotifyButton';
 import Link from '@/components/atoms/Link';
 import PlaylistsSkeleton from '@/components/skeletons/PlaylistsSkeleton';
 import SongsSkeleton from '@/components/skeletons/SongsSkeleton copy';
-import { useGetMe } from '@/hooks/useGetMe';
 import { useShowPlaylist } from '@/hooks/useGetPlaylists';
 import { useGetSongs } from '@/hooks/useGetSongs';
 import { pages } from '@/hooks/useRouter';
@@ -30,11 +28,10 @@ const PlaylistDetail: React.FC = () => {
 
   const { isLoading: isLoadingPlaylist, error: errorPlaylist, data: dataPlaylist } = useShowPlaylist(id);
   const { isLoading: isLoadingSongs, error: errorSongs, data: dataSongs } = useGetSongs(id);
-  const { isLoading: isLoadingMe, error: errorMe, data: dataMe } = useGetMe();
 
   return (
     <Container>
-      <Box paddingY={2}>
+      <Box>
         <Link to={pages.home.path} component={RouterLink}>
           {t('pages.playlist.go_back_to_playlists')}
         </Link>

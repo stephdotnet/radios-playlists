@@ -46,7 +46,9 @@ const SpotifyAuth = ({ dataMe, isLoading, error, textAlign }: SpotifyAuthProps) 
   return (
     <Box>
       {isLoading ? (
-        <Skeleton variant="rectangular" height={30} width={200} />
+        <Box>
+          <Skeleton variant="rectangular" height={35} width={200} />
+        </Box>
       ) : error ? (
         <ErrorAuth />
       ) : (

@@ -1,4 +1,3 @@
-import { ColorPartial } from '@mui/material/styles/createPalette';
 import 'vite/client';
 
 declare module '*.module.scss' {
