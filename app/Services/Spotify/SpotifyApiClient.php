@@ -23,6 +23,8 @@ class SpotifyApiClient
 
         session()->put(self::ACCESS_TOKEN_SESSION_KEY, $this->session->getAccessToken());
         session()->put(self::REFRESH_TOKEN_SESSION_KEY, $this->session->getRefreshToken());
+
+        return $this;
     }
 
     public function isAuthenticated()
@@ -50,6 +52,7 @@ class SpotifyApiClient
 
         return $this->session->getAuthorizeUrl([
             'scope' => [
+                'playlist-modify-private',
                 'playlist-read-private',
                 'user-read-private',
             ],
@@ -60,6 +63,7 @@ class SpotifyApiClient
     public function revokeAuthenticatedClientToken()
     {
         session()->forget(self::ACCESS_TOKEN_SESSION_KEY);
+        session()->forget(self::REFRESH_TOKEN_SESSION_KEY);
     }
 
     /*

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\SpotifyAuthController;
+use App\Http\Controllers\SpotifyPlaylistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,8 @@ Route::get('/playlists/{playlist}', PlaylistController::class.'@show')
 
 Route::get('/playlists/{playlist}/songs', PlaylistController::class.'@songs')
     ->name('playlist.songs');
+
+Route::group(['middleware' => 'spotify'], function () {
+    Route::get('/spotify/playlists/{playlist}/sync/', SpotifyPlaylistController::class.'@sync')
+        ->name('spotify.playlist.sync');
+});

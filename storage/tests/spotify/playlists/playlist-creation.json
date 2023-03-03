@@ -1,0 +1,39 @@
+{
+    "collaborative": false,
+    "description": null,
+    "external_urls": {
+      "spotify": "https://open.spotify.com/playlist/123456"
+    },
+    "followers": {
+      "href": null,
+      "total": 0
+    },
+    "href": "https://api.spotify.com/v1/playlists/123456",
+    "id": "123456",
+    "images": [],
+    "name": "my playlist",
+    "owner": {
+      "display_name": "John Doe",
+      "external_urls": {
+        "spotify": "https://open.spotify.com/user/654321"
+      },
+      "href": "https://api.spotify.com/v1/users/654321",
+      "id": "1176884304",
+      "type": "user",
+      "uri": "spotify:user:654321"
+    },
+    "primary_color": null,
+    "public": false,
+    "snapshot_id": "123",
+    "tracks": {
+      "href": "https://api.spotify.com/v1/playlists/123456/tracks",
+      "items": [],
+      "limit": 100,
+      "next": null,
+      "offset": 0,
+      "previous": null,
+      "total": 0
+    },
+    "type": "playlist",
+    "uri": "spotify:playlist:123456"
+  }

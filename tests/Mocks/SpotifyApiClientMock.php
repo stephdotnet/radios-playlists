@@ -13,7 +13,7 @@ class SpotifyApiClientMock
 {
     use InteractsWithContainer;
 
-    const FAKE_REDIRECT_URL = 'https://accounts.spotify.com/authorize?client_id=mocked_client_id&redirect_uri=mocked_redirect_uri&response_type=code&scope=playlist-read-private+user-read-private&state=mocked_state';
+    const FAKE_REDIRECT_URL = 'https://accounts.spotify.com/authorize?client_id=mocked_client_id&redirect_uri=mocked_redirect_uri&response_type=code&scope=playlist-modify-private+playlist-read-private+user-read-private&state=mocked_state';
 
     const FAKE_ACCESS_TOKEN = 'mocked_access_token';
 
@@ -61,9 +61,9 @@ class SpotifyApiClientMock
         return $this;
     }
 
-    public function bind(): void
+    public function bind($mock = null): void
     {
-        $this->instance(SpotifyApiClient::class, $this->getMock());
+        $this->instance(SpotifyApiClient::class, $mock ?: $this->getMock());
     }
 
     /*
