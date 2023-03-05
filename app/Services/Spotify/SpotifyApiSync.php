@@ -2,7 +2,7 @@
 
 namespace App\Services\Spotify;
 
-use App\Exceptions\SpotifyAuthException;
+use App\Exceptions\Services\Spotify\SpotifyAuthException;
 use App\Models\Playlist;
 use App\Models\Song;
 use App\Models\SpotifyPlaylist;
@@ -14,7 +14,7 @@ class SpotifyApiSync
     public function __construct(
         protected SpotifyWebAPI $client,
         protected ?Playlist $playlist = null,
-        protected array $user = []
+        protected ?array $user = []
     ) {
     }
 
@@ -146,6 +146,8 @@ class SpotifyApiSync
                     $spotifyPlaylist->spotify_playlist_id,
                     $songs->pluck('spotify_id')->toArray()
                 );
+
+                $spotifyPlaylist->songs()->attach($songs->pluck('id')->toArray());
             });
 
         return $count;
