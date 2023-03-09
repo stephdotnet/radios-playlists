@@ -7,6 +7,7 @@ use App\Models\Playlist;
 use App\Models\Song;
 use App\Models\SpotifyPlaylist;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use SpotifyWebAPI\SpotifyWebAPI;
 
 class SpotifyApiSync
@@ -25,10 +26,11 @@ class SpotifyApiSync
         $spotifyPlaylist = $this->firstOrCreatePlaylist();
 
         $remoteSpotifyPlaylist = $this->client->getPlaylist($spotifyPlaylist->spotify_playlist_id, [
-            'fields' => ['id', 'snapshot_id', 'tracks(total)'],
+            'fields' => ['id', 'snapshot_id', 'tracks(total)', 'external_urls(spotify)'],
         ]);
 
         if ($remoteSpotifyPlaylist['snapshot_id'] != $spotifyPlaylist->snapshot_id) {
+            $needRefresh = true;
             $this->syncRemoteTracks($spotifyPlaylist, $remoteSpotifyPlaylist);
         }
 
@@ -37,6 +39,7 @@ class SpotifyApiSync
         return [
             'syncedSongs' => $syncedSongs,
             'spotifyPlaylist' => $spotifyPlaylist,
+            'needRefresh' => $needRefresh ?? false,
         ];
     }
 
@@ -110,8 +113,11 @@ class SpotifyApiSync
         $numberOfRemoteTracks = data_get($remoteSpotifyPlaylist, 'tracks.total');
         $remoteTracksIds = [];
 
-        // loop over the remote tracks paginated by 100
+        // Update the snapshot_id
+        $spotifyPlaylist->updateSnapshotId($remoteSpotifyPlaylist);
+
         for ($i = 0; $i < $numberOfRemoteTracks; $i += 100) {
+            Log::info('Syncing remote track on playlist #'.$spotifyPlaylist->spotify_playlist_id.'. Batch #'.$i);
             $remoteTracks = $this->client->getPlaylistTracks(
                 $spotifyPlaylist->spotify_playlist_id,
                 [
@@ -121,17 +127,10 @@ class SpotifyApiSync
                 ]
             );
 
-            $remoteTracksIds = array_merge(
-                $remoteTracksIds,
-                Arr::pluck($remoteTracks['items'], 'track.id')
-            );
+            $remoteTracksIds = Arr::pluck($remoteTracks['items'], 'track.id');
+            $spotifyPlaylist->songs()
+                ->syncWithoutDetaching(Song::whereIn('spotify_id', $remoteTracksIds)->pluck('id'));
         }
-
-        // Add all remote tracks from : $remoteTracksIds
-        $spotifyPlaylist->songs()->sync(Song::whereIn('spotify_id', $remoteTracksIds)->pluck('id'));
-
-        // Update the snapshot_id
-        $spotifyPlaylist->updateSnapshotId($remoteSpotifyPlaylist);
     }
 
     protected function addMissingSongsToRemotePlaylist(SpotifyPlaylist $spotifyPlaylist)
@@ -142,6 +141,7 @@ class SpotifyApiSync
 
         $songsToAdd
             ->chunk(100, function ($songs) use ($spotifyPlaylist) {
+                Log::info('Adding to playlist #'.$spotifyPlaylist->spotify_playlist_id);
                 $this->client->addPlaylistTracks(
                     $spotifyPlaylist->spotify_playlist_id,
                     $songs->pluck('spotify_id')->toArray()

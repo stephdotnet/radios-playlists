@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
@@ -13,7 +12,9 @@ import SongsSkeleton from '@/components/skeletons/SongsSkeleton';
 import { useShowPlaylist } from '@/hooks/useGetPlaylists';
 import { useGetSongs } from '@/hooks/useGetSongs';
 import { pages } from '@/hooks/useRouter';
+import useSyncPlaylist from '@/hooks/useSyncPlaylist';
 import { useAppContext } from '@/utils/context/AppContext';
+import PlaylistSyncSummary from './PlaylistSyncSummary';
 import SongCard from './SongCard';
 
 type Props = {
@@ -24,7 +25,12 @@ const PlaylistDetail: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<Props>();
   const { t } = useTranslation();
-  const { user } = useAppContext();
+  const { user, addAlert } = useAppContext();
+  const {
+    mutate,
+    data: PlaylistSyncData,
+    isLoading: IsLoadingPlaylistSync,
+  } = useSyncPlaylist();
 
   if (!id) {
     navigate('/404');
@@ -43,10 +49,15 @@ const PlaylistDetail: React.FC = () => {
     data: dataSongs,
   } = useGetSongs(id);
 
-  const [isLoadingSync, setIsLoadingSync] = useState(false); //
-
-  const handleSyncPlaylist = () => {
-    setIsLoadingSync(true);
+  const handleSyncPlaylist = async () => {
+    await mutate(id, {
+      onError: () => {
+        addAlert({
+          type: 'error',
+          title: t('pages.playlist_detail.sync.error'),
+        });
+      },
+    });
   };
 
   return (
@@ -72,13 +83,17 @@ const PlaylistDetail: React.FC = () => {
         marginTop={2}
       >
         {user ? (
-          <SpotifyButton
-            text="Synchoniser la playlist"
-            endIcon={<QueueMusicIcon />}
-            onClick={handleSyncPlaylist}
-            loading={isLoadingSync}
-            loadingPosition="end"
-          />
+          PlaylistSyncData ? (
+            <PlaylistSyncSummary data={PlaylistSyncData} />
+          ) : (
+            <SpotifyButton
+              text="Synchoniser la playlist"
+              endIcon={<QueueMusicIcon />}
+              onClick={handleSyncPlaylist}
+              loading={IsLoadingPlaylistSync}
+              loadingPosition="end"
+            />
+          )
         ) : (
           <Box display="flex" flexDirection="column" alignItems="center">
             <Box marginBottom={1}>{t('pages.playlist_detail.login_info')}</Box>

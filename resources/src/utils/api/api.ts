@@ -18,15 +18,34 @@ axios.interceptors.response.use(null, (error) => {
 });
 
 interface ApiClientType {
-  get: <T = unknown>(route: string, config?: AxiosRequestConfig) => Promise<AxiosResponse<T>>;
-  post: <T = unknown>(route: string, data: unknown, config: AxiosRequestConfig) => Promise<AxiosResponse<T>>;
-  put: <T = unknown>(route: string, data: unknown, config: AxiosRequestConfig) => Promise<AxiosResponse<T>>;
-  patch: <T = unknown>(route: string, data: unknown, config: AxiosRequestConfig) => Promise<AxiosResponse<T>>;
+  get: <T = unknown>(
+    route: string,
+    config?: AxiosRequestConfig,
+  ) => Promise<AxiosResponse<T>>;
+  post: <T = unknown>(
+    route: string,
+    data: unknown,
+    config?: AxiosRequestConfig,
+  ) => Promise<AxiosResponse<T>>;
+  put: <T = unknown>(
+    route: string,
+    data: unknown,
+    config?: AxiosRequestConfig,
+  ) => Promise<AxiosResponse<T>>;
+  patch: <T = unknown>(
+    route: string,
+    data: unknown,
+    config?: AxiosRequestConfig,
+  ) => Promise<AxiosResponse<T>>;
 }
 
 export const apiClient: ApiClientType = {
-  get: (route, config) => axios.get(route, { signal: config?.signal, params: config?.params }),
-  post: (route, data, config) => axios.post(route, data, { signal: config?.signal }),
-  put: (route, data, config) => axios.put(route, data, { signal: config?.signal }),
-  patch: (route, data, config) => axios.patch(route, data, { signal: config?.signal }),
+  get: (route, config) =>
+    axios.get(route, { signal: config?.signal, params: config?.params }),
+  post: (route, data, config) =>
+    axios.post(route, data, { signal: config?.signal }),
+  put: (route, data, config) =>
+    axios.put(route, data, { signal: config?.signal }),
+  patch: (route, data, config) =>
+    axios.patch(route, data, { signal: config?.signal }),
 };

@@ -23,6 +23,12 @@ declare module '@mui/material/Button' {
   }
 }
 
+declare module 'i18next' {
+  interface CustomTypeOptions {
+    returnNull: false;
+  }
+}
+
 export interface useRouteErrorType {
   status: number;
   statusText: string;

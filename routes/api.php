@@ -29,6 +29,6 @@ Route::get('/playlists/{playlist}/songs', PlaylistController::class.'@songs')
     ->name('playlist.songs');
 
 Route::group(['middleware' => 'spotify'], function () {
-    Route::get('/spotify/playlists/{playlist}/sync/', SpotifyPlaylistController::class.'@sync')
+    Route::post('/playlists/{playlist}/sync/', SpotifyPlaylistController::class.'@sync')
         ->name('spotify.playlist.sync');
 });

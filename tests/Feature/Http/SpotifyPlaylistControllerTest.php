@@ -31,14 +31,27 @@ class SpotifyPlaylistControllerTest extends TestCase
         });
 
         $this->withSession([SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY => 'token'])
-            ->get(route('spotify.playlist.sync', ['playlist' => 1]))
+            ->post(route('spotify.playlist.sync', ['playlist' => Playlist::factory()->create()]))
+            ->assertJsonStructure([
+                'data' => [
+                    'synced_songs',
+                    'spotify_playlist' => [
+                        'id',
+                        'spotify_playlist_id',
+                        'snapshot_id',
+                        'url',
+                        'recently_created',
+                        'songs_count',
+                    ],
+                ],
+            ])
             ->assertOK();
     }
 
     public function test_route_not_accessible_without_access_token()
     {
         $this
-            ->get(route('spotify.playlist.sync', ['playlist' => Playlist::factory()->create()]))
+            ->post(route('spotify.playlist.sync', ['playlist' => Playlist::factory()->create()]))
             ->assertRedirect(route('index'));
     }
 }
