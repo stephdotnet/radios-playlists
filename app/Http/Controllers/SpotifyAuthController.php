@@ -13,6 +13,7 @@ class SpotifyAuthController extends Controller
     public function redirect()
     {
         $url = app(SpotifyApiClient::class)->getAuthorizeUrl();
+        session()->flash('redirect', request('redirect'));
 
         return redirect($url);
     }
@@ -25,7 +26,7 @@ class SpotifyAuthController extends Controller
 
         app(SpotifyApiClient::class)->requestAccessToken($request->get('code'));
 
-        return redirect(route('index'));
+        return redirect(route('index', ['path' => session()->get('redirect', '/')]));
     }
 
     public function me()

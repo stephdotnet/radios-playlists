@@ -1,25 +1,27 @@
 import { useTranslation } from 'react-i18next';
 import ExitToApp from '@mui/icons-material/ExitToApp';
-import { Box, Button, Link, Skeleton, Typography, useTheme } from '@mui/material';
+import { Box, Link, Skeleton, Typography, useTheme } from '@mui/material';
 import { AxiosError } from 'axios';
 import { Me } from '@/types/Me';
-import SpotifyAuthButtonStyle from './SpotifyAuth.style';
+import SpotifyAuthButton from './SpotifyAuthButton';
 
-const SpotifyAuth = ({ dataMe, isLoading, error }: { dataMe?: Me; isLoading: boolean; error: AxiosError | null }) => {
+interface SpotifyAuthProps {
+  dataMe?: Me;
+  isLoading: boolean;
+  error: AxiosError | null;
+  textAlign?: 'left' | 'right' | 'center';
+}
+
+const SpotifyAuth = ({ dataMe, isLoading, error, textAlign }: SpotifyAuthProps) => {
   const { t } = useTranslation();
-  const authStyle = SpotifyAuthButtonStyle(useTheme());
   const theme = useTheme();
 
   const AuthComponent = () => {
     if (!dataMe?.display_name) {
-      return (
-        <Button sx={authStyle.authButton} component={Link} href={'/spotify-redirect'}>
-          {t('auth.login.button_text')}
-        </Button>
-      );
+      return <SpotifyAuthButton />;
     }
     return (
-      <Typography>
+      <Typography textAlign={textAlign}>
         {t('auth.greeting', { name: dataMe?.display_name })}
         <Link href="/logout" display="inline-flex" alignItems="center" ml={0.5}>
           {t('auth.logout')} <ExitToApp sx={{ marginLeft: 0.5 }} />
@@ -35,7 +37,9 @@ const SpotifyAuth = ({ dataMe, isLoading, error }: { dataMe?: Me; isLoading: boo
   return (
     <Box>
       {isLoading ? (
-        <Skeleton variant="rectangular" height={30} width={200} />
+        <Box>
+          <Skeleton variant="rectangular" height={35} width={200} />
+        </Box>
       ) : error ? (
         <ErrorAuth />
       ) : (

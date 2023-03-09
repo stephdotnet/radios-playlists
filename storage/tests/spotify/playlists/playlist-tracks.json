@@ -1,0 +1,110 @@
+{
+    "href": "https://api.spotify.com/v1/playlists/5EpGvzvEybD3UpwFJ3PyDa/tracks?offset=0&limit=100",
+    "items": [
+      {
+        "added_at": "2023-02-27T19:42:36Z",
+        "added_by": {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/user/1176884304"
+          },
+          "href": "https://api.spotify.com/v1/users/1176884304",
+          "id": "654321",
+          "type": "user",
+          "uri": "spotify:user:654321"
+        },
+        "is_local": false,
+        "primary_color": null,
+        "track": {
+          "album": {
+            "album_type": "single",
+            "artists": [
+              {
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/1DT11FntvMnaU47ZZWlTpB"
+                },
+                "href": "https://api.spotify.com/v1/artists/1DT11FntvMnaU47ZZWlTpB",
+                "id": "1DT11FntvMnaU47ZZWlTpB",
+                "name": "Brandee Younger",
+                "type": "artist",
+                "uri": "spotify:artist:1DT11FntvMnaU47ZZWlTpB"
+              }
+            ],
+            "available_markets": [
+              "VE"
+            ],
+            "external_urls": {
+              "spotify": "https://open.spotify.com/album/600hcaoPfwUyZSEQO8dKi2"
+            },
+            "href": "https://api.spotify.com/v1/albums/600hcaoPfwUyZSEQO8dKi2",
+            "id": "600hcaoPfwUyZSEQO8dKi2",
+            "images": [
+              {
+                "height": 640,
+                "url": "https://i.scdn.co/image/ab67616d0000b2737f777d6cdde74779c63b3158",
+                "width": 640
+              },
+              {
+                "height": 300,
+                "url": "https://i.scdn.co/image/ab67616d00001e027f777d6cdde74779c63b3158",
+                "width": 300
+              },
+              {
+                "height": 64,
+                "url": "https://i.scdn.co/image/ab67616d000048517f777d6cdde74779c63b3158",
+                "width": 64
+              }
+            ],
+            "name": "You're A Girl For One Man Only",
+            "release_date": "2023-02-23",
+            "release_date_precision": "day",
+            "total_tracks": 1,
+            "type": "album",
+            "uri": "spotify:album:600hcaoPfwUyZSEQO8dKi2"
+          },
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/1DT11FntvMnaU47ZZWlTpB"
+              },
+              "href": "https://api.spotify.com/v1/artists/1DT11FntvMnaU47ZZWlTpB",
+              "id": "1DT11FntvMnaU47ZZWlTpB",
+              "name": "Brandee Younger",
+              "type": "artist",
+              "uri": "spotify:artist:1DT11FntvMnaU47ZZWlTpB"
+            }
+          ],
+          "available_markets": [
+            "VE"
+          ],
+          "disc_number": 1,
+          "duration_ms": 238569,
+          "episode": false,
+          "explicit": false,
+          "external_ids": {
+            "isrc": "USUM72223651"
+          },
+          "external_urls": {
+            "spotify": "https://open.spotify.com/track/3dZEdQQB0vBh1k1SOlOVud"
+          },
+          "href": "https://api.spotify.com/v1/tracks/3dZEdQQB0vBh1k1SOlOVud",
+          "id": "3dZEdQQB0vBh1k1SOlOVud",
+          "is_local": false,
+          "name": "You're A Girl For One Man Only",
+          "popularity": 30,
+          "preview_url": "https://p.scdn.co/mp3-preview/c7fd7ef9dcc01770c361147ad270e0140a53bd79?cid=1f5731eaca9b475bbe138c1a73463bb7",
+          "track": true,
+          "track_number": 1,
+          "type": "track",
+          "uri": "spotify:track:3dZEdQQB0vBh1k1SOlOVud"
+        },
+        "video_thumbnail": {
+          "url": null
+        }
+      }
+    ],
+    "limit": 100,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 1
+  }

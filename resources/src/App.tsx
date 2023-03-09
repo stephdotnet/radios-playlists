@@ -5,6 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useRouter from '@hooks/useRouter';
 import i18n from '@utils/localisation/i18n';
+import { AppProvider } from './utils/context/AppContext';
 import createTheme from './utils/theme/createTheme';
 import '@css/app.scss';
 import '@fontsource/roboto/300.css';
@@ -23,7 +24,9 @@ export default function App() {
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={createTheme()}>
             <CssBaseline />
-            <RouterProvider router={router} />
+            <AppProvider>
+              <RouterProvider router={router} />
+            </AppProvider>
           </ThemeProvider>
         </StyledEngineProvider>
       </QueryClientProvider>

@@ -1,6 +1,6 @@
 import { CustomTheme } from '@/types';
 
-const SpotifyAuthStyle = (theme: CustomTheme) => {
+const SpotifyButtonStyle = (theme: CustomTheme) => {
   return {
     authButton: {
       px: 3,
@@ -16,8 +16,11 @@ const SpotifyAuthStyle = (theme: CustomTheme) => {
       '&:active': {
         backgroundColor: theme.spotify.primary.dark,
       },
+      '& .MuiLoadingButton-loadingIndicator': {
+        right: '22px',
+      },
     },
   };
 };
 
-export default SpotifyAuthStyle;
+export default SpotifyButtonStyle;

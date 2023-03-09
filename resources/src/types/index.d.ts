@@ -1,4 +1,3 @@
-import { ColorPartial } from '@mui/material/styles/createPalette';
 import 'vite/client';
 
 declare module '*.module.scss' {
@@ -21,6 +20,12 @@ export type CustomTheme = Theme & ThemeOptions;
 declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
     spotify: true;
+  }
+}
+
+declare module 'i18next' {
+  interface CustomTypeOptions {
+    returnNull: false;
   }
 }
 

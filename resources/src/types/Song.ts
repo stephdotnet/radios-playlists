@@ -5,3 +5,7 @@ export interface Song {
   spotify_url: string;
   created_at: string;
 }
+
+export interface songsHttpResponse {
+  data: Song[];
+}
