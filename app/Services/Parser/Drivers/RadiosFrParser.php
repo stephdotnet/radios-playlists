@@ -4,6 +4,7 @@ namespace App\Services\Parser\Drivers;
 
 use App\Services\Parser\Exceptions\InvalidResponseException;
 use App\Services\Parser\ParserResponse;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
@@ -31,7 +32,7 @@ class RadiosFrParser implements ParserInterface
             ->throw()
             ->json();
 
-        if ($titre = data_get($response, '0.title')) {
+        if ($titre = Arr::get($response, '0.title')) {
             $data = $this->extractData($titre);
 
             return new ParserResponse(Arr::get($data, 'song'), Arr::get($data, 'artist'));
@@ -55,7 +56,7 @@ class RadiosFrParser implements ParserInterface
         return "https://prod.radio-api.net/stations/$endpoint";
     }
 
-    protected function getClient()
+    protected function getClient(): PendingRequest
     {
         return Http::withOptions([
             'verify' => false,
