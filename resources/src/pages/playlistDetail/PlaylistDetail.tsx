@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Container, Grid, Pagination } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
 import { SpotifyAuthButton } from '@/components/SpotifyAuth';
@@ -26,6 +27,8 @@ const PlaylistDetail: React.FC = () => {
   const { id } = useParams<Props>();
   const { t } = useTranslation();
   const { user, addAlert } = useAppContext();
+  const [page, setPage] = useState(1);
+
   const {
     mutate,
     data: PlaylistSyncData,
@@ -47,7 +50,7 @@ const PlaylistDetail: React.FC = () => {
     isLoading: isLoadingSongs,
     error: errorSongs,
     data: dataSongs,
-  } = useGetSongs(id);
+  } = useGetSongs(id, page);
 
   const handleSyncPlaylist = async () => {
     await mutate(id, {
@@ -58,6 +61,13 @@ const PlaylistDetail: React.FC = () => {
         });
       },
     });
+  };
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number,
+  ) => {
+    setPage(page);
   };
 
   return (
@@ -112,7 +122,7 @@ const PlaylistDetail: React.FC = () => {
         <Box marginTop={2}>
           <Grid container columnSpacing={2} rowSpacing={1}>
             {dataSongs &&
-              dataSongs.map((song) => {
+              dataSongs.songs.map((song) => {
                 return (
                   <Grid item key={song.id} xs={12} md={6}>
                     <SongCard song={song} />
@@ -120,6 +130,14 @@ const PlaylistDetail: React.FC = () => {
                 );
               })}
           </Grid>
+          <Box display="flex" justifyContent="center" my={2}>
+            <Pagination
+              count={dataSongs.meta.last_page}
+              defaultPage={page}
+              boundaryCount={2}
+              onChange={handlePageChange}
+            />
+          </Box>
         </Box>
       )}
     </Container>

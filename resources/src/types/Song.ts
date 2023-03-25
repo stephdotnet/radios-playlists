@@ -1,3 +1,5 @@
+import { HttpMeta } from './httpMeta';
+
 export interface Song {
   id: number;
   name: string;
@@ -8,4 +10,5 @@ export interface Song {
 
 export interface songsHttpResponse {
   data: Song[];
+  meta: HttpMeta;
 }
