@@ -25,8 +25,20 @@ const Header = () => {
             {t('system.app.title')}
           </Typography>
         </Grid>
-        <Grid item xs={12} md={6} display="flex" justifyContent="right" alignItems="end">
-          <SpotifyAuth dataMe={dataMe} isLoading={isLoadingMe} error={errorMe} textAlign="right" />
+        <Grid
+          item
+          xs={12}
+          md={6}
+          display="flex"
+          justifyContent="right"
+          alignItems="end"
+        >
+          <SpotifyAuth
+            dataMe={dataMe}
+            isLoading={isLoadingMe}
+            error={errorMe}
+            textAlign="right"
+          />
         </Grid>
       </Grid>
     </Container>

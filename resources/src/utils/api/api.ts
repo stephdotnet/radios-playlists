@@ -37,6 +37,10 @@ interface ApiClientType {
     data: unknown,
     config?: AxiosRequestConfig,
   ) => Promise<AxiosResponse<T>>;
+  delete: <T = unknown>(
+    route: string,
+    config?: AxiosRequestConfig,
+  ) => Promise<AxiosResponse<T>>;
 }
 
 export const apiClient: ApiClientType = {
@@ -48,4 +52,5 @@ export const apiClient: ApiClientType = {
     axios.put(route, data, { signal: config?.signal }),
   patch: (route, data, config) =>
     axios.patch(route, data, { signal: config?.signal }),
+  delete: (route, config) => axios.delete(route, { signal: config?.signal }),
 };

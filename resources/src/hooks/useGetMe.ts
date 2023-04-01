@@ -10,5 +10,7 @@ export function getQueryKey(): QueryKey {
 }
 
 export function useGetMe() {
-  return useQuery<Me, AxiosError>(getQueryKey(), ({ signal }) => me.get({ signal }));
+  return useQuery<Me, AxiosError>(getQueryKey(), ({ signal }) =>
+    me.get({ signal }),
+  );
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services\Spotify;
 
+use Exception;
 use SpotifyWebAPI\Session;
 use SpotifyWebAPI\SpotifyWebAPI;
 
@@ -12,6 +13,13 @@ class SpotifyApiClient
     const REFRESH_TOKEN_SESSION_KEY = 'refresh_token';
 
     const STATE_SESSION_KEY = 'state';
+
+    const SCOPES = [
+        'playlist-modify-private',
+        'playlist-modify-public',
+        'playlist-read-private',
+        'user-read-private',
+    ];
 
     public function __construct(protected Session $session, protected SpotifyWebAPI $client)
     {
@@ -30,6 +38,16 @@ class SpotifyApiClient
     public function isAuthenticated()
     {
         return session()->has(self::ACCESS_TOKEN_SESSION_KEY);
+    }
+
+    public function isAdmin()
+    {
+        try {
+            return $this->getAuthenticatedClient()
+                ->me()->id === config('services.spotify.admin_id');
+        } catch (Exception) {
+            return false;
+        }
     }
 
     public function getAuthenticatedClient()
@@ -51,11 +69,7 @@ class SpotifyApiClient
         session()->put(self::STATE_SESSION_KEY, $state);
 
         return $this->session->getAuthorizeUrl([
-            'scope' => [
-                'playlist-modify-private',
-                'playlist-read-private',
-                'user-read-private',
-            ],
+            'scope' => self::SCOPES,
             'state' => $state,
         ]);
     }

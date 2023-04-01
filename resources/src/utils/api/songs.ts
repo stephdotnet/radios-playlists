@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { Song, songsHttpResponse } from '@/types/Song';
+import { HttpMeta } from '@/types/httpMeta';
 import { dataGetValue } from '@/utils';
 import { apiClient } from './api';
 
@@ -9,21 +10,49 @@ interface SongsRequestOptions {
   signal?: AbortSignal;
 }
 
+export interface getSongsResponse {
+  songs: Song[];
+  meta: HttpMeta;
+}
+
 interface getSongsFunction {
-  (playlistId?: string, page?: number, options?: SongsRequestOptions): Promise<Song[]>;
+  (
+    playlistId?: string,
+    page?: number,
+    options?: SongsRequestOptions,
+  ): Promise<getSongsResponse>;
 }
 
 const ENDPOINT = 'playlists';
 
 const get: getSongsFunction = async (playlistId, page, options) => {
-  const response: AxiosResponse<songsHttpResponse> = await apiClient.get(`${ENDPOINT}/${playlistId}/songs`, {
-    params: { limit: dataGetValue(options, 'limit', 50), page: page ?? 1 },
-    signal: options?.signal,
-  });
+  const response: AxiosResponse<songsHttpResponse> = await apiClient.get(
+    `${ENDPOINT}/${playlistId}/songs`,
+    {
+      params: { limit: dataGetValue(options, 'limit', 50), page: page ?? 1 },
+      signal: options?.signal,
+    },
+  );
 
-  return response.data.data;
+  return {
+    songs: response.data.data,
+    meta: response.data.meta,
+  };
+};
+
+interface deleteSongFunction {
+  (
+    playlistId: string,
+    songId: number,
+    options?: SongsRequestOptions,
+  ): Promise<AxiosResponse>;
+}
+
+const remove: deleteSongFunction = async (playlistId, songId) => {
+  return apiClient.delete(`${ENDPOINT}/${playlistId}/songs/${songId}`);
 };
 
 export default {
   get,
+  remove,
 };

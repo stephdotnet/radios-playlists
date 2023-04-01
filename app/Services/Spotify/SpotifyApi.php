@@ -8,6 +8,17 @@ use SpotifyWebAPI\SpotifyWebAPI;
 
 class SpotifyApi
 {
+    public function __construct(protected bool $returnAssoc = true)
+    {
+    }
+
+    public function setReturnAssoc(bool $returnAssoc): self
+    {
+        $this->returnAssoc = $returnAssoc;
+
+        return $this;
+    }
+
     public function getMatchingSong(ParserResponse $parserResponse): array
     {
         $query = "artist:{$parserResponse->artist} track:{$parserResponse->song}";
@@ -21,13 +32,13 @@ class SpotifyApi
     {
         return app(SpotifyApiClient::class)
             ->getAuthenticatedClient()
-            ->setOptions(['return_assoc' => true]);
+            ->setOptions(['return_assoc' => $this->returnAssoc]);
     }
 
     public function getClientCredentialsClient(): SpotifyWebAPI
     {
         return app(SpotifyApiClient::class)
             ->getClientCredentialsClient()
-            ->setOptions(['return_assoc' => true]);
+            ->setOptions(['return_assoc' => $this->returnAssoc]);
     }
 }

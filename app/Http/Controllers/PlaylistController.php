@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PlaylistResource;
 use App\Http\Resources\SongResource;
 use App\Models\Playlist;
+use App\Models\Song;
 
 class PlaylistController extends Controller
 {
@@ -28,5 +29,12 @@ class PlaylistController extends Controller
             $playlist->songs()
             ->paginate(request('per_page', self::DEFAULT_PAGINATION))
         );
+    }
+
+    public function deleteSong(Playlist $playlist, Song $song)
+    {
+        $playlist->songs()->detach($song);
+
+        return response()->json(null, 204);
     }
 }

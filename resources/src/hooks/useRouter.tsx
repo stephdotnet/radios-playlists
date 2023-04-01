@@ -25,7 +25,8 @@ const useRouter = () => {
   const isActive = (locationPathname: string, toPathname: string) => {
     return (
       locationPathname === toPathname ||
-      (locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === '/')
+      (locationPathname.startsWith(toPathname) &&
+        locationPathname.charAt(toPathname.length) === '/')
     );
   };
 

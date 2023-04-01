@@ -21,9 +21,13 @@ export function getQueryKeyShow(id?: string): QueryKey {
 }
 
 export function useGetPlaylists() {
-  return useQuery<Playlist[], AxiosError>(getQueryKeyList(1), ({ signal }) => playlists.get(1, { signal }));
+  return useQuery<Playlist[], AxiosError>(getQueryKeyList(1), ({ signal }) =>
+    playlists.get(1, { signal }),
+  );
 }
 
 export function useShowPlaylist(id: string) {
-  return useQuery<Playlist, AxiosError>(getQueryKeyShow(id), ({ signal }) => playlists.show(id, { signal }));
+  return useQuery<Playlist, AxiosError>(getQueryKeyShow(id), ({ signal }) =>
+    playlists.show(id, { signal }),
+  );
 }

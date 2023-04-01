@@ -13,9 +13,12 @@ interface getMeFunction {
 const ENDPOINT = 'me';
 
 const get: getMeFunction = async (options) => {
-  const response: AxiosResponse<MeHttpResponse> = await apiClient.get(ENDPOINT, {
-    signal: options?.signal,
-  });
+  const response: AxiosResponse<MeHttpResponse> = await apiClient.get(
+    ENDPOINT,
+    {
+      signal: options?.signal,
+    },
+  );
 
   return response.data.data;
 };
