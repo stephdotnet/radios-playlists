@@ -64,6 +64,7 @@ class SpotifyApiClient
         return $this->session->getAuthorizeUrl([
             'scope' => [
                 'playlist-modify-private',
+                'playlist-modify-public',
                 'playlist-read-private',
                 'user-read-private',
             ],

@@ -11,11 +11,18 @@ export interface PlaylistCardProps {
 
 const PlaylistCardLink = ({ playlist }: PlaylistCardProps) => {
   const theme = useTheme();
-  const page = generatePath(pages.playlistDetail.path, { id: playlist.id.toString() });
+  const page = generatePath(pages.playlistDetail.path, {
+    id: playlist.id.toString(),
+  });
   const styles = PlaylistCardStyles(theme);
 
   return (
-    <Link component={RouterLink} to={page} key={playlist.id} sx={styles.playlistCard}>
+    <Link
+      component={RouterLink}
+      to={page}
+      key={playlist.id}
+      sx={styles.playlistCard}
+    >
       <PlaylistCard playlist={playlist} />
     </Link>
   );

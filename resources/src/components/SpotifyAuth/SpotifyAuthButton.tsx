@@ -6,7 +6,12 @@ const SpotifyAuthButton = () => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  return <SpotifyButton text={t('auth.login.button_text')} href={`/spotify-redirect?redirect=${location.pathname}`} />;
+  return (
+    <SpotifyButton
+      text={t('auth.login.button_text')}
+      href={`/spotify-redirect?redirect=${location.pathname}`}
+    />
+  );
 };
 
 export default SpotifyAuthButton;

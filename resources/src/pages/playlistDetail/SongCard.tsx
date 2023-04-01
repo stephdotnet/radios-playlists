@@ -1,17 +1,60 @@
-import { Box, Link, useTheme } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Box, IconButton, Link, useTheme } from '@mui/material';
 import { Song } from '@/types/Song';
 import SongCardStyles from './SongCard.style';
 
-const SongCard = ({ song }: { song: Song }) => {
+const SongCard = ({
+  song,
+  deleteSong,
+  showDelete,
+}: {
+  song: Song;
+  deleteSong: (song: Song) => void;
+  showDelete?: boolean;
+}) => {
   const theme = useTheme();
   const styles = SongCardStyles(theme);
 
+  const handleDelete = () => {
+    deleteSong(song);
+  };
+
   return (
-    <Link href={song.spotify_url} target="_blank" sx={styles.songCard}>
-      <Box paddingX={2} paddingY={2} sx={styles.songCard.box}>
-        {song.name} ({song.artists})
+    <Box sx={styles.songCard}>
+      <Box
+        paddingX={2}
+        minHeight={48}
+        sx={styles.songCard.box}
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Box
+          sx={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          <Link
+            href={song.spotify_url}
+            target="_blank"
+            sx={{
+              textDecoration: 'none',
+            }}
+          >
+            {song.name} ({song.artists})
+          </Link>
+        </Box>
+        {showDelete && (
+          <Box>
+            <IconButton onClick={handleDelete}>
+              <DeleteForeverIcon />
+            </IconButton>
+          </Box>
+        )}
       </Box>
-    </Link>
+    </Box>
   );
 };
 

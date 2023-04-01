@@ -12,7 +12,12 @@ interface SpotifyAuthProps {
   textAlign?: 'left' | 'right' | 'center';
 }
 
-const SpotifyAuth = ({ dataMe, isLoading, error, textAlign }: SpotifyAuthProps) => {
+const SpotifyAuth = ({
+  dataMe,
+  isLoading,
+  error,
+  textAlign,
+}: SpotifyAuthProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -31,7 +36,11 @@ const SpotifyAuth = ({ dataMe, isLoading, error, textAlign }: SpotifyAuthProps) 
   };
 
   const ErrorAuth = () => {
-    return <Typography color={theme.palette.error.dark}>{t('auth.error')}</Typography>;
+    return (
+      <Typography color={theme.palette.error.dark}>
+        {t('auth.error')}
+      </Typography>
+    );
   };
 
   return (

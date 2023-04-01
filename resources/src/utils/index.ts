@@ -6,7 +6,11 @@ export const env = (key: string) => {
 };
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export function dataGetValue(object: Haystack, key: string | number, defaultValue: any = null) {
+export function dataGetValue(
+  object: Haystack,
+  key: string | number,
+  defaultValue: any = null,
+) {
   try {
     if (typeof object === 'undefined' || object === null) {
       return defaultValue;

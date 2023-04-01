@@ -6,28 +6,22 @@ interface SongsSkeletonProps {
 }
 
 const SongsSkeleton = ({ count = 5 }: SongsSkeletonProps) => {
+  const SongSkeleton = () => (
+    <Skeleton variant="rectangular" height={40} width="100%" component="div" />
+  );
+
   return (
     <Box display="flex" justifyContent="left" flexDirection="column">
       {Array.from(Array(count)).map((_, index) => (
-        <Grid container columnSpacing={2} rowSpacing={1}>
-          <Grid item key={index} xs={12} md={6}>
-            <Box key={index} marginY={1}>
-              <Skeleton
-                variant="rectangular"
-                height={40}
-                width="100%"
-                component="div"
-              />
+        <Grid container columnSpacing={2} rowSpacing={1} key={index}>
+          <Grid item xs={12} md={6}>
+            <Box marginY={1}>
+              <SongSkeleton />
             </Box>
           </Grid>
-          <Grid item key={index} xs={12} md={6}>
-            <Box key={index} marginY={1}>
-              <Skeleton
-                variant="rectangular"
-                height={40}
-                width="100%"
-                component="div"
-              />
+          <Grid item xs={12} md={6}>
+            <Box marginY={1}>
+              <SongSkeleton />
             </Box>
           </Grid>
         </Grid>

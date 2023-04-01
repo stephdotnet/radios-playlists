@@ -16,7 +16,9 @@ const Home = () => {
           ) : error ? (
             <HttpErrorBox error={error} />
           ) : (
-            data?.map((playlist) => <PlaylistCardLink playlist={playlist} key={playlist.id} />)
+            data?.map((playlist) => (
+              <PlaylistCardLink playlist={playlist} key={playlist.id} />
+            ))
           )}
         </Box>
       </Box>

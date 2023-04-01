@@ -40,6 +40,19 @@ const get: getSongsFunction = async (playlistId, page, options) => {
   };
 };
 
+interface deleteSongFunction {
+  (
+    playlistId: string,
+    songId: number,
+    options?: SongsRequestOptions,
+  ): Promise<AxiosResponse>;
+}
+
+const remove: deleteSongFunction = async (playlistId, songId) => {
+  return apiClient.delete(`${ENDPOINT}/${playlistId}/songs/${songId}`);
+};
+
 export default {
   get,
+  remove,
 };

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { QueryKey, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import songs, { getSongsResponse } from '@/utils/api/songs';
@@ -13,20 +12,19 @@ export function getQueryKeyList(playlistId: string, page?: number): QueryKey {
 }
 
 export function useGetSongs(playlistId: string, page = 1) {
-  const query = useQuery<getSongsResponse, AxiosError>(
-    getQueryKeyList(playlistId, page),
-    ({ signal }) => songs.get(playlistId, page, { signal }),
-  );
-
   const queryClient = useQueryClient();
-  useEffect(() => {
-    if (query.data?.meta.current_page != query.data?.meta.last_page) {
-      queryClient.prefetchQuery(
-        getQueryKeyList(playlistId, page + 1),
-        ({ signal }) => songs.get(playlistId, page + 1, { signal }),
-      );
-    }
-  }, [query.data, page, queryClient]);
+  const query = useQuery<getSongsResponse, AxiosError>({
+    queryKey: getQueryKeyList(playlistId, page),
+    queryFn: ({ signal }) => songs.get(playlistId, page, { signal }),
+    onSettled: (data) => {
+      if (data?.meta.current_page != data?.meta.last_page) {
+        queryClient.prefetchQuery(
+          getQueryKeyList(playlistId, page + 1),
+          ({ signal }) => songs.get(playlistId, page + 1, { signal }),
+        );
+      }
+    },
+  });
 
   return query;
 }

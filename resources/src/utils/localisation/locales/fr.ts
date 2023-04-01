@@ -13,6 +13,8 @@ const pages = {
     '{{count}} chansons synchronisées',
   'pages.playlist_detail.sync.playlist.spotify_url':
     'Voir la playlist sur Spotify',
+  'pages.playlist_detail.songs.remove_song_title':
+    'Supprimer la chanson de la playlist ?',
 };
 
 const components = {
@@ -25,6 +27,7 @@ const components = {
 
 const system = {
   'system.app.title': 'Radio playlist',
+  'system.actions.delete': 'Supprimer',
 };
 
 export default {
