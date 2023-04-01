@@ -40,4 +40,12 @@ class SpotifyApiTest extends TestCase
             app(SpotifyApi::class)->getAuthenticatedClient()
         );
     }
+
+    public function test_set_return_assoc()
+    {
+        $this->assertInstanceOf(
+            SpotifyApi::class,
+            app(SpotifyApi::class)->setReturnAssoc(true)
+        );
+    }
 }

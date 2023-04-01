@@ -23,6 +23,7 @@
             <file>./app/Http/Middleware/RedirectIfAuthenticated.php</file>
             <file>./app/Http/Middleware/TrustHosts.php</file>
             <file>./app/Providers/BroadcastServiceProvider.php</file>
+            <file>./app/Providers/TelescopeServiceProvider.php</file>
         </exclude>
     </coverage>
     <php>

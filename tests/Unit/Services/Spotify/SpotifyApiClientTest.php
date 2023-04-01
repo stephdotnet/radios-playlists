@@ -106,7 +106,7 @@ class SpotifyApiClientTest extends TestCase
         $this->assertTrue(app(SpotifyApiClient::class)->isAdmin());
     }
 
-    public function test_is_admin_does_not_with_bad_admin_id()
+    public function test_is_admin_does_not_pass_with_bad_admin_id()
     {
         $this->app['config']->set('services.spotify.admin_id', '1234');
 
@@ -115,6 +115,21 @@ class SpotifyApiClientTest extends TestCase
             ->makeSpotifyWebApiMock(function ($mock) {
                 $mock->shouldReceive('me')
                     ->andReturn((object) ['id' => '3456']);
+            })
+            ->bind();
+
+        app(SpotifyApiClient::class)->requestAccessToken(SpotifyApiClientMock::FAKE_CODE);
+
+        $this->assertFalse(app(SpotifyApiClient::class)->isAdmin());
+    }
+
+    public function test_is_admin_does_not_pass_with_api_error()
+    {
+        SpotifyApiClientMock::make()
+            ->makeRequestAccessTokenSessionMock()
+            ->makeSpotifyWebApiMock(function ($mock) {
+                $mock->shouldReceive('me')
+                    ->andThrow(new \Exception());
             })
             ->bind();
 
