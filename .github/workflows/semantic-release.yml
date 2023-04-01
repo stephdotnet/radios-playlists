@@ -25,6 +25,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
+          noVersionBumpBehavior: 'silent'
 
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
