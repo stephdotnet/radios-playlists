@@ -28,6 +28,7 @@ jobs:
           noVersionBumpBehavior: 'silent'
 
       - name: Create Release
+        if: steps.semver.outputs.nextStrict != ''
         uses: ncipollo/release-action@v1.12.0
         with:
           allowUpdates: true
