@@ -13,7 +13,7 @@ class SpotifyApiClientMock
 {
     use InteractsWithContainer;
 
-    const FAKE_REDIRECT_URL = 'https://accounts.spotify.com/authorize?client_id=mocked_client_id&redirect_uri=mocked_redirect_uri&response_type=code&scope=playlist-modify-private+playlist-read-private+user-read-private&state=mocked_state';
+    const FAKE_REDIRECT_URL = 'https://accounts.spotify.com/authorize?client_id=mocked_client_id&redirect_uri=mocked_redirect_uri&response_type=code&scope=playlist-modify-private+playlist-modify-public+playlist-read-private+user-read-private&state=mocked_state';
 
     const FAKE_ACCESS_TOKEN = 'mocked_access_token';
 
