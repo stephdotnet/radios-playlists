@@ -16,6 +16,7 @@
         "fakerphp/faker": "^1.21.0",
         "laravel/pint": "^1.7",
         "laravel/sail": "^1.21.2",
+        "laravel/telescope": "^4.14",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^6.4",
         "phpunit/phpunit": "^9.6.5",
