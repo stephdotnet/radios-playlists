@@ -3,6 +3,8 @@
 namespace Tests\Feature\Http;
 
 use App\Models\Playlist;
+use App\Models\Song;
+use App\Services\Spotify\SpotifyApiClient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -65,5 +67,31 @@ class PlaylistControllerTest extends TestCase
                 'links',
                 'meta',
             ]);
+    }
+
+    public function test_delete_song()
+    {
+        $this->partialMock(SpotifyApiClient::class, function ($mock) {
+            $mock->shouldReceive('isAdmin')->andReturn(true);
+        });
+
+        $song = Song::factory()->create();
+        $playlist = Playlist::factory()
+            ->hasAttached($song)
+            ->create();
+
+        $this->assertCount(1, $playlist->songs);
+
+        $this
+            ->withSession([SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY => 'token'])
+            ->deleteJson(
+                route('playlist.songs.delete', [
+                    'playlist' => $playlist->id,
+                    'song' => $song->id,
+                ])
+            )
+            ->assertNoContent();
+
+        $this->assertCount(0, $playlist->refresh()->songs);
     }
 }

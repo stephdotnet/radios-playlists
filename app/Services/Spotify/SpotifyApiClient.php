@@ -2,6 +2,7 @@
 
 namespace App\Services\Spotify;
 
+use Exception;
 use SpotifyWebAPI\Session;
 use SpotifyWebAPI\SpotifyWebAPI;
 
@@ -30,6 +31,16 @@ class SpotifyApiClient
     public function isAuthenticated()
     {
         return session()->has(self::ACCESS_TOKEN_SESSION_KEY);
+    }
+
+    public function isAdmin()
+    {
+        try {
+            return $this->getAuthenticatedClient()
+                ->me()->id === config('services.spotify.admin_id');
+        } catch (Exception) {
+            return false;
+        }
     }
 
     public function getAuthenticatedClient()

@@ -31,4 +31,8 @@ Route::get('/playlists/{playlist}/songs', PlaylistController::class.'@songs')
 Route::group(['middleware' => 'spotify'], function () {
     Route::post('/playlists/{playlist}/sync/', SpotifyPlaylistController::class.'@sync')
         ->name('spotify.playlist.sync');
+
+    Route::delete('/playlists/{playlist}/songs/{song}', PlaylistController::class.'@deleteSong')
+        ->middleware('can:delete-song,song')
+        ->name('playlist.songs.delete');
 });
