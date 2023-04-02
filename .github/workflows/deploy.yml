@@ -39,10 +39,11 @@ jobs:
         with:
           host: ${{ fromJson(secrets.SSH_SERVER).HOST }}
           username: ${{ fromJson(secrets.SSH_SERVER).USER }}
-          password: ${{ fromJson(secrets.SSH_SERVER).KEY }}
+          key: ${{ fromJson(secrets.SSH_SERVER).KEY }}
           source: 'public/build'
           target: '/home/lamp/www/test'
 
       # setup tmate session
       - name: Tmate session
         uses: mxschmitt/action-tmate@v3
+        if: failure()
