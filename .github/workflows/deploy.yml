@@ -1,0 +1,48 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [cd-pipeline]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Edit .env key VITE_APP_API_URL
+        run: sed -i "s|VITE_APP_API_URL=.*|VITE_APP_API_URL=${{ secrets.API_URL }}|g" .env
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Copy assets and deploy
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ fromJson(secrets.SSH_SERVER).HOST }}
+          username: ${{ fromJson(secrets.SSH_SERVER).USER }}
+          password: ${{ fromJson(secrets.SSH_SERVER).KEY }}
+          source: 'public/build'
+          target: '/home/lamp/www/test'
+
+      # setup tmate session
+      - name: Tmate session
+        uses: mxschmitt/action-tmate@v3
