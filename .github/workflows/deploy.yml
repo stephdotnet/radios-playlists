@@ -46,7 +46,11 @@ jobs:
           strip_components: 1
 
       - name: Run additional commands on server
-        run: ssh ${{ fromJson(secrets.SSH_SERVER).USER }}@${{ fromJson(secrets.SSH_SERVER).HOST }} 'bash -s' < scripts/deploy.sh
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ fromJson(secrets.SSH_SERVER).HOST }} >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          ssh -i <(echo "${{ fromJson(secrets.SSH_SERVER).KEY }}") ${{ fromJson(secrets.SSH_SERVER).USER }}@${{ fromJson(secrets.SSH_SERVER).HOST }} 'bash -s' < deploy.sh
         env:
           SSH_PRIVATE_KEY: ${{ fromJson(secrets.SSH_SERVER).KEY }}
 
