@@ -1,21 +1,8 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { env } from '@/utils';
 
-const getApiUrl = () => {
-  if (env('PROD')) {
-    console.log('PROD', env('VITE_APP_API_URL'));
-    return env('VITE_APP_API_URL') != ''
-      ? env('VITE_APP_API_URL')
-      : 'https://api.example.com';
-  } else {
-    return env('VITE_APP_API_URL');
-  }
-};
-
-console.log(getApiUrl());
-
 const axios = Axios.create({
-  baseURL: getApiUrl(),
+  baseURL: env('VITE_APP_API_URL'),
   withCredentials: true,
 });
 

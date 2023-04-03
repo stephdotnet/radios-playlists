@@ -50,10 +50,11 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan ${{ fromJson(secrets.SSH_SERVER).HOST }} >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
-          ssh -i <(echo "${{ fromJson(secrets.SSH_SERVER).KEY }}") ${{ fromJson(secrets.SSH_SERVER).USER }}@${{ fromJson(secrets.SSH_SERVER).HOST }} 'bash -s' < deploy.sh
+          ssh -i <(echo "${{ fromJson(secrets.SSH_SERVER).KEY }}") ${{ fromJson(secrets.SSH_SERVER).USER }}@${{ fromJson(secrets.SSH_SERVER).HOST }} 'bash -s' < /home/lamp/www/radios/scripts/deploy.sh
         env:
           SSH_PRIVATE_KEY: ${{ fromJson(secrets.SSH_SERVER).KEY }}
 
       # setup tmate session
       - name: Tmate session
         uses: mxschmitt/action-tmate@v3
+        if: failure()
