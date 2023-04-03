@@ -42,8 +42,14 @@ jobs:
           key: ${{ fromJson(secrets.SSH_SERVER).KEY }}
           source: 'public/build'
           target: '/home/lamp/www/test'
+          overwrite: true
+          strip_components: 1
+
+      - name: Run additional commands on server
+        run: ssh ${{ fromJson(secrets.SSH_SERVER).USER }}@${{ fromJson(secrets.SSH_SERVER).HOST }} 'bash -s' < scripts/deploy.sh
+        env:
+          SSH_PRIVATE_KEY: ${{ fromJson(secrets.SSH_SERVER).KEY }}
 
       # setup tmate session
       - name: Tmate session
         uses: mxschmitt/action-tmate@v3
-        if: failure()
