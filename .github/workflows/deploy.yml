@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache node modules
         id: cache-npm
@@ -52,8 +52,3 @@ jobs:
           username: ${{ fromJson(secrets.SSH_SERVER).USER }}
           key: ${{ fromJson(secrets.SSH_SERVER).KEY }}
           script: /home/lamp/www/radios/scripts/deploy.sh
-
-      # setup tmate session
-      - name: Tmate session
-        uses: mxschmitt/action-tmate@v3
-        if: failure()
