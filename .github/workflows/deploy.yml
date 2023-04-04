@@ -57,3 +57,4 @@ jobs:
       # setup tmate session
       - name: Tmate session
         uses: mxschmitt/action-tmate@v3
+        if: failure()
