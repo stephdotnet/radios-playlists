@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache node modules
         id: cache-npm
@@ -45,11 +45,10 @@ jobs:
           overwrite: true
           strip_components: 1
 
-      - name: Run additional commands on server
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan ${{ fromJson(secrets.SSH_SERVER).HOST }} >> ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
-          ssh -i <(echo "${{ fromJson(secrets.SSH_SERVER).KEY }}") ${{ fromJson(secrets.SSH_SERVER).USER }}@${{ fromJson(secrets.SSH_SERVER).HOST }} 'bash -s' < /home/lamp/www/radios/scripts/deploy.sh
-        env:
-          SSH_PRIVATE_KEY: ${{ fromJson(secrets.SSH_SERVER).KEY }}
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ fromJson(secrets.SSH_SERVER).HOST }}
+          username: ${{ fromJson(secrets.SSH_SERVER).USER }}
+          key: ${{ fromJson(secrets.SSH_SERVER).KEY }}
+          script: /home/lamp/www/radios/scripts/deploy.sh
