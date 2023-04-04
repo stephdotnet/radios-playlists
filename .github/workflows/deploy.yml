@@ -53,8 +53,3 @@ jobs:
           ssh -i <(echo "${{ fromJson(secrets.SSH_SERVER).KEY }}") ${{ fromJson(secrets.SSH_SERVER).USER }}@${{ fromJson(secrets.SSH_SERVER).HOST }} 'bash -s' < /home/lamp/www/radios/scripts/deploy.sh
         env:
           SSH_PRIVATE_KEY: ${{ fromJson(secrets.SSH_SERVER).KEY }}
-
-      # setup tmate session
-      - name: Tmate session
-        uses: mxschmitt/action-tmate@v3
-        if: failure()
