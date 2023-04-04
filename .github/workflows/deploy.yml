@@ -28,6 +28,10 @@ jobs:
       - name: Edit .env key VITE_APP_API_URL
         run: sed -i "s|VITE_APP_API_URL=.*|VITE_APP_API_URL=${{ secrets.API_URL }}|g" .env
 
+      # setup tmate session
+      - name: Tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Install dependencies
         run: npm install
 
