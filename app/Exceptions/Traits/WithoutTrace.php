@@ -2,6 +2,6 @@
 
 namespace App\Exceptions\Traits;
 
-Trait WithoutTrace
+trait WithoutTrace
 {
 }

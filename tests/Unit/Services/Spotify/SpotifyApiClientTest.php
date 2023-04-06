@@ -136,7 +136,7 @@ class SpotifyApiClientTest extends TestCase
         app(SpotifyApiClient::class)->requestAccessToken(SpotifyApiClientMock::FAKE_CODE);
 
         $this->assertFalse(app(SpotifyApiClient::class)->isAdmin());
-    }    
+    }
 
     public function test_is_admin_does_not_pass_with_api_error()
     {

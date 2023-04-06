@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Traits\WithoutTrace;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
-use App\Exceptions\Traits\WithoutTrace;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -52,6 +52,7 @@ class Handler extends ExceptionHandler
                 $log_message = "$exceptionMessage in file {$exception->getFile()} on line {$exception->getLine()}";
 
                 Log::error($log_message);
+
                 return false;
             }
         });
