@@ -123,6 +123,21 @@ class SpotifyApiClientTest extends TestCase
         $this->assertFalse(app(SpotifyApiClient::class)->isAdmin());
     }
 
+    public function test_is_admin_does_not_pass_with_empty_configuration()
+    {
+        SpotifyApiClientMock::make()
+            ->makeRequestAccessTokenSessionMock()
+            ->makeSpotifyWebApiMock(function ($mock) {
+                $mock->shouldReceive('me')
+                    ->andReturn((object) ['id' => null]);
+            })
+            ->bind();
+
+        app(SpotifyApiClient::class)->requestAccessToken(SpotifyApiClientMock::FAKE_CODE);
+
+        $this->assertFalse(app(SpotifyApiClient::class)->isAdmin());
+    }
+
     public function test_is_admin_does_not_pass_with_api_error()
     {
         SpotifyApiClientMock::make()

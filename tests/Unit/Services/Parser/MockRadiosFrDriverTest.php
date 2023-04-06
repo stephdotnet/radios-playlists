@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Services\Parser;
 
+use App\Exceptions\Services\Parser\InvalidResponseException;
 use App\Facades\Parser;
-use App\Services\Parser\Exceptions\InvalidResponseException;
 use App\Services\Parser\ParserResponse;
 use Tests\Fixtures\Parser\RadiosFrParserFixtures;
 use Tests\TestCase;

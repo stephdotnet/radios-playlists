@@ -18,6 +18,7 @@
         </include>
         <exclude>
             <file>./app/Console/Kernel.php</file>
+            <file>./app/Exceptions/Handler.php</file>
             <file>./app/Http/Middleware/Authenticate.php</file>
             <file>./app/Http/Middleware/Authenticate.php</file>
             <file>./app/Http/Middleware/RedirectIfAuthenticated.php</file>
