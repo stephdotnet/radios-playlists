@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
+use App\Exceptions\Traits\WithoutTrace;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,8 +45,15 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->reportable(function (Throwable $exception) {
+            if (trait_exists(WithoutTrace::class, $exception::class)) {
+                // Some exceptions don't have a message
+                $exceptionMessage = $exception->getMessage() ?: 'App Error Exception';
+                $log_message = "$exceptionMessage in file {$exception->getFile()} on line {$exception->getLine()}";
+
+                Log::error($log_message);
+                return false;
+            }
         });
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Services\Parser\Drivers;
 
-use App\Services\Parser\Exceptions\InvalidResponseException;
+use App\Exceptions\Services\Parser\InvalidResponseException;
 use App\Services\Parser\ParserResponse;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
@@ -38,7 +38,7 @@ class RadiosFrParser implements ParserInterface
             return new ParserResponse(Arr::get($data, 'song'), Arr::get($data, 'artist'));
         }
 
-        throw new InvalidResponseException("Expected title, got: $titre");
+        throw new InvalidResponseException("InvalidResponseException parsing {$this->radio}. Expected title, got: $titre");
     }
 
     protected function extractData(string $titre): array

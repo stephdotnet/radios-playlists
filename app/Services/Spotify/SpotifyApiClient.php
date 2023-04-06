@@ -43,8 +43,10 @@ class SpotifyApiClient
     public function isAdmin()
     {
         try {
-            return $this->getAuthenticatedClient()
-                ->me()->id === config('services.spotify.admin_id');
+            $adminId = config('services.spotify.admin_id');
+
+            return $adminId
+                && $this->getAuthenticatedClient()->me()->id === $adminId;
         } catch (Exception) {
             return false;
         }
