@@ -127,10 +127,12 @@ class SpotifyApiSync
                 ]
             );
 
-            $remoteTracksIds = Arr::pluck($remoteTracks['items'], 'track.id');
-            $spotifyPlaylist->songs()
-                ->syncWithoutDetaching(Song::whereIn('spotify_id', $remoteTracksIds)->pluck('id'));
+            $remoteTracksIds = array_merge($remoteTracksIds, Arr::pluck($remoteTracks['items'], 'track.id'));
         }
+
+        $spotifyPlaylist->songs()
+            ->sync(Song::whereIn('spotify_id', $remoteTracksIds)->pluck('id'));
+        $spotifyPlaylist->refresh();
     }
 
     protected function addMissingSongsToRemotePlaylist(SpotifyPlaylist $spotifyPlaylist)
