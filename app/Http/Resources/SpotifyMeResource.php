@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\Spotify\SpotifyApiClient;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 
@@ -17,6 +18,7 @@ class SpotifyMeResource extends JsonResource
     {
         return [
             'display_name' => Arr::get($this, 'display_name'),
+            'is_admin' => app(SpotifyApiClient::class)->isAdmin(),
         ];
     }
 }

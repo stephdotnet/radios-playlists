@@ -3,6 +3,7 @@
 namespace App\Features\Commands;
 
 use App\Services\Spotify\SpotifyApi;
+use Illuminate\Support\Facades\Log;
 use Tests\Fixtures\Spotify\SpotifySearchFixtures;
 use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
@@ -20,6 +21,8 @@ class ParseOneCommandTest extends TestCase
 
     public function test_parse_one_command()
     {
+        Log::spy();
+
         $this->mockParserDriver()->shouldReceive('parse');
 
         $this->partialMock(SpotifyApi::class, function ($mock) {
@@ -40,6 +43,8 @@ class ParseOneCommandTest extends TestCase
 
     public function test_parse_one_command_when_no_matching_song()
     {
+        Log::spy();
+
         $this->mockParserDriver()->shouldReceive('parse');
 
         $this->partialMock(SpotifyApi::class, function ($mock) {

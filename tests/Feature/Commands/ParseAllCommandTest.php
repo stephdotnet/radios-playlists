@@ -3,6 +3,7 @@
 namespace App\Features\Commands;
 
 use App\Services\Parser\ParserResponse;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
 use Tests\Traits\Mock\SpotifyApiMockTrait;
@@ -19,6 +20,8 @@ class ParseAllCommandTest extends TestCase
 
     public function test_parse_all_command()
     {
+        Log::spy();
+
         $radiosFrDriverMock = $this->partialMock(RadiosFrParser::class, function ($mock) {
             $mock->shouldReceive('setRadio')
             ->with('mock')

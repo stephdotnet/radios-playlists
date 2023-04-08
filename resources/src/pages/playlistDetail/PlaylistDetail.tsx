@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { Favorite } from '@mui/icons-material';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import { Box, Container, Grid, Pagination, Skeleton } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
@@ -18,9 +19,9 @@ import { pages } from '@/hooks/useRouter';
 import useSyncPlaylist from '@/hooks/useSyncPlaylist';
 import { Song } from '@/types/Song';
 import { useAppContext } from '@/utils/context/AppContext';
-import PlaylistSyncSummary from './PlaylistSyncSummary';
-import SongCard from './SongCard';
-import DeleteModal from './components/DeleteModal';
+import DeleteModal from './components/DeleteModal/DeleteModal';
+import PlaylistSyncSummary from './components/PlaylistSyncSummary';
+import SongCard from './components/SongCard';
 
 type Props = {
   id: string;
@@ -77,8 +78,6 @@ const PlaylistDetail: React.FC = () => {
     data: dataSongs,
   } = useGetSongs(id, page);
 
-  // const isFetching = useIsFetching();
-
   const handleSyncPlaylist = async () => {
     await mutate(id, {
       onError: () => {
@@ -123,20 +122,22 @@ const PlaylistDetail: React.FC = () => {
         <Box
           display="flex"
           justifyContent="center"
-          marginBottom={4}
+          marginBottom={1}
           marginTop={2}
         >
           {dataMe ? (
             PlaylistSyncData ? (
               <PlaylistSyncSummary data={PlaylistSyncData} />
             ) : (
-              <SpotifyButton
-                text="Synchoniser la playlist"
-                endIcon={<QueueMusicIcon />}
-                onClick={handleSyncPlaylist}
-                loading={IsLoadingPlaylistSync}
-                loadingPosition="end"
-              />
+              dataMe.is_admin && (
+                <SpotifyButton
+                  text="Synchoniser la playlist"
+                  endIcon={<QueueMusicIcon />}
+                  onClick={handleSyncPlaylist}
+                  loading={IsLoadingPlaylistSync}
+                  loadingPosition="end"
+                />
+              )
             )
           ) : isLoadingMe ? (
             <Box>
@@ -151,6 +152,21 @@ const PlaylistDetail: React.FC = () => {
                 <SpotifyAuthButton />
               </Box>
             </Box>
+          )}
+        </Box>
+        <Box display="flex" justifyContent="center" marginBottom={4}>
+          {dataPlaylist?.url && dataPlaylist.url !== null ? (
+            <SpotifyButton
+              text="Voir sur spotify"
+              endIcon={<Favorite />}
+              loading={isLoadingPlaylist}
+              onClick={() => {
+                /* @ts-ignore */
+                window.open(dataPlaylist.url, '_blank');
+              }}
+            />
+          ) : (
+            <></>
           )}
         </Box>
 
@@ -168,7 +184,7 @@ const PlaylistDetail: React.FC = () => {
                       <SongCard
                         song={song}
                         deleteSong={handleConfirmDeleteSong}
-                        showDelete={!!dataMe}
+                        showDelete={!!dataMe?.is_admin}
                       />
                     </Grid>
                   );

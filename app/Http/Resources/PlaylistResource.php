@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Arr;
 
 class PlaylistResource extends JsonResource
 {
@@ -19,6 +20,7 @@ class PlaylistResource extends JsonResource
             'slug' => $this->slug,
             'songs' => SongResource::collection($this->whenLoaded('songs')),
             'songs_count' => $this->songs()->count(),
+            'url' => Arr::get($this->spotifyPlaylist?->data, 'external_urls.spotify'),
         ];
     }
 }
