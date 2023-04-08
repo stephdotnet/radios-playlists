@@ -1,4 +1,4 @@
-import BaseLink from '@mui/material/Link';
+import { Link as BaseLink } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const Link = styled(BaseLink)(() => ({
