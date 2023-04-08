@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Box, Container } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCardLink } from '@/components/PlaylistCard';

@@ -1,7 +1,7 @@
 import { useRouteError } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import { Box } from '@mui/material';
+import { Container } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useRouteErrorType } from '@/types';
 
 function ErrorPage() {

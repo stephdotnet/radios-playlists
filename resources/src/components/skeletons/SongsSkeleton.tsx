@@ -1,5 +1,5 @@
 import { Box, Skeleton } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 
 interface SongsSkeletonProps {
   count?: number;

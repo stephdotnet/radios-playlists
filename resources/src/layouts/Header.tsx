@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 import { SpotifyAuth } from '@/components/SpotifyAuth';
 import { useGetMe } from '@/hooks/useGetMe';
 import { useAppContext } from '@/utils/context/AppContext';
