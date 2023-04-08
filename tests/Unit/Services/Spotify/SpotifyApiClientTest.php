@@ -97,6 +97,7 @@ class SpotifyApiClientTest extends TestCase
             ->makeRequestAccessTokenSessionMock()
             ->makeSpotifyWebApiMock(function ($mock) {
                 $mock->shouldReceive('me')
+                    ->once()
                     ->andReturn((object) ['id' => config('services.spotify.admin_id')]);
             })
             ->bind();
@@ -114,6 +115,7 @@ class SpotifyApiClientTest extends TestCase
             ->makeRequestAccessTokenSessionMock()
             ->makeSpotifyWebApiMock(function ($mock) {
                 $mock->shouldReceive('me')
+                    ->once()
                     ->andReturn((object) ['id' => '3456']);
             })
             ->bind();
@@ -125,10 +127,13 @@ class SpotifyApiClientTest extends TestCase
 
     public function test_is_admin_does_not_pass_with_empty_configuration()
     {
+        $this->app['config']->set('services.spotify.admin_id', '1234');
+                
         SpotifyApiClientMock::make()
             ->makeRequestAccessTokenSessionMock()
             ->makeSpotifyWebApiMock(function ($mock) {
                 $mock->shouldReceive('me')
+                    ->once()
                     ->andReturn((object) ['id' => null]);
             })
             ->bind();
@@ -140,11 +145,14 @@ class SpotifyApiClientTest extends TestCase
 
     public function test_is_admin_does_not_pass_with_api_error()
     {
+        $this->app['config']->set('services.spotify.admin_id', '1234');
+
         SpotifyApiClientMock::make()
             ->makeRequestAccessTokenSessionMock()
             ->makeSpotifyWebApiMock(function ($mock) {
                 $mock->shouldReceive('me')
-                    ->andThrow(new \Exception());
+                    ->once()
+                    ->andThrow(new \Exception("test"));
             })
             ->bind();
 

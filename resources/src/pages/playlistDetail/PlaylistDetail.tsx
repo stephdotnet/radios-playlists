@@ -131,7 +131,7 @@ const PlaylistDetail: React.FC = () => {
             ) : (
               dataMe.is_admin && (
                 <SpotifyButton
-                  text="Synchoniser la playlist"
+                  text={t('pages.playlist_detail.playlist.sync_button')}
                   endIcon={<QueueMusicIcon />}
                   onClick={handleSyncPlaylist}
                   loading={IsLoadingPlaylistSync}
@@ -157,7 +157,7 @@ const PlaylistDetail: React.FC = () => {
         <Box display="flex" justifyContent="center" marginBottom={4}>
           {dataPlaylist?.url && dataPlaylist.url !== null ? (
             <SpotifyButton
-              text="Voir sur spotify"
+              text={t('pages.playlist_detail.playlist.open_in_spotify')}
               endIcon={<Favorite />}
               loading={isLoadingPlaylist}
               onClick={() => {

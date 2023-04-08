@@ -15,6 +15,8 @@ const pages = {
     'Voir la playlist sur Spotify',
   'pages.playlist_detail.songs.remove_song_title':
     'Supprimer la chanson de la playlist ?',
+  'pages.playlist_detail.playlist.sync_button': 'Synchoniser la playlist',
+  'pages.playlist_detail.playlist.open_in_spotify': 'Voir sur spotify',
 };
 
 const components = {
