@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Filters\SongTermSimpleFilter;
 use App\Http\Resources\PlaylistResource;
 use App\Http\Resources\SongResource;
 use App\Models\Playlist;
 use App\Models\Song;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PlaylistController extends Controller
 {
@@ -25,9 +28,13 @@ class PlaylistController extends Controller
 
     public function songs(Playlist $playlist)
     {
+        $query = QueryBuilder::for($playlist->songs())
+            ->allowedFilters([
+                AllowedFilter::custom('term', new SongTermSimpleFilter),
+            ]);
+
         return SongResource::collection(
-            $playlist->songs()
-            ->paginate(request('per_page', self::DEFAULT_PAGINATION))
+            $query->paginate(request('per_page', self::DEFAULT_PAGINATION))
         );
     }
 

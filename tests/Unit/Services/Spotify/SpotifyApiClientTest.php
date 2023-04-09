@@ -128,7 +128,7 @@ class SpotifyApiClientTest extends TestCase
     public function test_is_admin_does_not_pass_with_empty_configuration()
     {
         $this->app['config']->set('services.spotify.admin_id', '1234');
-                
+
         SpotifyApiClientMock::make()
             ->makeRequestAccessTokenSessionMock()
             ->makeSpotifyWebApiMock(function ($mock) {
@@ -152,7 +152,7 @@ class SpotifyApiClientTest extends TestCase
             ->makeSpotifyWebApiMock(function ($mock) {
                 $mock->shouldReceive('me')
                     ->once()
-                    ->andThrow(new \Exception("test"));
+                    ->andThrow(new \Exception('test'));
             })
             ->bind();
 
