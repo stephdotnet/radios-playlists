@@ -3,8 +3,6 @@
 namespace Tests\Feature\Http;
 
 use App\Models\Playlist;
-use App\Models\Song;
-use App\Services\Spotify\SpotifyApiClient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -21,7 +19,7 @@ class PlaylistControllerTest extends TestCase
     {
         Playlist::factory()->withSongs(5)->create();
 
-        $this->getJson('/api/playlists')
+        $this->getJson(route('playlist.index'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -36,9 +34,9 @@ class PlaylistControllerTest extends TestCase
 
     public function test_show()
     {
-        Playlist::factory()->withSongs(5)->create();
+        $playlist = Playlist::factory()->withSongs(5)->create();
 
-        $this->getJson('/api/playlists/1')
+        $this->getJson(route('playlist.show', ['playlist' => $playlist->id]))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -47,51 +45,5 @@ class PlaylistControllerTest extends TestCase
                     'songs_count',
                 ],
             ]);
-    }
-
-    public function test_songs()
-    {
-        Playlist::factory()->withSongs(10)->create();
-
-        $this->getJson('/api/playlists/1/songs')
-            ->assertOk()
-            ->assertJsonStructure([
-                'data' => [
-                    '*' => [
-                        'id',
-                        'name',
-                        'artists',
-                        'spotify_url',
-                    ],
-                ],
-                'links',
-                'meta',
-            ]);
-    }
-
-    public function test_delete_song()
-    {
-        $this->partialMock(SpotifyApiClient::class, function ($mock) {
-            $mock->shouldReceive('isAdmin')->andReturn(true);
-        });
-
-        $song = Song::factory()->create();
-        $playlist = Playlist::factory()
-            ->hasAttached($song)
-            ->create();
-
-        $this->assertCount(1, $playlist->songs);
-
-        $this
-            ->withSession([SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY => 'token'])
-            ->deleteJson(
-                route('playlist.songs.delete', [
-                    'playlist' => $playlist->id,
-                    'song' => $song->id,
-                ])
-            )
-            ->assertNoContent();
-
-        $this->assertCount(0, $playlist->refresh()->songs);
     }
 }

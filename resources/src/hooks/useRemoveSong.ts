@@ -19,22 +19,24 @@ export function useRemoveSong() {
       playlistId,
       songId,
       currentPage,
+      term,
     }: {
       playlistId: string;
       songId: number;
       currentPage: number;
+      term: string | null;
     }) => {
       await queryClient.cancelQueries({
-        queryKey: getQueryKeyList(playlistId, currentPage),
+        queryKey: getQueryKeyList(playlistId, currentPage, term),
       });
 
       const previousSongs = queryClient.getQueryData<getSongsResponse>(
-        getQueryKeyList(playlistId, currentPage),
+        getQueryKeyList(playlistId, currentPage, term),
       );
 
       if (previousSongs) {
         queryClient.setQueryData<getSongsResponse>(
-          getQueryKeyList(playlistId, currentPage),
+          getQueryKeyList(playlistId, currentPage, term),
           (old) =>
             ({
               ...old,
@@ -44,14 +46,14 @@ export function useRemoveSong() {
 
         if (currentPage != previousSongs.meta.last_page) {
           const nextPageSongs = queryClient.getQueryData<getSongsResponse>(
-            getQueryKeyList(playlistId, currentPage + 1),
+            getQueryKeyList(playlistId, currentPage + 1, term),
           );
 
           if (nextPageSongs) {
             const songToPush: Song = nextPageSongs.songs.shift() as Song;
 
             queryClient.setQueryData<getSongsResponse>(
-              getQueryKeyList(playlistId, currentPage),
+              getQueryKeyList(playlistId, currentPage, term),
               (old) => {
                 const newSongs = [...(old?.songs ?? []), songToPush];
 
@@ -64,7 +66,7 @@ export function useRemoveSong() {
 
             if (nextPageSongs) {
               queryClient.setQueryData<getSongsResponse>(
-                getQueryKeyList(playlistId, currentPage + 1),
+                getQueryKeyList(playlistId, currentPage + 1, term),
                 (old) => {
                   return {
                     ...old,
@@ -78,8 +80,10 @@ export function useRemoveSong() {
       }
     },
     onSettled: (data, error, variables) => {
-      const { playlistId, currentPage } = variables;
-      queryClient.invalidateQueries(getQueryKeyList(playlistId, currentPage));
+      const { playlistId, currentPage, term } = variables;
+      queryClient.invalidateQueries(
+        getQueryKeyList(playlistId, currentPage, term),
+      );
     },
   });
 }

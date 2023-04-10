@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import useRouter from '@hooks/useRouter';
 import i18n from '@utils/localisation/i18n';
 import { AppProvider } from './utils/context/AppContext';
@@ -36,6 +37,7 @@ export default function App() {
             </AppProvider>
           </ThemeProvider>
         </StyledEngineProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </I18nextProvider>
   );

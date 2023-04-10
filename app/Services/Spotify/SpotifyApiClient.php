@@ -46,13 +46,15 @@ class SpotifyApiClient
             $adminId = config('services.spotify.admin_id');
 
             return $adminId
-                && $this->getAuthenticatedClient()->me()->id === $adminId;
+                && $this->getAuthenticatedClient()
+                    ->setOptions(['return_assoc' => false])
+                    ->me()->id === $adminId;
         } catch (Exception) {
             return false;
         }
     }
 
-    public function getAuthenticatedClient()
+    public function getAuthenticatedClient(): SpotifyWebAPI
     {
         return $this->client->setAccessToken(session()->get(self::ACCESS_TOKEN_SESSION_KEY));
     }

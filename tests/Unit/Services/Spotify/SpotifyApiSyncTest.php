@@ -7,6 +7,7 @@ use App\Models\Playlist;
 use App\Models\Song;
 use App\Models\SpotifyPlaylist;
 use App\Services\Spotify\SpotifyApiSync;
+use Illuminate\Support\Facades\Log;
 use Tests\Fixtures\Spotify\SpotifyPlaylistFixtures;
 use Tests\Fixtures\Spotify\SpotifyUserFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
@@ -66,6 +67,8 @@ class SpotifyApiSyncTest extends TestCase
         $playlist = Playlist::factory()
             ->hasAttached($songToSync)
             ->create();
+
+        Log::spy();
 
         $response = app(SpotifyApiSync::class)
             ->setPlaylist($playlist)

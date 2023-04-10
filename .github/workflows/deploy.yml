@@ -45,7 +45,7 @@ jobs:
           overwrite: true
           strip_components: 1
 
-      - name: executing remote ssh commands using password
+      - name: Executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ fromJson(secrets.SSH_SERVER).HOST }}

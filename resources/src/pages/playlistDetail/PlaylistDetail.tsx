@@ -1,8 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { Clear, Favorite } from '@mui/icons-material';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import { Box, Container, Grid, Pagination, Skeleton } from '@mui/material';
+import {
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Input,
+  InputAdornment,
+  Pagination,
+  Skeleton,
+  TextField,
+} from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
 import { SpotifyAuthButton } from '@/components/SpotifyAuth';
@@ -16,11 +27,12 @@ import { useGetSongs } from '@/hooks/useGetSongs';
 import { useRemoveSong } from '@/hooks/useRemoveSong';
 import { pages } from '@/hooks/useRouter';
 import useSyncPlaylist from '@/hooks/useSyncPlaylist';
+import useDebouncedState from '@/hooks/utils/useDebouncedState';
 import { Song } from '@/types/Song';
 import { useAppContext } from '@/utils/context/AppContext';
-import PlaylistSyncSummary from './PlaylistSyncSummary';
-import SongCard from './SongCard';
-import DeleteModal from './components/DeleteModal';
+import DeleteModal from './components/DeleteModal/DeleteModal';
+import PlaylistSyncSummary from './components/PlaylistSyncSummary';
+import SongCard from './components/SongCard';
 
 type Props = {
   id: string;
@@ -35,6 +47,7 @@ const PlaylistDetail: React.FC = () => {
   const [page, setPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [songToDelete, setSongToDelete] = useState<Song | null>(null);
+  const [term, setTerm] = useDebouncedState<string | null>(null, 500);
 
   const handleConfirmDeleteSong = (song: Song | null) => {
     setIsOpen(true);
@@ -50,6 +63,7 @@ const PlaylistDetail: React.FC = () => {
         songId: song.id,
         playlistId: id,
         currentPage: page,
+        term: term,
       });
     }
   };
@@ -65,6 +79,13 @@ const PlaylistDetail: React.FC = () => {
     return <></>;
   }
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleTitleSearch = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ): void => {
+    setTerm(event.target.value);
+  };
+
   const {
     isInitialLoading: isLoadingPlaylist,
     error: errorPlaylist,
@@ -75,9 +96,7 @@ const PlaylistDetail: React.FC = () => {
     isInitialLoading: isLoadingSongs,
     error: errorSongs,
     data: dataSongs,
-  } = useGetSongs(id, page);
-
-  // const isFetching = useIsFetching();
+  } = useGetSongs(id, page, term);
 
   const handleSyncPlaylist = async () => {
     await mutate(id, {
@@ -123,20 +142,22 @@ const PlaylistDetail: React.FC = () => {
         <Box
           display="flex"
           justifyContent="center"
-          marginBottom={4}
+          marginBottom={1}
           marginTop={2}
         >
           {dataMe ? (
             PlaylistSyncData ? (
               <PlaylistSyncSummary data={PlaylistSyncData} />
             ) : (
-              <SpotifyButton
-                text="Synchoniser la playlist"
-                endIcon={<QueueMusicIcon />}
-                onClick={handleSyncPlaylist}
-                loading={IsLoadingPlaylistSync}
-                loadingPosition="end"
-              />
+              dataMe.is_admin && (
+                <SpotifyButton
+                  text={t('pages.playlist_detail.playlist.sync_button')}
+                  endIcon={<QueueMusicIcon />}
+                  onClick={handleSyncPlaylist}
+                  loading={IsLoadingPlaylistSync}
+                  loadingPosition="end"
+                />
+              )
             )
           ) : isLoadingMe ? (
             <Box>
@@ -154,6 +175,51 @@ const PlaylistDetail: React.FC = () => {
           )}
         </Box>
 
+        <Box display="flex" justifyContent="center" marginBottom={2}>
+          {isLoadingPlaylist ? (
+            <Skeleton variant="rectangular" height={35} width={200} />
+          ) : (
+            dataPlaylist?.url &&
+            dataPlaylist.url !== null && (
+              <SpotifyButton
+                text={t('pages.playlist_detail.playlist.open_in_spotify')}
+                endIcon={<Favorite />}
+                loading={isLoadingPlaylist}
+                onClick={() => {
+                  /* @ts-ignore */
+                  window.open(dataPlaylist.url, '_blank');
+                }}
+              />
+            )
+          )}
+        </Box>
+
+        <Box marginBottom={2}>
+          <TextField
+            label={t('pages.playlist_detail.search.label')}
+            onChange={handleTitleSearch}
+            inputRef={inputRef}
+            InputProps={{
+              endAdornment: term && (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => {
+                      if (inputRef?.current) {
+                        inputRef.current!.value = '';
+                        inputRef.current.blur();
+                      }
+
+                      setTerm(null);
+                    }}
+                  >
+                    <Clear />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+
         {isLoadingSongs || !dataSongs ? (
           <SongsSkeleton />
         ) : errorSongs ? (
@@ -168,7 +234,7 @@ const PlaylistDetail: React.FC = () => {
                       <SongCard
                         song={song}
                         deleteSong={handleConfirmDeleteSong}
-                        showDelete={!!dataMe}
+                        showDelete={!!dataMe?.is_admin}
                       />
                     </Grid>
                   );

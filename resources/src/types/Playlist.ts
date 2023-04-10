@@ -4,6 +4,7 @@ export interface Playlist {
   id: number;
   slug: string;
   songs_count: number;
+  url: string | null;
   songs?: Song[];
 }
 
