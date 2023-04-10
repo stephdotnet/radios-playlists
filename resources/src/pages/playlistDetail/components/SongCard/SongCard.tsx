@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Box, IconButton, Link, useTheme } from '@mui/material';
+import { Box, IconButton, Link, Typography, useTheme } from '@mui/material';
 import { Song } from '@/types/Song';
+import { formatDate } from '@/utils/system/date';
 import SongCardStyles from './SongCard.style';
 
 const SongCard = ({
@@ -12,6 +14,7 @@ const SongCard = ({
   deleteSong: (song: Song) => void;
   showDelete?: boolean;
 }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const styles = SongCardStyles(theme);
 
@@ -30,6 +33,7 @@ const SongCard = ({
         alignItems="center"
       >
         <Box
+          py={1}
           sx={{
             whiteSpace: 'nowrap',
             overflow: 'hidden',
@@ -45,6 +49,17 @@ const SongCard = ({
           >
             {song.name} ({song.artists})
           </Link>
+          <Typography
+            variant="caption"
+            sx={{
+              display: 'block',
+              color: theme.palette.grey[700],
+            }}
+          >
+            {t('pages.playlist_detail.song.card.added_on', {
+              date: formatDate(song.created_at),
+            })}
+          </Typography>
         </Box>
         {showDelete && (
           <Box>
