@@ -30,7 +30,7 @@ const components = {
 };
 
 const system = {
-  'system.app.title': 'Radio playlist',
+  'system.app.title': 'Radios Playlists',
   'system.actions.delete': 'Supprimer',
 };
 
