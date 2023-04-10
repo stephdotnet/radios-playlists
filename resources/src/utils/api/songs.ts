@@ -7,6 +7,7 @@ import { apiClient } from './api';
 interface SongsRequestOptions {
   page?: number;
   limit?: number;
+  term?: string | null;
   signal?: AbortSignal;
 }
 
@@ -23,13 +24,30 @@ interface getSongsFunction {
   ): Promise<getSongsResponse>;
 }
 
+interface queryParameters {
+  limit?: number;
+  page?: number;
+  filter?: {
+    term?: string;
+  };
+}
+
 const ENDPOINT = 'playlists';
 
 const get: getSongsFunction = async (playlistId, page, options) => {
+  let queryParameters: queryParameters = {
+    limit: dataGetValue(options, 'limit', 50),
+    page: page ?? 1,
+  };
+
+  if (dataGetValue(options, 'term')) {
+    queryParameters['filter'] = { term: dataGetValue(options, 'term') };
+  }
+
   const response: AxiosResponse<songsHttpResponse> = await apiClient.get(
     `${ENDPOINT}/${playlistId}/songs`,
     {
-      params: { limit: dataGetValue(options, 'limit', 50), page: page ?? 1 },
+      params: queryParameters,
       signal: options?.signal,
     },
   );

@@ -18,6 +18,7 @@ const pages = {
   'pages.playlist_detail.playlist.sync_button': 'Synchoniser la playlist',
   'pages.playlist_detail.playlist.open_in_spotify': 'Voir sur spotify',
   'pages.playlist_detail.song.card.added_on': 'Ajouté le {{ date }}',
+  'pages.playlist_detail.search.label': 'Chercher un titre',
 };
 
 const components = {

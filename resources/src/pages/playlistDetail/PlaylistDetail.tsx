@@ -1,9 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
-import { Favorite } from '@mui/icons-material';
+import { Clear, Favorite } from '@mui/icons-material';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import { Box, Container, Grid, Pagination, Skeleton } from '@mui/material';
+import {
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Input,
+  InputAdornment,
+  Pagination,
+  Skeleton,
+  TextField,
+} from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
 import { SpotifyAuthButton } from '@/components/SpotifyAuth';
@@ -17,6 +27,7 @@ import { useGetSongs } from '@/hooks/useGetSongs';
 import { useRemoveSong } from '@/hooks/useRemoveSong';
 import { pages } from '@/hooks/useRouter';
 import useSyncPlaylist from '@/hooks/useSyncPlaylist';
+import useDebouncedState from '@/hooks/utils/useDebouncedState';
 import { Song } from '@/types/Song';
 import { useAppContext } from '@/utils/context/AppContext';
 import DeleteModal from './components/DeleteModal/DeleteModal';
@@ -36,6 +47,7 @@ const PlaylistDetail: React.FC = () => {
   const [page, setPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [songToDelete, setSongToDelete] = useState<Song | null>(null);
+  const [term, setTerm] = useDebouncedState<string | null>(null, 500);
 
   const handleConfirmDeleteSong = (song: Song | null) => {
     setIsOpen(true);
@@ -51,6 +63,7 @@ const PlaylistDetail: React.FC = () => {
         songId: song.id,
         playlistId: id,
         currentPage: page,
+        term: term,
       });
     }
   };
@@ -66,6 +79,13 @@ const PlaylistDetail: React.FC = () => {
     return <></>;
   }
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleTitleSearch = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ): void => {
+    setTerm(event.target.value);
+  };
+
   const {
     isInitialLoading: isLoadingPlaylist,
     error: errorPlaylist,
@@ -76,7 +96,7 @@ const PlaylistDetail: React.FC = () => {
     isInitialLoading: isLoadingSongs,
     error: errorSongs,
     data: dataSongs,
-  } = useGetSongs(id, page);
+  } = useGetSongs(id, page, term);
 
   const handleSyncPlaylist = async () => {
     await mutate(id, {
@@ -154,6 +174,7 @@ const PlaylistDetail: React.FC = () => {
             </Box>
           )}
         </Box>
+
         <Box display="flex" justifyContent="center" marginBottom={2}>
           {isLoadingPlaylist ? (
             <Skeleton variant="rectangular" height={35} width={200} />
@@ -171,6 +192,32 @@ const PlaylistDetail: React.FC = () => {
               />
             )
           )}
+        </Box>
+
+        <Box marginBottom={2}>
+          <TextField
+            label={t('pages.playlist_detail.search.label')}
+            onChange={handleTitleSearch}
+            inputRef={inputRef}
+            InputProps={{
+              endAdornment: term && (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => {
+                      if (inputRef?.current) {
+                        inputRef.current!.value = '';
+                        inputRef.current.blur();
+                      }
+
+                      setTerm(null);
+                    }}
+                  >
+                    <Clear />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
         </Box>
 
         {isLoadingSongs || !dataSongs ? (
