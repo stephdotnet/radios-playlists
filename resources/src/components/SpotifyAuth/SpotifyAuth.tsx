@@ -46,9 +46,7 @@ const SpotifyAuth = ({
   return (
     <Box>
       {isLoading ? (
-        <Box>
-          <Skeleton variant="rectangular" height={35} width={200} />
-        </Box>
+        <Skeleton variant="rectangular" height={35} width={200} />
       ) : error ? (
         <ErrorAuth />
       ) : (

@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import { Grid } from '@mui/material';
 import { SpotifyAuth } from '@/components/SpotifyAuth';
 import { useGetMe } from '@/hooks/useGetMe';
@@ -11,6 +17,9 @@ const Header = () => {
   const { isLoading: isLoadingMe, error: errorMe, data: dataMe } = useGetMe();
   const { setUser } = useAppContext();
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   useEffect(() => {
     if (!isLoadingMe) {
       setUser(dataMe || null);
@@ -19,8 +28,8 @@ const Header = () => {
 
   return (
     <Container>
-      <Grid container alignItems="baseline" direction="row" marginY={2}>
-        <Grid item xs={12} md={6}>
+      <Grid container alignItems="end" direction="row" marginY={2}>
+        <Grid item xs={12} sm={6}>
           <Typography variant="h4" component="h1">
             {t('system.app.title')}
           </Typography>
@@ -28,17 +37,21 @@ const Header = () => {
         <Grid
           item
           xs={12}
-          md={6}
-          display="flex"
-          justifyContent="right"
-          alignItems="end"
+          sm={6}
+          sx={{
+            display: 'flex',
+            justifyContent: isSmallScreen ? 'center' : 'right',
+            marginTop: isSmallScreen ? 2 : 0,
+          }}
         >
-          <SpotifyAuth
-            dataMe={dataMe}
-            isLoading={isLoadingMe}
-            error={errorMe}
-            textAlign="right"
-          />
+          <Box>
+            <SpotifyAuth
+              dataMe={dataMe}
+              isLoading={isLoadingMe}
+              error={errorMe}
+              textAlign="right"
+            />
+          </Box>
         </Grid>
       </Grid>
     </Container>

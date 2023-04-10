@@ -13,7 +13,7 @@ const SongsSkeleton = ({ count = 5 }: SongsSkeletonProps) => {
   return (
     <Box display="flex" justifyContent="left" flexDirection="column">
       {Array.from(Array(count)).map((_, index) => (
-        <Grid container columnSpacing={2} rowSpacing={1} key={index}>
+        <Grid container columnSpacing={2} key={index}>
           <Grid item xs={12} md={6}>
             <Box marginY={1}>
               <SongSkeleton />

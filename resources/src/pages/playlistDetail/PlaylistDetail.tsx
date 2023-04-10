@@ -154,19 +154,22 @@ const PlaylistDetail: React.FC = () => {
             </Box>
           )}
         </Box>
-        <Box display="flex" justifyContent="center" marginBottom={4}>
-          {dataPlaylist?.url && dataPlaylist.url !== null ? (
-            <SpotifyButton
-              text={t('pages.playlist_detail.playlist.open_in_spotify')}
-              endIcon={<Favorite />}
-              loading={isLoadingPlaylist}
-              onClick={() => {
-                /* @ts-ignore */
-                window.open(dataPlaylist.url, '_blank');
-              }}
-            />
+        <Box display="flex" justifyContent="center" marginBottom={2}>
+          {isLoadingPlaylist ? (
+            <Skeleton variant="rectangular" height={35} width={200} />
           ) : (
-            <></>
+            dataPlaylist?.url &&
+            dataPlaylist.url !== null && (
+              <SpotifyButton
+                text={t('pages.playlist_detail.playlist.open_in_spotify')}
+                endIcon={<Favorite />}
+                loading={isLoadingPlaylist}
+                onClick={() => {
+                  /* @ts-ignore */
+                  window.open(dataPlaylist.url, '_blank');
+                }}
+              />
+            )
           )}
         </Box>
 
