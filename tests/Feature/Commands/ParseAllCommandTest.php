@@ -24,9 +24,9 @@ class ParseAllCommandTest extends TestCase
 
         $radiosFrDriverMock = $this->partialMock(RadiosFrParser::class, function ($mock) {
             $mock->shouldReceive('setRadio')
-            ->with('mock')
-            ->once()
-            ->andReturnSelf();
+                ->with('mock')
+                ->once()
+                ->andReturnSelf();
 
             $mock->shouldReceive('parse')
                 ->once()
