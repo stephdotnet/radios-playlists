@@ -36,7 +36,7 @@ class SpotifyAuthControllerTest extends TestCase
             'code' => SpotifyApiClientMock::FAKE_CODE,
             'state' => SpotifyApiClientMock::FAKE_STATE,
         ]))
-        ->assertRedirect(route('index'));
+            ->assertRedirect(route('index'));
     }
 
     public function test_spotify_callback_when_state_invalid()
@@ -45,7 +45,7 @@ class SpotifyAuthControllerTest extends TestCase
             'code' => SpotifyApiClientMock::FAKE_CODE,
             'state' => SpotifyApiClientMock::FAKE_STATE,
         ]))
-        ->assertForbidden();
+            ->assertForbidden();
     }
 
     public function test_get_me_returns_spotify_me_resource()

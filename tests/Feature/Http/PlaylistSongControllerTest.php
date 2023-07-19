@@ -74,25 +74,25 @@ class PlaylistSongControllerTest extends TestCase
                 ],
             ],
         ])
-        ->create();
+            ->create();
 
         $playlist = Playlist::factory()
             ->hasAttached($song)
             ->create();
 
         $this->getJson(
-                route('playlist.songs', ['playlist' => $playlist->id, 'filter' => [
-                    'term' => 'nomatch',
-                ]]),
-            )
+            route('playlist.songs', ['playlist' => $playlist->id, 'filter' => [
+                'term' => 'nomatch',
+            ]]),
+        )
             ->assertOk()
             ->assertJsonCount(0, 'data');
 
         $this->getJson(
-                route('playlist.songs', ['playlist' => $playlist->id, 'filter' => [
-                    'term' => 'song',
-                ]]),
-            )
+            route('playlist.songs', ['playlist' => $playlist->id, 'filter' => [
+                'term' => 'song',
+            ]]),
+        )
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
