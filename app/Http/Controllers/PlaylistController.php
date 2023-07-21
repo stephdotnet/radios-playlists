@@ -7,6 +7,9 @@ use App\Http\Resources\PlaylistResource;
 use App\Http\Resources\SongResource;
 use App\Models\Playlist;
 use App\Models\Song;
+use App\Services\Spotify\SpotifyApi;
+use App\Services\Spotify\SpotifyApiSync;
+use Illuminate\Http\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -40,8 +43,31 @@ class PlaylistController extends Controller
 
     public function deleteSong(Playlist $playlist, Song $song)
     {
+        $client = app(SpotifyApi::class)
+            ->getAuthenticatedClient();
+
+        $spotifyPlaylist = $playlist->spotifyPlaylist;
+
+        // Delete song from spotify
+        if ($playlist->hasSpotifyPlaylist()) {
+            $snapshotId = $client->deletePlaylistTracks(
+                $spotifyPlaylist->spotify_playlist_id,
+                $song->spotify_id
+            );
+        }
+
         $playlist->songs()->detach($song);
 
-        return response()->json(null, 204);
+        if (isset($snapshotId)) {
+            $playlist->spotifyPlaylist->songs()->detach($song);
+
+            app(SpotifyApiSync::class)
+                ->syncPlaylistInformations(
+                    $playlist->spotifyPlaylist,
+                    $spotifyPlaylist->spotify_playlist_id
+                );
+        }
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

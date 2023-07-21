@@ -35,12 +35,10 @@ class SpotifyApiClientMock
 
     public function getMock()
     {
-        $spotifyApiClientMock = new SpotifyApiClient(
+        return new SpotifyApiClient(
             $this->spotifySessionMock ?: $this->makeSpotifySession(),
             $this->spotifyWebApiMock ?: $this->makeSpotifyApi()
         );
-
-        return $spotifyApiClientMock;
     }
 
     public function makeSpotifySessionMock(Closure $callback)

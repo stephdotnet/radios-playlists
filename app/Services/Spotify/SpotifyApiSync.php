@@ -12,6 +12,10 @@ use SpotifyWebAPI\SpotifyWebAPI;
 
 class SpotifyApiSync
 {
+    const BASIC_PLAYLIST_INFORMATIONS = [
+        'fields' => ['id', 'snapshot_id', 'tracks(total)', 'external_urls(spotify)'],
+    ];
+
     public function __construct(
         protected SpotifyWebAPI $client,
         protected ?Playlist $playlist = null,
@@ -24,14 +28,13 @@ class SpotifyApiSync
         $this->checkRequisites();
 
         $spotifyPlaylist = $this->firstOrCreatePlaylist();
+        $dirtySnapshotId = $spotifyPlaylist->snapshot_id;
 
-        $remoteSpotifyPlaylist = $this->client->getPlaylist($spotifyPlaylist->spotify_playlist_id, [
-            'fields' => ['id', 'snapshot_id', 'tracks(total)', 'external_urls(spotify)'],
-        ]);
+        $spotifyPlaylist = $this->syncPlaylistInformations($spotifyPlaylist);
 
-        if ($remoteSpotifyPlaylist['snapshot_id'] != $spotifyPlaylist->snapshot_id) {
+        if ($dirtySnapshotId != $spotifyPlaylist->snapshot_id) {
             $needRefresh = true;
-            $this->syncRemoteTracks($spotifyPlaylist, $remoteSpotifyPlaylist);
+            $this->syncRemoteTracks($spotifyPlaylist);
         }
 
         $syncedSongs = $this->addMissingSongsToRemotePlaylist($spotifyPlaylist);
@@ -43,6 +46,13 @@ class SpotifyApiSync
         ];
     }
 
+    public function syncPlaylistInformations($spotifyPlaylist, $fields = self::BASIC_PLAYLIST_INFORMATIONS)
+    {
+        $informations = $this->client->getPlaylist($spotifyPlaylist->spotify_playlist_id, $fields);
+        $spotifyPlaylist->updateSnapshotId($informations);
+
+        return $spotifyPlaylist;
+    }
     /*
     |--------------------------------------------------------------------------
     | Setters
@@ -108,15 +118,10 @@ class SpotifyApiSync
     /**
      * Sync all the remote spotify tracks with the local database
      */
-    protected function syncRemoteTracks(SpotifyPlaylist $spotifyPlaylist, array $remoteSpotifyPlaylist)
+    protected function syncRemoteTracks(SpotifyPlaylist $spotifyPlaylist)
     {
-        $numberOfRemoteTracks = data_get($remoteSpotifyPlaylist, 'tracks.total');
         $remoteTracksIds = [];
-
-        // Update the snapshot_id
-        $spotifyPlaylist->updateSnapshotId($remoteSpotifyPlaylist);
-
-        for ($i = 0; $i < $numberOfRemoteTracks; $i += 100) {
+        for ($i = 0; $i < data_get($spotifyPlaylist->data, 'tracks.total'); $i += 100) {
             Log::info('Syncing remote track on playlist #'.$spotifyPlaylist->spotify_playlist_id.'. Batch #'.$i);
             $remoteTracks = $this->client->getPlaylistTracks(
                 $spotifyPlaylist->spotify_playlist_id,
