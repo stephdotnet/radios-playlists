@@ -2,7 +2,10 @@
 
 namespace App\Features\Commands;
 
+use App\Facades\Parser;
 use App\Services\Parser\ParserResponse;
+use Exception;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
@@ -41,5 +44,17 @@ class ParseAllCommandTest extends TestCase
 
         $this->artisan('parse:all');
         $this->assertDatabaseCount('songs', 0);
+    }
+    
+    public function test_exception_catched()
+    {
+        $facadeMock = Parser::partialMock();
+        
+        $facadeMock
+            ->shouldReceive('driver')
+            ->with('radiosFr')
+            ->andThrow(new Exception('Test exception'));
+        
+        $this->assertEquals(0, Artisan::call('parse:all'));
     }
 }
