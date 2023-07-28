@@ -45,16 +45,16 @@ class ParseAllCommandTest extends TestCase
         $this->artisan('parse:all');
         $this->assertDatabaseCount('songs', 0);
     }
-    
+
     public function test_exception_catched()
     {
         $facadeMock = Parser::partialMock();
-        
+
         $facadeMock
             ->shouldReceive('driver')
             ->with('radiosFr')
             ->andThrow(new Exception('Test exception'));
-        
+
         $this->assertEquals(0, Artisan::call('parse:all'));
     }
 }
