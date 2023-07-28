@@ -52,7 +52,9 @@ class PlaylistController extends Controller
         if ($playlist->hasSpotifyPlaylist()) {
             $snapshotId = $client->deletePlaylistTracks(
                 $spotifyPlaylist->spotify_playlist_id,
-                $song->spotify_id
+                ['tracks' => [
+                    ['uri' => $song->spotify_id],
+                ]]
             );
         }
 
