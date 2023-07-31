@@ -86,10 +86,10 @@ class PlaylistSongControllerTest extends TestCase
                     'song' => $song->id,
                 ])
             )
-            ->dump()
             ->assertNoContent();
 
         $this->assertCount(0, $playlist->refresh()->songs);
+        $this->assertCount(1, $playlist->forbiddenSongs);
         $this->assertCount(0, $spotifyPlaylist->refresh()->songs);
         $this->assertEquals($basicPlaylistInformations['snapshot_id'], $playlist->spotifyPlaylist->snapshot_id);
     }
