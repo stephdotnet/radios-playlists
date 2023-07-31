@@ -59,6 +59,7 @@ class PlaylistController extends Controller
         }
 
         $playlist->songs()->detach($song);
+        $playlist->forbiddenSongs()->attach($song);
 
         if (isset($snapshotId)) {
             $playlist->spotifyPlaylist->songs()->detach($song);

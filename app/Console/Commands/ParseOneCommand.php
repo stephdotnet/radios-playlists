@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\DataTransferObjects\SpotifySongDTO;
 use App\Facades\Parser;
 use App\Models\Playlist;
+use App\Models\Song;
+use App\Services\Parser\ParserResponse;
 use App\Services\Spotify\SpotifyApi;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
@@ -44,27 +46,57 @@ class ParseOneCommand extends Command
             ->parse();
 
         if ($matchingSong = app(SpotifyApi::class)->getMatchingSong($response)) {
-            $playlist = Playlist::firstORCreate([
+            $playlist = Playlist::firstOrCreate([
                 'slug' => $this->argument('radio'),
             ]);
 
-            $song = $playlist->songs()->firstOrCreate([
-                'spotify_id' => Arr::get($matchingSong, 'id'),
-            ], SpotifySongDTO::toModel($matchingSong));
+            $song = $this->addMatchingSong($playlist, $matchingSong);
 
-            if ($song->wasRecentlyCreated) {
-                $this->logInfo("Song #$song->id added (Artist: $response->artist and Song: $response->song)");
-            } else {
-                $this->logInfo("Song already exists (Artist: $response->artist and Song: $response->song)");
-            }
-        } else {
-            $this->logInfo("No matching song found for Artist: $response->artist and Song: $response->song");
+            $this->logSongUpdateOrCreate($song, $response);
+
+            return;
         }
+
+        $this->logInfo("No matching song found for Artist: $response->artist and Song: $response->song");
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Protected methods
+    |--------------------------------------------------------------------------
+    */
+
+    protected function addMatchingSong(Playlist $playlist, array $matchingSong)
+    {
+        $song = Song::firstOrCreate([
+            'spotify_id' => Arr::get($matchingSong, 'id'),
+        ], SpotifySongDTO::toModel($matchingSong));
+
+        if (! $playlist->forbiddenSongs()->firstWhere('song_id', $song->id)) {
+            $playlist->songs()->attach($song);
+
+            return $song;
+        }
+
+        return null;
     }
 
     protected function isRadioAllowed($radio)
     {
         return in_array($radio, config('services.parser.radios'));
+    }
+
+    protected function logSongUpdateOrCreate(?Song $song, ParserResponse $response)
+    {
+        if (! $song) {
+            return $this->logInfo("Song not added because in forbidden list (Artist: $response->artist and Song: $response->song)");
+        }
+
+        if ($song->wasRecentlyCreated) {
+            return $this->logInfo("Song #$song->id added (Artist: $response->artist and Song: $response->song)");
+        }
+
+        return $this->logInfo("Song already exists (Artist: $response->artist and Song: $response->song)");
     }
 
     protected function logInfo($message)

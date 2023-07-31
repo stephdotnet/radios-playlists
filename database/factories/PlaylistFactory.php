@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Song;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -24,6 +25,11 @@ class PlaylistFactory extends Factory
 
     public function withSongs(int $count = 10)
     {
-        return $this->has(SongFactory::new()->count($count));
+        return $this->has(SongFactory::new()->count($count), 'songs');
+    }
+
+    public function hasForbiddenSongAttached(Song $song)
+    {
+        return $this->hasAttached($song, [], 'forbiddenSongs');
     }
 }
