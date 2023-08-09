@@ -72,7 +72,7 @@ class ParseOneCommand extends Command
             'spotify_id' => Arr::get($matchingSong, 'id'),
         ], SpotifySongDTO::toModel($matchingSong));
 
-        if (! $playlist->forbiddenSongs()->firstWhere('song_id', $song->id)) {
+        if (! $playlist->hasSong($song) && ! $playlist->hasForbiddenSong($song)) {
             $playlist->songs()->attach($song);
 
             return $song;

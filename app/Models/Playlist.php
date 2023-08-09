@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Repositories\PlaylistRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -36,5 +37,20 @@ class Playlist extends Model
     public function hasSpotifyPlaylist(): bool
     {
         return (bool) $this->spotifyPlaylist;
+    }
+
+    public function getRepository()
+    {
+        return new PlaylistRepository($this);
+    }
+
+    public function hasSong(Song $song)
+    {
+        return $this->getRepository()->hasSong($this, $song);
+    }
+
+    public function hasForbiddenSong(Song $song)
+    {
+        return $this->getRepository()->hasForbiddenSong($this, $song);
     }
 }
