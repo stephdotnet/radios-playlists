@@ -15,12 +15,13 @@ return [
     'parser' => [
         'radios' => explode(',', env('PARSER_RADIOS', '')),
         'driver' => [
-            'jazzradio'      => 'jazzradio',
-            'swissjazz'      => 'radiosfr',
-            'nostalgie'      => 'radiosfr',
-            'cheriefm'       => 'radiosfr',
-            'rireetchansons' => 'radiosfr',
-            'mock'           => 'mock',
+            'jazzradio'          => 'jazzradio',
+            'jazzradio_manouche' => 'jazzradio',
+            'swissjazz'          => 'radiosfr',
+            'nostalgie'          => 'radiosfr',
+            'cheriefm'           => 'radiosfr',
+            'rireetchansons'     => 'radiosfr',
+            'mock'               => 'mock',
         ],
     ],
 
