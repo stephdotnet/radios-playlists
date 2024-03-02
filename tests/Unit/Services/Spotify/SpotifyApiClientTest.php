@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services\Spotify;
 
 use App\Services\Spotify\SpotifyApiClient;
+use Exception;
 use Illuminate\Support\Facades\Session;
 use SpotifyWebAPI\SpotifyWebAPI;
 use Tests\Mocks\SpotifyApiClientMock;
@@ -43,11 +44,11 @@ class SpotifyApiClientTest extends TestCase
 
         $this->assertEquals(
             SpotifyApiClientMock::FAKE_ACCESS_TOKEN,
-            Session::get(SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY)
+            Session::get(SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY),
         );
         $this->assertEquals(
             SpotifyApiClientMock::FAKE_REFRESH_TOKEN,
-            Session::get(SpotifyApiClient::REFRESH_TOKEN_SESSION_KEY)
+            Session::get(SpotifyApiClient::REFRESH_TOKEN_SESSION_KEY),
         );
     }
 
@@ -152,7 +153,7 @@ class SpotifyApiClientTest extends TestCase
             ->makeSpotifyWebApiMock(function ($mock) {
                 $mock->shouldReceive('me')
                     ->once()
-                    ->andThrow(new \Exception('test'));
+                    ->andThrow(new Exception('test'));
             })
             ->bind();
 

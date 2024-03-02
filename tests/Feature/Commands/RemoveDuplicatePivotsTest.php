@@ -20,9 +20,9 @@ class RemoveDuplicatePivotsTest extends TestCase
 
     public function test_playlist_duplicate_removed()
     {
-        $playlist = Playlist::factory()->create();
+        $playlist  = Playlist::factory()->create();
         $songNotOk = Song::factory()->create();
-        $songOk = Song::factory()->create();
+        $songOk    = Song::factory()->create();
 
         $playlist->songs()->attach($songNotOk);
         $playlist->songs()->attach($songNotOk);

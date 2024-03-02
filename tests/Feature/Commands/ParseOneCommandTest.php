@@ -82,7 +82,7 @@ class ParseOneCommandTest extends TestCase
             ->assertExitCode(0);
 
         $this->assertDatabaseMissing('playlist_song', [
-            'song_id' => $song->id,
+            'song_id'     => $song->id,
             'playlist_id' => $playlist->id,
         ]);
     }

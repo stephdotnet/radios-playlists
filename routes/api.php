@@ -16,23 +16,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/me', SpotifyAuthController::class.'@me')
+Route::get('/me', SpotifyAuthController::class . '@me')
     ->name('spotify.me');
 
-Route::get('/playlists', PlaylistController::class.'@index')
+Route::get('/playlists', PlaylistController::class . '@index')
     ->name('playlist.index');
 
-Route::get('/playlists/{playlist}', PlaylistController::class.'@show')
+Route::get('/playlists/{playlist}', PlaylistController::class . '@show')
     ->name('playlist.show');
 
-Route::get('/playlists/{playlist}/songs', PlaylistController::class.'@songs')
+Route::get('/playlists/{playlist}/songs', PlaylistController::class . '@songs')
     ->name('playlist.songs');
 
 Route::group(['middleware' => 'spotify'], function () {
-    Route::post('/playlists/{playlist}/sync/', SpotifyPlaylistController::class.'@sync')
+    Route::post('/playlists/{playlist}/sync/', SpotifyPlaylistController::class . '@sync')
         ->name('spotify.playlist.sync');
 
-    Route::delete('/playlists/{playlist}/songs/{song}', PlaylistController::class.'@deleteSong')
+    Route::delete('/playlists/{playlist}/songs/{song}', PlaylistController::class . '@deleteSong')
         ->middleware('can:delete-song,song')
         ->name('playlist.songs.delete');
 });

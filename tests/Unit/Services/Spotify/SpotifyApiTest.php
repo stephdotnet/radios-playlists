@@ -23,7 +23,7 @@ class SpotifyApiTest extends TestCase
             ->makeClientCredentialsClientMock()
             ->makeSpotifyWebApiMock(function ($mock) {
                 $mock->shouldReceive('search')->andReturn(
-                    SpotifySearchFixtures::getMatchingSong()
+                    SpotifySearchFixtures::getMatchingSong(),
                 );
             })
             ->bind();
@@ -37,7 +37,7 @@ class SpotifyApiTest extends TestCase
     {
         $this->assertInstanceOf(
             SpotifyWebApiBasePackage::class,
-            app(SpotifyApi::class)->getAuthenticatedClient()
+            app(SpotifyApi::class)->getAuthenticatedClient(),
         );
     }
 
@@ -45,7 +45,7 @@ class SpotifyApiTest extends TestCase
     {
         $this->assertInstanceOf(
             SpotifyApi::class,
-            app(SpotifyApi::class)->setReturnAssoc(true)
+            app(SpotifyApi::class)->setReturnAssoc(true),
         );
     }
 }

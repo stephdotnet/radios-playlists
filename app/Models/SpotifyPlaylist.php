@@ -45,7 +45,7 @@ class SpotifyPlaylist extends Model
     {
         return $this->update([
             'snapshot_id' => $httpPlaylist['snapshot_id'],
-            'data' => $httpPlaylist,
+            'data'        => $httpPlaylist,
         ]);
     }
 }

@@ -28,7 +28,7 @@ class SpotifyApiClientMock
     public function __construct(
         protected $spotifySessionMock = null,
         protected $spotifyWebApiMock = null,
-        protected $mock = null
+        protected $mock = null,
     ) {
         $this->app = app();
     }
@@ -37,14 +37,14 @@ class SpotifyApiClientMock
     {
         return new SpotifyApiClient(
             $this->spotifySessionMock ?: $this->makeSpotifySession(),
-            $this->spotifyWebApiMock ?: $this->makeSpotifyApi()
+            $this->spotifyWebApiMock ?: $this->makeSpotifyApi(),
         );
     }
 
     public function makeSpotifySessionMock(Closure $callback)
     {
         $this->setSpotifySessionMock(
-            $this->partialMock(Session::class, $callback)
+            $this->partialMock(Session::class, $callback),
         );
 
         return $this;
@@ -53,7 +53,7 @@ class SpotifyApiClientMock
     public function makeSpotifyWebApiMock(Closure $callback)
     {
         $this->setSpotifyWebApiMock(
-            $this->partialMock(SpotifyWebAPI::class, $callback)
+            $this->partialMock(SpotifyWebAPI::class, $callback),
         );
 
         return $this;
@@ -115,14 +115,16 @@ class SpotifyApiClientMock
 
     public function makeGetAuthorizeUrlSessionMock()
     {
-        return $this->setSpotifySessionMock(Mockery::mock(
-            new Session('mocked_client_id', 'mocked_client_secret', 'mocked_redirect_uri'),
-            function ($mock) {
-                $mock
-                    ->shouldReceive('generateState')
-                    ->andReturn(self::FAKE_STATE);
-            })
-            ->makePartial()
+        return $this->setSpotifySessionMock(
+            Mockery::mock(
+                new Session('mocked_client_id', 'mocked_client_secret', 'mocked_redirect_uri'),
+                function ($mock) {
+                    $mock
+                        ->shouldReceive('generateState')
+                        ->andReturn(self::FAKE_STATE);
+                },
+            )
+                ->makePartial(),
         );
     }
 

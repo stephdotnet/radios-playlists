@@ -30,8 +30,6 @@ class ParseOneCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -77,8 +75,6 @@ class ParseOneCommand extends Command
 
             return $song;
         }
-
-        return null;
     }
 
     protected function isRadioAllowed($radio)

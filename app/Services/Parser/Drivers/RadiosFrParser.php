@@ -4,6 +4,7 @@ namespace App\Services\Parser\Drivers;
 
 use App\Exceptions\Services\Parser\InvalidResponseException;
 use App\Services\Parser\ParserResponse;
+use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -22,7 +23,7 @@ class RadiosFrParser implements ParserInterface
     public function parse(): ParserResponse
     {
         if (empty($this->radio)) {
-            throw new \Exception('Radio is not set');
+            throw new Exception('Radio is not set');
         }
 
         $response = $this->getClient()
@@ -47,7 +48,7 @@ class RadiosFrParser implements ParserInterface
 
         return [
             'artist' => trim($data[0]),
-            'song' => trim($data[1]),
+            'song'   => trim($data[1]),
         ];
     }
 

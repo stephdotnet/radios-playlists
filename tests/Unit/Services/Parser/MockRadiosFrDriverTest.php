@@ -5,6 +5,7 @@ namespace Tests\Unit\Services\Parser;
 use App\Exceptions\Services\Parser\InvalidResponseException;
 use App\Facades\Parser;
 use App\Services\Parser\ParserResponse;
+use Exception;
 use Tests\Fixtures\Parser\RadiosFrParserFixtures;
 use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
@@ -32,7 +33,7 @@ class MockRadiosFrDriverTest extends TestCase
 
     public function test_parser_fails_if_no_radio_is_not_set()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Radio is not set');
 
         Parser::driver('radiosFr')->parse();

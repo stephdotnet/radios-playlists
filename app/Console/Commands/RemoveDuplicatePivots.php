@@ -39,7 +39,6 @@ class RemoveDuplicatePivots extends Command
                     $playlist->songs()->detach($id);
                     $playlist->songs()->attach($id);
                 });
-
         });
 
         return Command::SUCCESS;

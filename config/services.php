@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -18,8 +17,8 @@ return [
     ],
 
     'spotify' => [
-        'client_id' => env('SPOTIFY_CLIENT_ID'),
+        'client_id'     => env('SPOTIFY_CLIENT_ID'),
         'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
-        'admin_id' => env('SPOTIFY_ADMIN_ID'),
+        'admin_id'      => env('SPOTIFY_ADMIN_ID'),
     ],
 ];

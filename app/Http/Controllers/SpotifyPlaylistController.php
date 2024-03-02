@@ -15,7 +15,7 @@ class SpotifyPlaylistController extends Controller
             ->sync($playlist);
 
         return response()->json(['data' => [
-            'synced_songs' => $syncResponse['syncedSongs'],
+            'synced_songs'     => $syncResponse['syncedSongs'],
             'spotify_playlist' => SpotifyPlaylistResource::make($syncResponse['spotifyPlaylist']),
         ]]);
     }

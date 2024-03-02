@@ -16,7 +16,8 @@ class MockParserDriverTest extends TestCase
 {
     public function test_mock_parser_driver()
     {
-        $response = Parser::driver('mock')->parse();
+        $response = Parser::driver('mock')
+            ->parse();
 
         $this->assertEquals(ParserResponse::class, $response::class);
     }

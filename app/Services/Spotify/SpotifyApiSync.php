@@ -6,6 +6,7 @@ use App\Exceptions\Services\Spotify\SpotifyAuthException;
 use App\Models\Playlist;
 use App\Models\Song;
 use App\Models\SpotifyPlaylist;
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use SpotifyWebAPI\SpotifyWebAPI;
@@ -19,7 +20,7 @@ class SpotifyApiSync
     public function __construct(
         protected SpotifyWebAPI $client,
         protected ?Playlist $playlist = null,
-        protected ?array $user = []
+        protected ?array $user = [],
     ) {
     }
 
@@ -40,9 +41,9 @@ class SpotifyApiSync
         $syncedSongs = $this->addMissingSongsToRemotePlaylist($spotifyPlaylist);
 
         return [
-            'syncedSongs' => $syncedSongs,
+            'syncedSongs'     => $syncedSongs,
             'spotifyPlaylist' => $spotifyPlaylist,
-            'needRefresh' => $needRefresh ?? false,
+            'needRefresh'     => $needRefresh ?? false,
         ];
     }
 
@@ -73,12 +74,12 @@ class SpotifyApiSync
     */
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function checkRequisites(): void
     {
         if (! $this->playlist) {
-            throw new \Exception('Playlist is not set');
+            throw new Exception('Playlist is not set');
         }
 
         if (! $this->user = $this->client->me()) {
@@ -90,25 +91,25 @@ class SpotifyApiSync
     {
         $spotifyPlaylist = SpotifyPlaylist::where([
             'spotify_user_id' => data_get($this->user, 'id'),
-            'playlist_id' => data_get($this->playlist, 'id'),
+            'playlist_id'     => data_get($this->playlist, 'id'),
         ])->first();
 
         if (! $spotifyPlaylist) {
             $response = $this->client->createPlaylist([
-                'name' => data_get($this->playlist, 'slug').' - '.config('app.name'),
+                'name'   => data_get($this->playlist, 'slug') . ' - ' . config('app.name'),
                 'public' => false,
             ]);
 
             if (! $response) {
-                throw new \Exception('Could not create playlist');
+                throw new Exception('Could not create playlist');
             }
 
             $spotifyPlaylist = SpotifyPlaylist::create([
-                'spotify_user_id' => data_get($this->user, 'id'),
-                'playlist_id' => data_get($this->playlist, 'id'),
+                'spotify_user_id'     => data_get($this->user, 'id'),
+                'playlist_id'         => data_get($this->playlist, 'id'),
                 'spotify_playlist_id' => data_get($response, 'id'),
-                'snapshot_id' => data_get($response, 'snapshot_id'),
-                'data' => $response,
+                'snapshot_id'         => data_get($response, 'snapshot_id'),
+                'data'                => $response,
             ]);
         }
 
@@ -122,14 +123,14 @@ class SpotifyApiSync
     {
         $remoteTracksIds = [];
         for ($i = 0; $i < data_get($spotifyPlaylist->data, 'tracks.total'); $i += 100) {
-            Log::info('Syncing remote track on playlist #'.$spotifyPlaylist->spotify_playlist_id.'. Batch #'.$i);
+            Log::info('Syncing remote track on playlist #' . $spotifyPlaylist->spotify_playlist_id . '. Batch #' . $i);
             $remoteTracks = $this->client->getPlaylistTracks(
                 $spotifyPlaylist->spotify_playlist_id,
                 [
                     'offset' => $i,
-                    'limit' => 100,
+                    'limit'  => 100,
                     'fields' => ['items(track(id))'],
-                ]
+                ],
             );
 
             $remoteTracksIds = array_merge($remoteTracksIds, Arr::pluck($remoteTracks['items'], 'track.id'));
@@ -148,10 +149,10 @@ class SpotifyApiSync
 
         $songsToAdd
             ->chunk(100, function ($songs) use ($spotifyPlaylist) {
-                Log::info('Adding to playlist #'.$spotifyPlaylist->spotify_playlist_id);
+                Log::info('Adding to playlist #' . $spotifyPlaylist->spotify_playlist_id);
                 $this->client->addPlaylistTracks(
                     $spotifyPlaylist->spotify_playlist_id,
-                    $songs->pluck('spotify_id')->toArray()
+                    $songs->pluck('spotify_id')->toArray(),
                 );
 
                 $spotifyPlaylist->songs()->attach($songs->pluck('id')->toArray());

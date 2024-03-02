@@ -10,8 +10,8 @@ class SpotifySongDTO
     {
         return [
             'spotify_id' => $data['id'],
-            'name' => $data['name'],
-            'data' => Arr::only($data, [
+            'name'       => $data['name'],
+            'data'       => Arr::only($data, [
                 'album',
                 'artists',
                 'popularity',

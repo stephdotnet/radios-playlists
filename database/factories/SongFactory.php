@@ -19,8 +19,8 @@ class SongFactory extends Factory
     {
         return [
             'spotify_id' => $this->faker->uuid,
-            'name' => $this->faker->name,
-            'data' => $this->makeFakeData(),
+            'name'       => $this->faker->name,
+            'data'       => $this->makeFakeData(),
         ];
     }
 
@@ -32,7 +32,7 @@ class SongFactory extends Factory
     protected function makeFakeData()
     {
         return [
-            'name' => $this->faker->name,
+            'name'    => $this->faker->name,
             'artists' => [
                 [
                     'name' => $this->faker->name,
@@ -41,8 +41,8 @@ class SongFactory extends Factory
             'album' => [
                 'name' => $this->faker->name,
             ],
-            'duration_ms' => $this->faker->numberBetween(1000, 100000),
-            'preview_url' => $this->faker->url,
+            'duration_ms'   => $this->faker->numberBetween(1000, 100000),
+            'preview_url'   => $this->faker->url,
             'external_urls' => [
                 'spotify' => $this->faker->url,
             ],

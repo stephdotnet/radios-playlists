@@ -7,6 +7,7 @@ use App\Models\Song;
 use App\Models\SpotifyPlaylist;
 use App\Services\Spotify\SpotifyApiClient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery;
 use Tests\Fixtures\Spotify\SpotifyPlaylistFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
 use Tests\TestCase;
@@ -49,7 +50,7 @@ class PlaylistSongControllerTest extends TestCase
         });
 
         $basicPlaylistInformations = SpotifyPlaylistFixtures::getBasicPlaylist();
-        $spotifyApiClientMock = SpotifyApiClientMock::make()
+        $spotifyApiClientMock      = SpotifyApiClientMock::make()
             ->makeRequestAccessTokenSessionMock()
             ->makeSpotifyWebApiMock(function ($mock) use ($basicPlaylistInformations) {
                 $mock->shouldReceive('deletePlaylistTracks')
@@ -59,14 +60,14 @@ class PlaylistSongControllerTest extends TestCase
             })
             ->getMock();
 
-        $spotifyApiClientMock = \Mockery::mock($spotifyApiClientMock, function ($mock) {
+        $spotifyApiClientMock = Mockery::mock($spotifyApiClientMock, function ($mock) {
             $mock->shouldReceive('isAdmin')->andReturn(true);
         })->makePartial();
 
         $this->instance(SpotifyApiClient::class, $spotifyApiClientMock);
 
         // Seed
-        $song = Song::factory()->create();
+        $song     = Song::factory()->create();
         $playlist = Playlist::factory()
             ->hasAttached($song)
             ->create();
@@ -83,8 +84,8 @@ class PlaylistSongControllerTest extends TestCase
             ->deleteJson(
                 route('playlist.songs.delete', [
                     'playlist' => $playlist->id,
-                    'song' => $song->id,
-                ])
+                    'song'     => $song->id,
+                ]),
             )
             ->assertNoContent();
 

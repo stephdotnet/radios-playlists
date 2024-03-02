@@ -17,9 +17,9 @@ class SpotifyPlaylistTest extends TestCase
 {
     public function test_missing_songs()
     {
-        $attachedSongs = Song::factory(3)->create();
-        $allSongs = Song::factory(2)->create()->merge($attachedSongs);
-        $playlist = Playlist::factory()->hasAttached($allSongs)->create();
+        $attachedSongs   = Song::factory(3)->create();
+        $allSongs        = Song::factory(2)->create()->merge($attachedSongs);
+        $playlist        = Playlist::factory()->hasAttached($allSongs)->create();
         $spotifyPlaylist = SpotifyPlaylist::factory()->playlist($playlist)->hasAttached($attachedSongs)->create();
 
         $this->assertEquals(2, $spotifyPlaylist->getMissingSongs()->count());
