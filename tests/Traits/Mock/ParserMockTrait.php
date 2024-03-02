@@ -9,19 +9,18 @@ use Illuminate\Support\Facades\Http;
 
 trait ParserMockTrait
 {
-    protected function mockParserDriver($driverMock = null)
+    protected function mockParserDriver($driverMock = null): \Mockery\MockInterface
     {
         $facadeMock = Parser::partialMock();
 
         $facadeMock
             ->shouldReceive('driver')
-            ->with('radiosFr')
             ->andReturn($driverMock ?: $this->mockRadiosFrDriver());
 
         return $facadeMock;
     }
 
-    protected function mockRadiosFrDriver(ParserResponse $response = null)
+    protected function mockRadiosFrDriver(ParserResponse $response = null): \Mockery\MockInterface
     {
         return $this->partialMock(RadiosFrParser::class, function ($mock) use ($response) {
             $mock->shouldReceive('parse')
@@ -29,10 +28,10 @@ trait ParserMockTrait
         });
     }
 
-    protected function mockHttpRequest($response)
+    protected function mockHttpRequest($response): void
     {
         Http::fake([
-            RadiosFrParser::getUrl('*') => Http::response($response),
+            '*' => Http::response($response),
         ]);
     }
 }

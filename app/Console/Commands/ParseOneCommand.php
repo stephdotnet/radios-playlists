@@ -11,6 +11,7 @@ use App\Services\Spotify\SpotifyApi;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class ParseOneCommand extends Command
 {
@@ -30,18 +31,16 @@ class ParseOneCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
         if (! $this->isRadioAllowed($this->argument('radio'))) {
             $this->error('Radio not allowed');
 
-            return Command::FAILURE;
+            return SymfonyCommand::FAILURE;
         }
 
-        $response = Parser::driver('radiosFr')
+        $response = Parser::driver(Parser::getDriverForRadio($this->argument('radio')))
             ->setRadio($this->argument('radio'))
             ->parse();
 
@@ -54,7 +53,7 @@ class ParseOneCommand extends Command
 
             $this->logSongUpdateOrCreate($song, $response);
 
-            return;
+            return SymfonyCommand::SUCCESS;
         }
 
         $this->logInfo("No matching song found for Artist: $response->artist and Song: $response->song");
@@ -77,11 +76,9 @@ class ParseOneCommand extends Command
 
             return $song;
         }
-
-        return null;
     }
 
-    protected function isRadioAllowed($radio)
+    protected function isRadioAllowed($radio): bool
     {
         return in_array($radio, config('services.parser.radios'));
     }
@@ -99,7 +96,7 @@ class ParseOneCommand extends Command
         return $this->logInfo("Song already exists (Artist: $response->artist and Song: $response->song)");
     }
 
-    protected function logInfo($message)
+    protected function logInfo($message): void
     {
         $this->info($message);
         Log::info($message);
