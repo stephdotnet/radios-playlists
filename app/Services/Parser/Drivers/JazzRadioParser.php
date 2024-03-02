@@ -38,8 +38,8 @@ class JazzRadioParser extends ParserAbstractClass
             ->throw()
             ->body();
 
-        $reader = XmlReader::fromString($response);
-        $value = $reader->value('prog.morceau.0')->sole();
+        $reader   = XmlReader::fromString($response);
+        $value    = $reader->value('prog.morceau.0')->sole();
         $category = Arr::get($value, 'categorie');
 
         if (! empty($category) && in_array($category, self::ALLOWED_CATEGORY_VALUES)) {
@@ -56,7 +56,7 @@ class JazzRadioParser extends ParserAbstractClass
     {
         return [
             'artist' => Arr::get($value, 'chanteur'),
-            'song' => Arr::get($value, 'chanson'),
+            'song'   => Arr::get($value, 'chanson'),
         ];
     }
 
