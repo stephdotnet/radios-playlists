@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -15,11 +14,19 @@ return [
     */
     'parser' => [
         'radios' => explode(',', env('PARSER_RADIOS', '')),
+        'driver' => [
+            'jazzradio'      => 'jazzradio',
+            'swissjazz'      => 'radiosfr',
+            'nostalgie'      => 'radiosfr',
+            'cheriefm'       => 'radiosfr',
+            'rireetchansons' => 'radiosfr',
+            'mock'           => 'mock',
+        ]
     ],
 
     'spotify' => [
-        'client_id' => env('SPOTIFY_CLIENT_ID'),
+        'client_id'     => env('SPOTIFY_CLIENT_ID'),
         'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
-        'admin_id' => env('SPOTIFY_ADMIN_ID'),
+        'admin_id'      => env('SPOTIFY_ADMIN_ID'),
     ],
 ];

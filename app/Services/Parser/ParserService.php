@@ -2,8 +2,10 @@
 
 namespace App\Services\Parser;
 
+use App\Services\Parser\Drivers\JazzRadioParser;
 use App\Services\Parser\Drivers\MockParser;
 use App\Services\Parser\Drivers\RadiosFrParser;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 
 class ParserService extends Manager
@@ -21,5 +23,15 @@ class ParserService extends Manager
     public function createRadiosFrDriver(): RadiosFrParser
     {
         return new RadiosFrParser();
+    }
+
+    public function createJazzRadioDriver(): JazzRadioParser
+    {
+        return new JazzRadioParser();
+    }
+
+    public function getDriverForRadio(string $radio): string
+    {
+        return Arr::get(config('services.parser.driver'), $radio);
     }
 }
