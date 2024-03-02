@@ -9,6 +9,6 @@ class SongTermSimpleFilter implements Filter
 {
     public function __invoke(Builder $query, $value, string $property)
     {
-        return $query->where('name', 'like', '%'.$value.'%');
+        return $query->where('name', 'like', '%' . $value . '%');
     }
 }

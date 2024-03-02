@@ -7,6 +7,7 @@ use App\Models\Playlist;
 use App\Models\Song;
 use App\Models\SpotifyPlaylist;
 use App\Services\Spotify\SpotifyApiSync;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Tests\Fixtures\Spotify\SpotifyPlaylistFixtures;
 use Tests\Fixtures\Spotify\SpotifyUserFixtures;
@@ -30,7 +31,7 @@ class SpotifyApiSyncTest extends TestCase
 
     public function test_sync_checks_requisites()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         app(SpotifyApiSync::class)->sync();
 
         $this->expectException(SpotifyAuthException::class);
@@ -106,7 +107,7 @@ class SpotifyApiSyncTest extends TestCase
             ->hasAttached($songToSync)
             ->create();
 
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         app(SpotifyApiSync::class)
             ->setPlaylist($playlist)

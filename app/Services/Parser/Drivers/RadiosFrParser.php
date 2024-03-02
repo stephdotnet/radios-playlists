@@ -44,7 +44,7 @@ class RadiosFrParser extends ParserAbstractClass
 
         return [
             'artist' => trim($data[0]),
-            'song' => trim($data[1]),
+            'song'   => trim($data[1]),
         ];
     }
 

@@ -19,7 +19,7 @@ class PlaylistSeeder extends Seeder
             ->count(10)
             ->has(
                 Song::factory()
-                    ->count(10)
+                    ->count(10),
             )
             ->create();
     }

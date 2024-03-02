@@ -37,7 +37,7 @@ class PlaylistController extends Controller
             ]);
 
         return SongResource::collection(
-            $query->paginate(request('per_page', self::DEFAULT_PAGINATION))
+            $query->paginate(request('per_page', self::DEFAULT_PAGINATION)),
         );
     }
 
@@ -54,7 +54,7 @@ class PlaylistController extends Controller
                 $spotifyPlaylist->spotify_playlist_id,
                 ['tracks' => [
                     ['uri' => $song->spotify_id],
-                ]]
+                ]],
             );
         }
 
@@ -67,7 +67,7 @@ class PlaylistController extends Controller
             app(SpotifyApiSync::class)
                 ->syncPlaylistInformations(
                     $playlist->spotifyPlaylist,
-                    $spotifyPlaylist->spotify_playlist_id
+                    $spotifyPlaylist->spotify_playlist_id,
                 );
         }
 

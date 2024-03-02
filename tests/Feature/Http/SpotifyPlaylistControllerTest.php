@@ -25,7 +25,7 @@ class SpotifyPlaylistControllerTest extends TestCase
             $mock->shouldReceive('sync')
                 ->once()
                 ->andReturn([
-                    'syncedSongs' => '1',
+                    'syncedSongs'     => '1',
                     'spotifyPlaylist' => SpotifyPlaylist::factory()->make(),
                 ]);
         });

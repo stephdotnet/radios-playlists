@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
             $session = new Session(
                 config('services.spotify.client_id'),
                 config('services.spotify.client_secret'),
-                route('spotify.callback')
+                route('spotify.callback'),
             );
             $client = new SpotifyWebAPI();
 

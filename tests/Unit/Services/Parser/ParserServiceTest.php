@@ -28,7 +28,7 @@ class ParserServiceTest extends TestCase
         $this->assertEquals(MockParser::class, $paserDriver::class);
     }
 
-    public function test_create_radiosFr_driver()
+    public function test_create_radios_fr_driver()
     {
         $paserDriver = app(ParserService::class)->driver('radiosFr');
 

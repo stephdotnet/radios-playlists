@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http;
 
 use App\Services\Spotify\SpotifyApiClient;
+use Exception;
 use Tests\Fixtures\Spotify\SpotifyUserFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
 use Tests\TestCase;
@@ -33,7 +34,7 @@ class SpotifyAuthControllerTest extends TestCase
         app(SpotifyApiClient::class)->getAuthorizeUrl();
 
         $this->get(route('spotify.callback', [
-            'code' => SpotifyApiClientMock::FAKE_CODE,
+            'code'  => SpotifyApiClientMock::FAKE_CODE,
             'state' => SpotifyApiClientMock::FAKE_STATE,
         ]))
             ->assertRedirect(route('index'));
@@ -42,7 +43,7 @@ class SpotifyAuthControllerTest extends TestCase
     public function test_spotify_callback_when_state_invalid()
     {
         $this->get(route('spotify.callback', [
-            'code' => SpotifyApiClientMock::FAKE_CODE,
+            'code'  => SpotifyApiClientMock::FAKE_CODE,
             'state' => SpotifyApiClientMock::FAKE_STATE,
         ]))
             ->assertForbidden();
@@ -70,7 +71,7 @@ class SpotifyAuthControllerTest extends TestCase
         SpotifyApiClientMock::make()
             ->makeFullAuthorizationCodeMock()
             ->makeSpotifyWebApiMock(function ($mock) {
-                $mock->shouldReceive('me')->once()->andThrow(new \Exception('Fake exception'));
+                $mock->shouldReceive('me')->once()->andThrow(new Exception('Fake exception'));
             })
             ->bind();
 

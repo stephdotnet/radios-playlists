@@ -18,11 +18,11 @@ class SpotifyPlaylistFactory extends Factory
     public function definition()
     {
         return [
-            'playlist_id' => Playlist::factory(),
-            'spotify_user_id' => $this->faker->uuid(),
+            'playlist_id'         => Playlist::factory(),
+            'spotify_user_id'     => $this->faker->uuid(),
             'spotify_playlist_id' => $this->faker->uuid(),
-            'snapshot_id' => $this->faker->md5(),
-            'data' => [],
+            'snapshot_id'         => $this->faker->md5(),
+            'data'                => [],
         ];
     }
 

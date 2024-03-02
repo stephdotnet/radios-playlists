@@ -21,7 +21,7 @@ class SpotifyApi
 
     public function getMatchingSong(ParserResponse $parserResponse): array
     {
-        $query = "artist:{$parserResponse->artist} track:{$parserResponse->song}";
+        $query    = "artist:{$parserResponse->artist} track:{$parserResponse->song}";
         $response = $this->getClientCredentialsClient()
             ->search($query, 'track', ['limit' => 1]);
 
