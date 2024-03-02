@@ -11,6 +11,7 @@
         "laravel/framework": "^9.52.10",
         "laravel/sanctum": "^3.2.5",
         "laravel/tinker": "^2.8.1",
+        "saloonphp/xml-wrangler": "^1.2",
         "spatie/laravel-query-builder": "^5.2"
     },
     "require-dev": {
