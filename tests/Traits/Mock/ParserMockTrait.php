@@ -15,8 +15,7 @@ trait ParserMockTrait
 
         $facadeMock
             ->shouldReceive('driver')
-            ->andReturn($driverMock ?: $this->mockRadiosFrDriver())
-        ;
+            ->andReturn($driverMock ?: $this->mockRadiosFrDriver());
 
         return $facadeMock;
     }
@@ -25,8 +24,7 @@ trait ParserMockTrait
     {
         return $this->partialMock(RadiosFrParser::class, function ($mock) use ($response) {
             $mock->shouldReceive('parse')
-                ->andReturn($response ?? new ParserResponse('song', 'artist'))
-            ;
+                ->andReturn($response ?? new ParserResponse('song', 'artist'));
         });
     }
 

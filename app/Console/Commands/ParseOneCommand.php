@@ -42,8 +42,7 @@ class ParseOneCommand extends Command
 
         $response = Parser::driver(Parser::getDriverForRadio($this->argument('radio')))
             ->setRadio($this->argument('radio'))
-            ->parse()
-        ;
+            ->parse();
 
         if ($matchingSong = app(SpotifyApi::class)->getMatchingSong($response)) {
             $playlist = Playlist::firstOrCreate([

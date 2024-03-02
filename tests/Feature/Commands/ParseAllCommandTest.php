@@ -30,21 +30,18 @@ class ParseAllCommandTest extends TestCase
             $mock->shouldReceive('setRadio')
                 ->with('mock')
                 ->once()
-                ->andReturnSelf()
-            ;
+                ->andReturnSelf();
 
             $mock->shouldReceive('parse')
                 ->once()
-                ->andReturn($response ?? new ParserResponse('song', 'artist'))
-            ;
+                ->andReturn($response ?? new ParserResponse('song', 'artist'));
         });
 
         $this->mockParserDriver($mockDriverMock);
 
         $this->mockSpotifyApi()
             ->shouldReceive('getMatchingSong')
-            ->andReturn([])
-        ;
+            ->andReturn([]);
 
         $this->artisan('parse:all');
         $this->assertDatabaseCount('songs', 0);
@@ -57,8 +54,7 @@ class ParseAllCommandTest extends TestCase
         $facadeMock
             ->shouldReceive('driver')
             ->with('radiosFr')
-            ->andThrow(new Exception('Test exception'))
-        ;
+            ->andThrow(new Exception('Test exception'));
 
         $this->assertEquals(0, Artisan::call('parse:all'));
     }

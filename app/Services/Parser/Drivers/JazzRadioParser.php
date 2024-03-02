@@ -19,7 +19,7 @@ use Throwable;
 class JazzRadioParser extends ParserAbstractClass
 {
     const ALLOWED_CATEGORY_VALUES = [
-        'MUSIC'
+        'MUSIC',
     ];
 
     /**
@@ -36,11 +36,10 @@ class JazzRadioParser extends ParserAbstractClass
         $response = $this->getClient()
             ->get(self::getUrl())
             ->throw()
-            ->body()
-        ;
+            ->body();
 
-        $reader   = XmlReader::fromString($response);
-        $value    = $reader->value('prog.morceau.0')->sole();
+        $reader = XmlReader::fromString($response);
+        $value = $reader->value('prog.morceau.0')->sole();
         $category = Arr::get($value, 'categorie');
 
         if (! empty($category) && in_array($category, self::ALLOWED_CATEGORY_VALUES)) {
@@ -57,7 +56,7 @@ class JazzRadioParser extends ParserAbstractClass
     {
         return [
             'artist' => Arr::get($value, 'chanteur'),
-            'song'   => Arr::get($value, 'chanson'),
+            'song' => Arr::get($value, 'chanson'),
         ];
     }
 

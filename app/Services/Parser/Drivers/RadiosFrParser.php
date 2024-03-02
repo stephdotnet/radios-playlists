@@ -27,8 +27,7 @@ class RadiosFrParser extends ParserAbstractClass
                 'stationIds' => $this->radio,
             ])
             ->throw()
-            ->json()
-        ;
+            ->json();
 
         if ($titre = Arr::get($response, '0.title')) {
             $data = $this->extractData($titre);
@@ -45,7 +44,7 @@ class RadiosFrParser extends ParserAbstractClass
 
         return [
             'artist' => trim($data[0]),
-            'song'   => trim($data[1]),
+            'song' => trim($data[1]),
         ];
     }
 
