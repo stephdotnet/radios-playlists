@@ -3,6 +3,7 @@
 namespace App\Features\Commands;
 
 use App\Facades\Parser;
+use App\Services\Parser\Drivers\MockParser;
 use App\Services\Parser\ParserResponse;
 use Exception;
 use Illuminate\Support\Facades\Artisan;
@@ -25,7 +26,7 @@ class ParseAllCommandTest extends TestCase
     {
         Log::spy();
 
-        $radiosFrDriverMock = $this->partialMock(RadiosFrParser::class, function ($mock) {
+        $mockDriverMock = $this->partialMock(MockParser::class, function ($mock) {
             $mock->shouldReceive('setRadio')
                 ->with('mock')
                 ->once()
@@ -36,7 +37,7 @@ class ParseAllCommandTest extends TestCase
                 ->andReturn($response ?? new ParserResponse('song', 'artist'));
         });
 
-        $this->mockParserDriver($radiosFrDriverMock);
+        $this->mockParserDriver($mockDriverMock);
 
         $this->mockSpotifyApi()
             ->shouldReceive('getMatchingSong')

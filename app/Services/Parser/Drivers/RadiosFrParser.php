@@ -6,20 +6,16 @@ use App\Exceptions\Services\Parser\InvalidResponseException;
 use App\Services\Parser\ParserResponse;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
-class RadiosFrParser implements ParserInterface
+class RadiosFrParser extends ParserAbstractClass
 {
-    protected string $radio;
-
-    public function setRadio(string $radio): self
-    {
-        $this->radio = $radio;
-
-        return $this;
-    }
-
+    /**
+     * @throws RequestException
+     * @throws InvalidResponseException
+     */
     public function parse(): ParserResponse
     {
         if (empty($this->radio)) {

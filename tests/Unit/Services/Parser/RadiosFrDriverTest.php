@@ -16,7 +16,7 @@ use Tests\Traits\Mock\ParserMockTrait;
  * @group Unit.Services.Parser
  * @group Unit.Services.Parser.RadiosFrDriver
  */
-class MockRadiosFrDriverTest extends TestCase
+class RadiosFrDriverTest extends TestCase
 {
     use ParserMockTrait;
 
