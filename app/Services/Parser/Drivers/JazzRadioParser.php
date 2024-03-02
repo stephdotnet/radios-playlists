@@ -20,6 +20,12 @@ class JazzRadioParser extends ParserAbstractClass
 {
     const ALLOWED_CATEGORY_VALUES = [
         'MUSIC',
+        'J5 WEBRADIO JAZZ MANOUCHE',
+    ];
+
+    const RADIO_TO_FILE = [
+        'jazzradio'          => 'prog.xml',
+        'jazzradio_manouche' => 'prog7.xml'
     ];
 
     /**
@@ -34,7 +40,7 @@ class JazzRadioParser extends ParserAbstractClass
     public function parse(): ParserResponse
     {
         $response = $this->getClient()
-            ->get(self::getUrl())
+            ->get(self::getUrl($this->getFileName()))
             ->throw()
             ->body();
 
@@ -48,7 +54,7 @@ class JazzRadioParser extends ParserAbstractClass
             return new ParserResponse(Arr::get($data, 'song'), Arr::get($data, 'artist'));
         }
 
-        Log::error('Invalid response parsing {$this->radio}', ['payload' => $value]);
+        Log::error("Invalid response parsing {$this->radio}", ['payload' => $value]);
         throw new InvalidResponseException("InvalidResponseException parsing {$this->radio}");
     }
 
@@ -60,9 +66,14 @@ class JazzRadioParser extends ParserAbstractClass
         ];
     }
 
-    public static function getUrl(): string
+    public static function getUrl(string $filename): string
     {
-        return 'https://www.jazzradio.fr/winradio/prog.xml';
+        return 'https://www.jazzradio.fr/winradio/' . $filename;
+    }
+
+    public function getFileName(): string
+    {
+        return Arr::get(self::RADIO_TO_FILE, $this->radio);
     }
 
     protected function getClient(): PendingRequest
