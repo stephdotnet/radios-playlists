@@ -18,7 +18,7 @@ return [
             'jazzradio'          => 'jazzradio',
             'jazzradio_manouche' => 'jazzradio',
             'swissjazz'          => 'radiosfr',
-            'nostalgie'          => 'radiosfr',
+            'nostalgie'          => 'nostalgie',
             'cheriefm'           => 'radiosfr',
             'rireetchansons'     => 'radiosfr',
             'mock'               => 'mock',

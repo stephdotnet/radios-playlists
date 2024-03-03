@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Services\Parser\Drivers;
-
-use App\Services\Parser\ParserResponse;
+namespace App\Services\Parser;
 
 interface ParserInterface
 {
