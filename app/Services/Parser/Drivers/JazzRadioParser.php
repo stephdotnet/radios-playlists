@@ -50,7 +50,7 @@ class JazzRadioParser extends ParserAbstractClass
         if (! empty($category) && in_array($category, self::ALLOWED_CATEGORY_VALUES)) {
             $data = $this->extractData($value);
 
-            return new ParserResponse(Arr::get($data, 'song'), Arr::get($data, 'artist'));
+            return ParserResponse::make(Arr::get($data, 'song'), Arr::get($data, 'artist'));
         }
 
         Log::error("Invalid response parsing {$this->radio}", ['payload' => $value]);

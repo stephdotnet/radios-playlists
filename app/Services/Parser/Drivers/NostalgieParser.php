@@ -2,35 +2,24 @@
 
 namespace App\Services\Parser\Drivers;
 
-use App\Exceptions\Services\Parser\InvalidResponseException;
+use App\Exceptions\Services\Parser\InvalidParserException;
 use App\Services\Parser\ParserAbstractClass;
 use App\Services\Parser\ParserResponse;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 
 class NostalgieParser extends ParserAbstractClass
 {
     /**
-     * @throws InvalidResponseException
      * @throws RequestException
+     * @throws InvalidParserException
      */
     public function parse(): ParserResponse
     {
         $response = $this->getDriverData();
+        $data     = $this->extractData(Arr::get($response, '0'));
 
-        try {
-            $data = $this->extractData(Arr::get($response, '0'));
-
-            return new ParserResponse(Arr::get($data, 'song'), Arr::get($data, 'artist'));
-        } catch (\Exception) {
-            Log::error(
-                "Invalid response parsing {$this->radio}",
-                ['payload' => Arr::get($response, '0')],
-            );
-
-            throw new InvalidResponseException("InvalidResponseException parsing {$this->radio}");
-        }
+        return ParserResponse::make(Arr::get($data, 'song'), Arr::get($data, 'artist'));
     }
 
     /*
