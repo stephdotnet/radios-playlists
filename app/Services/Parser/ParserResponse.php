@@ -15,7 +15,7 @@ class ParserResponse
      */
     public static function make(string $song, string $artist): ParserResponse
     {
-        if (is_empty($song) || is_empty($artist)) {
+        if (empty($song) || empty($artist)) {
             throw new InvalidParserException("Can't make parser for song: ${song} and artist: ${artist}");
         }
 
