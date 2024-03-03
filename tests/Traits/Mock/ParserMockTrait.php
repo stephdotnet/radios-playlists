@@ -28,10 +28,10 @@ trait ParserMockTrait
         });
     }
 
-    protected function mockHttpRequest($response): void
+    protected function mockHttpRequest(...$response): void
     {
         Http::fake([
-            '*' => Http::response($response),
+            '*' => Http::response(...$response),
         ]);
     }
 }

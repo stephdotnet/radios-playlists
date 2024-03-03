@@ -5,32 +5,32 @@ namespace App\Services\Parser\Drivers;
 use App\Exceptions\Services\Parser\InvalidResponseException;
 use App\Services\Parser\ParserAbstractClass;
 use App\Services\Parser\ParserResponse;
-use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
-class RadiosFrParser extends ParserAbstractClass
+class NostalgieParser extends ParserAbstractClass
 {
     /**
      * @throws InvalidResponseException
      * @throws RequestException
-     * @throws Exception
      */
     public function parse(): ParserResponse
     {
-        if (empty($this->radio)) {
-            throw new Exception('Radio is not set');
-        }
-
         $response = $this->getDriverData();
 
-        if ($titre = Arr::get($response, '0.title')) {
-            $data = $this->extractData($titre);
+        try {
+            $data = $this->extractData(Arr::get($response, '0'));
 
             return new ParserResponse(Arr::get($data, 'song'), Arr::get($data, 'artist'));
-        }
+        } catch (\Exception) {
+            Log::error(
+                "Invalid response parsing {$this->radio}",
+                ['payload' => Arr::get($response, '0')],
+            );
 
-        throw new InvalidResponseException("InvalidResponseException parsing {$this->radio}. Expected title, got: $titre");
+            throw new InvalidResponseException("InvalidResponseException parsing {$this->radio}");
+        }
     }
 
     /*
@@ -45,25 +45,21 @@ class RadiosFrParser extends ParserAbstractClass
     protected function getDriverData(): array
     {
         return $this->getClient()
-            ->get(self::getUrl('now-playing'), [
-                'stationIds' => $this->radio,
-            ])
+            ->get(self::getUrl())
             ->throw()
             ->json();
     }
 
-    protected function extractData(string $titre): array
+    protected function extractData(array $value): array
     {
-        $data = explode('-', $titre);
-
         return [
-            'artist' => trim($data[0]),
-            'song'   => trim($data[1]),
+            'artist' => Arr::get($value, 'artist'),
+            'song'   => Arr::get($value, 'title'),
         ];
     }
 
-    protected static function getUrl(string $endpoint = ''): string
+    protected static function getUrl(): string
     {
-        return "https://prod.radio-api.net/stations/$endpoint";
+        return 'https://www.nostalgie.fr/api/chansons-diffusees';
     }
 }

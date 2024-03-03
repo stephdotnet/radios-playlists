@@ -3,11 +3,10 @@
 namespace App\Services\Parser\Drivers;
 
 use App\Exceptions\Services\Parser\InvalidResponseException;
+use App\Services\Parser\ParserAbstractClass;
 use App\Services\Parser\ParserResponse;
-use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Saloon\XmlWrangler\Exceptions\MissingNodeException;
 use Saloon\XmlWrangler\Exceptions\MultipleNodesFoundException;
@@ -58,6 +57,12 @@ class JazzRadioParser extends ParserAbstractClass
         throw new InvalidResponseException("InvalidResponseException parsing {$this->radio}");
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Protected methods
+    |--------------------------------------------------------------------------
+    */
+
     protected function extractData(array $value): array
     {
         return [
@@ -66,20 +71,13 @@ class JazzRadioParser extends ParserAbstractClass
         ];
     }
 
-    public static function getUrl(string $filename): string
+    protected static function getUrl(string $filename): string
     {
         return 'https://www.jazzradio.fr/winradio/' . $filename;
     }
 
-    public function getFileName(): string
+    protected function getFileName(): string
     {
         return Arr::get(self::RADIO_TO_FILE, $this->radio);
-    }
-
-    protected function getClient(): PendingRequest
-    {
-        return Http::withOptions([
-            'verify' => false,
-        ]);
     }
 }
