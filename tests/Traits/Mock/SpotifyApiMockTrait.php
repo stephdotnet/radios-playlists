@@ -19,7 +19,7 @@ trait SpotifyApiMockTrait
         });
     }
 
-    protected function mockGetMatchingSong($mock, array $response = null)
+    protected function mockGetMatchingSong($mock, ?array $response = null)
     {
         if (is_null($response)) {
             $response = SpotifySearchFixtures::getMatchingSong();
