@@ -15,6 +15,15 @@ use Tests\TestCase;
  */
 class SpotifyAuthControllerTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withSession([
+            SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY => SpotifyApiClientMock::FAKE_ACCESS_TOKEN
+        ]);
+    }
+
     public function test_spotify_redirect()
     {
         SpotifyApiClientMock::make()

@@ -6,6 +6,7 @@ use App\Exceptions\Services\Spotify\SpotifyAuthException;
 use App\Models\Playlist;
 use App\Models\Song;
 use App\Models\SpotifyPlaylist;
+use App\Services\Spotify\SpotifyApiClient;
 use App\Services\Spotify\SpotifyApiSync;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +23,15 @@ use Tests\TestCase;
  */
 class SpotifyApiSyncTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withSession([
+            SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY => SpotifyApiClientMock::FAKE_ACCESS_TOKEN
+        ]);
+    }
+
     public function test_set_playlist()
     {
         $response = app(SpotifyApiSync::class)->setPlaylist(Playlist::factory()->make());
@@ -95,7 +105,7 @@ class SpotifyApiSyncTest extends TestCase
                     ->shouldReceive('me')
                     ->andReturn(SpotifyUserFixtures::getMe())
                     ->shouldReceive('createPlaylist')
-                    ->andReturn(null);
+                    ->andReturn([]);
             })
             ->bind();
 
@@ -121,7 +131,7 @@ class SpotifyApiSyncTest extends TestCase
             ->makeSpotifyWebApiMock(function ($mock) {
                 $mock
                     ->shouldReceive('me')
-                    ->andReturn(null);
+                    ->andReturn([]);
             })
             ->bind();
 
