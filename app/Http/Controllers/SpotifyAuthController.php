@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\SpotifyMeResource;
 use App\Services\Spotify\SpotifyApi;
 use App\Services\Spotify\SpotifyApiClient;
-use Exception;
 use Illuminate\Http\Request;
+use Throwable;
 
 class SpotifyAuthController extends Controller
 {
@@ -32,7 +32,7 @@ class SpotifyAuthController extends Controller
     {
         try {
             return SpotifyMeResource::make(app(SpotifyApi::class)->getAuthenticatedClient()->me());
-        } catch (Exception) {
+        } catch (Throwable) {
             return response()->json(['data' => null]);
         }
     }
