@@ -6,7 +6,6 @@ use App\DataTransferObjects\SpotifySongDTO;
 use App\Facades\Parser;
 use App\Models\Playlist;
 use App\Models\Song;
-use App\Services\Parser\ParserResponse;
 use App\Services\Spotify\SpotifyApi;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
@@ -32,7 +31,7 @@ class ParseOneCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(SpotifyApi $spotifyApi)
     {
         if (! $this->isRadioAllowed($this->argument('radio'))) {
             $this->error('Radio not allowed');
@@ -44,14 +43,12 @@ class ParseOneCommand extends Command
             ->setRadio($this->argument('radio'))
             ->parse();
 
-        if ($matchingSong = app(SpotifyApi::class)->getMatchingSong($response)) {
+        if ($matchingSong = $spotifyApi->getMatchingSong($response)) {
             $playlist = Playlist::firstOrCreate([
                 'slug' => $this->argument('radio'),
             ]);
 
-            $song = $this->addMatchingSong($playlist, $matchingSong);
-
-            $this->logSongUpdateOrCreate($song, $response);
+            $this->addMatchingSong($playlist, $matchingSong);
 
             return SymfonyCommand::SUCCESS;
         }
@@ -71,29 +68,21 @@ class ParseOneCommand extends Command
             'spotify_id' => Arr::get($matchingSong, 'id'),
         ], SpotifySongDTO::toModel($matchingSong));
 
-        if (! $playlist->hasSong($song) && ! $playlist->hasForbiddenSong($song)) {
+        if ($playlist->hasForbiddenSong($song)) {
+            $this->logInfo("Song #$song->id not added because in forbidden list ($song->name - $song->artists)");
+        } elseif (! $song->wasRecentlyCreated) {
+            $this->logInfo("Song #$song->id already exists ($song->name - $song->artists)");
+        } elseif (! $playlist->hasSong($song)) {
             $playlist->songs()->attach($song);
-
-            return $song;
+            $this->logInfo("Song #$song->id added ($song->name)");
         }
+
+        return $song;
     }
 
     protected function isRadioAllowed($radio): bool
     {
         return in_array($radio, config('services.parser.radios'));
-    }
-
-    protected function logSongUpdateOrCreate(?Song $song, ParserResponse $response)
-    {
-        if (! $song) {
-            return $this->logInfo("Song not added because in forbidden list (Artist: $response->artist and Song: $response->song)");
-        }
-
-        if ($song->wasRecentlyCreated) {
-            return $this->logInfo("Song #$song->id added (Artist: $response->artist and Song: $response->song)");
-        }
-
-        return $this->logInfo("Song already exists (Artist: $response->artist and Song: $response->song)");
     }
 
     protected function logInfo($message): void

@@ -95,7 +95,7 @@ class SpotifyApiSync
         ])->first();
 
         if (! $spotifyPlaylist) {
-            $response = $this->client->createPlaylist([
+            $response = $this->client->createPlaylist(data_get($this->user, 'id'), [
                 'name'   => data_get($this->playlist, 'slug') . ' - ' . config('app.name'),
                 'public' => false,
             ]);

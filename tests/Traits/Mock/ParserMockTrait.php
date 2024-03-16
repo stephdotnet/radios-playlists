@@ -20,7 +20,7 @@ trait ParserMockTrait
         return $facadeMock;
     }
 
-    protected function mockRadiosFrDriver(ParserResponse $response = null): \Mockery\MockInterface
+    protected function mockRadiosFrDriver(?ParserResponse $response = null): \Mockery\MockInterface
     {
         return $this->partialMock(RadiosFrParser::class, function ($mock) use ($response) {
             $mock->shouldReceive('parse')

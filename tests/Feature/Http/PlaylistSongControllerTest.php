@@ -80,7 +80,9 @@ class PlaylistSongControllerTest extends TestCase
 
         // Test endpoint
         $this
-            ->withSession([SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY => 'token'])
+            ->withSession([
+                SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY => SpotifyApiClientMock::FAKE_ACCESS_TOKEN
+            ])
             ->deleteJson(
                 route('playlist.songs.delete', [
                     'playlist' => $playlist->id,

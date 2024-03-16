@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Spotify;
 
 use App\Services\Parser\ParserResponse;
 use App\Services\Spotify\SpotifyApi;
+use App\Services\Spotify\SpotifyApiClient;
 use SpotifyWebAPI\SpotifyWebAPI as SpotifyWebApiBasePackage;
 use Tests\Fixtures\Spotify\SpotifySearchFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
@@ -17,6 +18,15 @@ use Tests\TestCase;
  */
 class SpotifyApiTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withSession([
+            SpotifyApiClient::ACCESS_TOKEN_SESSION_KEY => SpotifyApiClientMock::FAKE_ACCESS_TOKEN
+        ]);
+    }
+
     public function test_matching_song()
     {
         SpotifyApiClientMock::make()

@@ -41,7 +41,7 @@ class PlaylistController extends Controller
         );
     }
 
-    public function deleteSong(Playlist $playlist, Song $song)
+    public function deleteSong(Playlist $playlist, Song $song, SpotifyApiSync $spotifyApiSync)
     {
         $client = app(SpotifyApi::class)
             ->getAuthenticatedClient();
@@ -64,11 +64,7 @@ class PlaylistController extends Controller
         if (isset($snapshotId)) {
             $playlist->spotifyPlaylist->songs()->detach($song);
 
-            app(SpotifyApiSync::class)
-                ->syncPlaylistInformations(
-                    $playlist->spotifyPlaylist,
-                    $spotifyPlaylist->spotify_playlist_id,
-                );
+            $spotifyApiSync->syncPlaylistInformations($playlist->spotifyPlaylist);
         }
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
