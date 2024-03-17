@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react';
 
-export default function useDebouncedCallback<T extends (...args: any[]) => any>(
+export default function useDebouncedCallback<T extends (...args: unknown[]) => unknown>(
   callback: T,
-  delay: number = 500,
+  delay = 500,
 ): (...args: Parameters<T>) => void {
   let timerId: NodeJS.Timeout;
 

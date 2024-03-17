@@ -10,7 +10,7 @@ export function getQueryKeyList(
   page: number,
   term: string | null,
 ): QueryKey {
-  let keys = [QUERY_KEY_SONGS, playlistId, page];
+  const keys = [QUERY_KEY_SONGS, playlistId, page];
 
   if (term !== null && term != '') {
     keys.push(slugify(term));

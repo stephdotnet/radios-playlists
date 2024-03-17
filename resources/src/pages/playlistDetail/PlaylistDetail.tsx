@@ -8,7 +8,6 @@ import {
   Container,
   Grid,
   IconButton,
-  Input,
   InputAdornment,
   Pagination,
   Skeleton,
@@ -179,15 +178,15 @@ const PlaylistDetail: React.FC = () => {
           {isLoadingPlaylist ? (
             <Skeleton variant="rectangular" height={35} width={200} />
           ) : (
-            dataPlaylist?.url &&
-            dataPlaylist.url !== null && (
+            dataPlaylist?.url && (
               <SpotifyButton
                 text={t('pages.playlist_detail.playlist.open_in_spotify')}
                 endIcon={<Favorite />}
                 loading={isLoadingPlaylist}
                 onClick={() => {
-                  /* @ts-ignore */
-                  window.open(dataPlaylist.url, '_blank');
+                  if (dataPlaylist.url) {
+                    window.open(dataPlaylist.url, '_blank');
+                  }
                 }}
               />
             )
@@ -205,7 +204,7 @@ const PlaylistDetail: React.FC = () => {
                   <IconButton
                     onClick={() => {
                       if (inputRef?.current) {
-                        inputRef.current!.value = '';
+                        inputRef.current.value = '';
                         inputRef.current.blur();
                       }
 
