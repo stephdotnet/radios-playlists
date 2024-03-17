@@ -11,7 +11,7 @@ import {
   InputAdornment,
   Pagination,
   Skeleton,
-  TextField,
+  TextField, useMediaQuery, useTheme,
 } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
@@ -47,6 +47,8 @@ const PlaylistDetail: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [songToDelete, setSongToDelete] = useState<Song | null>(null);
   const [term, setTerm] = useDebouncedState<string | null>(null, 500);
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleConfirmDeleteSong = (song: Song | null) => {
     setIsOpen(true);
@@ -83,6 +85,7 @@ const PlaylistDetail: React.FC = () => {
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ): void => {
     setTerm(event.target.value);
+    setPage(1);
   };
 
   const {
@@ -243,7 +246,8 @@ const PlaylistDetail: React.FC = () => {
               <Pagination
                 count={dataSongs.meta.last_page}
                 defaultPage={page}
-                boundaryCount={2}
+                siblingCount={isSmall ? 0 : 2}
+                size={isSmall ? "small" : "medium"}
                 onChange={handlePageChange}
               />
             </Box>
