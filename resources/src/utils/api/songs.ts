@@ -35,7 +35,7 @@ interface queryParameters {
 const ENDPOINT = 'playlists';
 
 const get: getSongsFunction = async (playlistId, page, options) => {
-  let queryParameters: queryParameters = {
+  const queryParameters: queryParameters = {
     limit: dataGetValue(options, 'limit', 50),
     page: page ?? 1,
   };
