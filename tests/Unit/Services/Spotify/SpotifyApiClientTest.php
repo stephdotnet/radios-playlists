@@ -9,12 +9,6 @@ use SpotifyWebAPI\SpotifyWebAPI;
 use Tests\Mocks\SpotifyApiClientMock;
 use Tests\TestCase;
 
-/**
- * @group Unit
- * @group Unit.Services
- * @group Unit.Services.Spotify
- * @group Unit.Services.Spotify.ApiClient
- */
 class SpotifyApiClientTest extends TestCase
 {
     public function test_api_client_service_provider()

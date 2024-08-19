@@ -8,11 +8,6 @@ use App\Services\Spotify\SpotifyApiClient;
 use App\Services\Spotify\SpotifyApiSync;
 use Tests\TestCase;
 
-/**
- * @group Feature
- * @group Feature.Http
- * @group Feature.Http.SpotifyPlaylist
- */
 class SpotifyPlaylistControllerTest extends TestCase
 {
     public function test_sync_playlist_calls_service()

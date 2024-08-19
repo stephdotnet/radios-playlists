@@ -15,12 +15,6 @@ use Tests\Fixtures\Spotify\SpotifyUserFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
 use Tests\TestCase;
 
-/**
- * @group Unit
- * @group Unit.Services
- * @group Unit.Services.Spotify
- * @group Unit.Services.Spotify.ApiSync
- */
 class SpotifyApiSyncTest extends TestCase
 {
     public function setUp(): void

@@ -159,7 +159,7 @@ class SpotifyApiClientMock
 
     protected function makeSpotifyApi()
     {
-        return new SpotifyWebAPI();
+        return new SpotifyWebAPI;
     }
 
     /*
@@ -170,6 +170,6 @@ class SpotifyApiClientMock
 
     public static function make()
     {
-        return new self();
+        return new self;
     }
 }

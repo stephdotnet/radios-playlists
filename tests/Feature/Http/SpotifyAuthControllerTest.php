@@ -8,11 +8,6 @@ use Tests\Fixtures\Spotify\SpotifyUserFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
 use Tests\TestCase;
 
-/**
- * @group Feature
- * @group Feature.Http
- * @group Feature.Http.SpotifyAuth
- */
 class SpotifyAuthControllerTest extends TestCase
 {
     public function setUp(): void
