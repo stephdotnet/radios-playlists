@@ -12,11 +12,6 @@ use Tests\Fixtures\Spotify\SpotifyPlaylistFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
 use Tests\TestCase;
 
-/**
- * @group Feature
- * @group Feature.Http
- * @group Feature.Http.PlaylistSong
- */
 class PlaylistSongControllerTest extends TestCase
 {
     use RefreshDatabase;

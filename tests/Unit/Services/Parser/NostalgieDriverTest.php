@@ -1,6 +1,6 @@
 <?php
 
-namespace Services\Parser;
+namespace Tests\Unit\Services\Parser;
 
 use App\Facades\Parser;
 use App\Services\Parser\ParserResponse;
@@ -10,12 +10,6 @@ use Tests\Fixtures\Parser\NostalgieParserFixtures;
 use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
 
-/**
- * @group Unit
- * @group Unit.Services
- * @group Unit.Services.Parser
- * @group Unit.Services.Parser.NostalgieDriver
- */
 class NostalgieDriverTest extends TestCase
 {
     use ParserMockTrait;

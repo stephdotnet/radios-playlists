@@ -1,6 +1,6 @@
 <?php
 
-namespace Services\Parser;
+namespace Tests\Unit\Services\Parser;
 
 use App\Exceptions\Services\Parser\InvalidResponseException;
 use App\Facades\Parser;
@@ -10,12 +10,6 @@ use Tests\Fixtures\Parser\JazzRadioParserFixtures;
 use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
 
-/**
- * @group Unit
- * @group Unit.Services
- * @group Unit.Services.Parser
- * @group Unit.Services.Parser.JazzRadioDriver
- */
 class JazzRadioDriverTest extends TestCase
 {
     use ParserMockTrait;

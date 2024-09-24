@@ -21,9 +21,7 @@ class SpotifyApiClient
         'user-read-private',
     ];
 
-    public function __construct(protected Session $session, protected SpotifyWebAPI $client)
-    {
-    }
+    public function __construct(protected Session $session, protected SpotifyWebAPI $client) {}
 
     public function requestAccessToken(string $code)
     {

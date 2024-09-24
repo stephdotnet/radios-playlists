@@ -10,12 +10,6 @@ use Tests\Fixtures\Parser\RadiosFrParserFixtures;
 use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
 
-/**
- * @group Unit
- * @group Unit.Services
- * @group Unit.Services.Parser
- * @group Unit.Services.Parser.RadiosFrDriver
- */
 class RadiosFrDriverTest extends TestCase
 {
     use ParserMockTrait;

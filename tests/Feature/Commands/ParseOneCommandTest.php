@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Commands;
+namespace Tests\Feature\Commands;
 
 use App\Models\Playlist;
 use App\Models\Song;
@@ -11,11 +11,6 @@ use Tests\TestCase;
 use Tests\Traits\Mock\ParserMockTrait;
 use Tests\Traits\Mock\SpotifyApiMockTrait;
 
-/**
- * @group Feature
- * @group Feature.Parse
- * @group Feature.Parse.One
- */
 class ParseOneCommandTest extends TestCase
 {
     use ParserMockTrait;

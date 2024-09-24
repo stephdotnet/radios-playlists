@@ -29,13 +29,13 @@ class AppServiceProvider extends ServiceProvider
                 config('services.spotify.client_secret'),
                 route('spotify.callback'),
             );
-            $client = new SpotifyWebAPI();
+            $client = new SpotifyWebAPI;
 
             return new SpotifyApiClient($session, $client);
         });
 
         $this->app->singleton(SpotifyApi::class, function () {
-            return new SpotifyApi();
+            return new SpotifyApi;
         });
 
         $this->app->singleton(SpotifyApiSync::class, function () {

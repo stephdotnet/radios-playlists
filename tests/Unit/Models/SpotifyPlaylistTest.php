@@ -8,11 +8,6 @@ use App\Models\SpotifyPlaylist;
 use Tests\Fixtures\Spotify\SpotifyPlaylistFixtures;
 use Tests\TestCase;
 
-/**
- * @group Unit
- * @group Unit.Models
- * @group Unit.Models.SpotifyPlaylist
- */
 class SpotifyPlaylistTest extends TestCase
 {
     public function test_missing_songs()

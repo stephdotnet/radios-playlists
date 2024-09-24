@@ -6,9 +6,7 @@ use App\Exceptions\Services\Parser\InvalidParserException;
 
 class ParserResponse
 {
-    public function __construct(public string $song, public string $artist)
-    {
-    }
+    public function __construct(public string $song, public string $artist) {}
 
     /**
      * @throws InvalidParserException

@@ -6,11 +6,6 @@ use App\Models\Playlist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/**
- * @group Feature
- * @group Feature.Http
- * @group Feature.Http.Playlist
- */
 class PlaylistControllerTest extends TestCase
 {
     use RefreshDatabase;

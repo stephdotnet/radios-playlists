@@ -21,8 +21,7 @@ class SpotifyApiSync
         protected SpotifyWebAPI $client,
         protected ?Playlist $playlist = null,
         protected ?array $user = [],
-    ) {
-    }
+    ) {}
 
     public function sync(): array
     {

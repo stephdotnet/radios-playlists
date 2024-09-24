@@ -18,22 +18,22 @@ class ParserService extends Manager
 
     public function createMockDriver(): MockParser
     {
-        return new MockParser();
+        return new MockParser;
     }
 
     public function createRadiosFrDriver(): RadiosFrParser
     {
-        return new RadiosFrParser();
+        return new RadiosFrParser;
     }
 
     public function createJazzRadioDriver(): JazzRadioParser
     {
-        return new JazzRadioParser();
+        return new JazzRadioParser;
     }
 
     public function createNostalgieDriver(): NostalgieParser
     {
-        return new NostalgieParser();
+        return new NostalgieParser;
     }
 
     public function getDriverForRadio(string $radio): string

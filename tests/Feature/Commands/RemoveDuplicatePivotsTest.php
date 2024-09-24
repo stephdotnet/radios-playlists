@@ -6,11 +6,6 @@ use App\Models\Playlist;
 use App\Models\Song;
 use Tests\TestCase;
 
-/**
- * @group Feature
- * @group Feature.Commands
- * @group Feature.Commands.RemoveDuplicate
- */
 class RemoveDuplicatePivotsTest extends TestCase
 {
     public function setUp(): void

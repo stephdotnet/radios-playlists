@@ -10,12 +10,6 @@ use Tests\Fixtures\Spotify\SpotifySearchFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
 use Tests\TestCase;
 
-/**
- * @group Unit
- * @group Unit.Services
- * @group Unit.Services.Spotify
- * @group Unit.Services.Spotify.Api
- */
 class SpotifyApiTest extends TestCase
 {
     public function setUp(): void

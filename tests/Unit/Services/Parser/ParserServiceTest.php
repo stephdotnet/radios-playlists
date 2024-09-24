@@ -7,11 +7,6 @@ use App\Services\Parser\Drivers\RadiosFrParser;
 use App\Services\Parser\ParserService;
 use Tests\TestCase;
 
-/**
- * @group Unit
- * @group Unit.Services
- * @group Unit.Services.Parser
- */
 class ParserServiceTest extends TestCase
 {
     public function test_default_driver()

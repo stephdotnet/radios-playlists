@@ -1,14 +1,11 @@
 <?php
 
+namespace Tests\Unit\Models;
+
 use App\Models\Playlist;
 use App\Models\Song;
 use Tests\TestCase;
 
-/**
- * @group Unit
- * @group Unit.Models
- * @group Unit.Models.Song
- */
 class SongTest extends TestCase
 {
     public function test_playlist_relationship()

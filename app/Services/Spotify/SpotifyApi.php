@@ -8,9 +8,7 @@ use SpotifyWebAPI\SpotifyWebAPI;
 
 class SpotifyApi
 {
-    public function __construct(protected bool $returnAssoc = true)
-    {
-    }
+    public function __construct(protected bool $returnAssoc = true) {}
 
     public function setReturnAssoc(bool $returnAssoc): self
     {

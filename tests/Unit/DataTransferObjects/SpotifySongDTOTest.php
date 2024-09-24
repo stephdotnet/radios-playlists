@@ -1,17 +1,12 @@
 <?php
 
-namespace Test\Unit\DataTransferObjects;
+namespace Tests\Unit\DataTransferObjects;
 
 use App\DataTransferObjects\SpotifySongDTO;
 use Tests\Fixtures\Spotify\SpotifySongFixtures;
 use Tests\TestCase;
 
-/**
- * @group Unit
- * @group Unit.DTO
- * @group Unit.DTO.SpotifySongDTO
- */
-class SpotifySongDtoTest extends TestCase
+class SpotifySongDTOTest extends TestCase
 {
     public function test_spotify_dto_has_correct_keys()
     {
