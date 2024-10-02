@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Parser;
 
 use App\Services\Parser\Drivers\MockParser;
 use App\Services\Parser\Drivers\RadiosFrParser;
+use App\Services\Parser\Drivers\RtlParser;
 use App\Services\Parser\ParserService;
 use Tests\TestCase;
 
@@ -28,5 +29,12 @@ class ParserServiceTest extends TestCase
         $paserDriver = app(ParserService::class)->driver('radiosFr');
 
         $this->assertEquals(RadiosFrParser::class, $paserDriver::class);
+    }
+
+    public function test_create_rtl_driver()
+    {
+        $paserDriver = app(ParserService::class)->driver('rtl');
+
+        $this->assertEquals(RtlParser::class, $paserDriver::class);
     }
 }
