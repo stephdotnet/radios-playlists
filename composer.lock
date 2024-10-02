@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "100a9af77a7d1e2d232842c932da08bf",
+    "content-hash": "bb62e5975d892a4f843ff8b62c85cf93",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -8879,7 +8879,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0.2"
+        "php": "^8.0.2",
+        "ext-dom": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

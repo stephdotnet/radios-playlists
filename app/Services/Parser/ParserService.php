@@ -6,6 +6,7 @@ use App\Services\Parser\Drivers\JazzRadioParser;
 use App\Services\Parser\Drivers\MockParser;
 use App\Services\Parser\Drivers\NostalgieParser;
 use App\Services\Parser\Drivers\RadiosFrParser;
+use App\Services\Parser\Drivers\RtlParser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 
@@ -34,6 +35,11 @@ class ParserService extends Manager
     public function createNostalgieDriver(): NostalgieParser
     {
         return new NostalgieParser;
+    }
+
+    public function createRtlDriver(): RtlParser
+    {
+        return new RtlParser;
     }
 
     public function getDriverForRadio(string $radio): string

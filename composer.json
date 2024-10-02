@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "ext-dom": "*",
         "guzzlehttp/guzzle": "^7.9.2",
         "jwilsson/spotify-web-api-php": "^6.0.2",
         "laravel/framework": "^11.20.0",

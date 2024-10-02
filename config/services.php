@@ -21,6 +21,7 @@ return [
             'nostalgie'          => 'nostalgie',
             'cheriefm'           => 'radiosfr',
             'rireetchansons'     => 'radiosfr',
+            'rtl'                => 'rtl',
             'mock'               => 'mock',
         ],
     ],
