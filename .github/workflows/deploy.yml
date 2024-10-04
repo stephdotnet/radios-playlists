@@ -51,4 +51,6 @@ jobs:
           host: ${{ fromJson(secrets.SSH_SERVER).HOST }}
           username: ${{ fromJson(secrets.SSH_SERVER).USER }}
           key: ${{ fromJson(secrets.SSH_SERVER).KEY }}
-          script: /home/lamp/www/radios/scripts/deploy.sh
+          script: |
+            chmod ug+x /home/lamp/www/radios/scripts/deploy.sh
+            /home/lamp/www/radios/scripts/deploy.sh

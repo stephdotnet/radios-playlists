@@ -8,3 +8,6 @@ docker compose -f /home/lamp/docker-compose.yml run --rm -w /var/www/html/radios
 
 # Run migrations in the webserver container of the docker-compose file
 docker compose -f /home/lamp/docker-compose.yml run --rm -w /var/www/html/radios webserver php artisan migrate --force
+
+# Run migrations in the webserver container of the docker-compose file
+docker compose -f /home/lamp/docker-compose.yml run --rm -w /var/www/html/radios webserver php artisan operations:process --sync

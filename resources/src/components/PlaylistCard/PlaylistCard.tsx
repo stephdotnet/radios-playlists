@@ -12,7 +12,7 @@ const PlaylistCard = ({ playlist }: PlaylistCardProps) => {
 
   return (
     <Box textAlign="center" className="box" sx={styles.playlistCard.box}>
-      <Typography variant="h4">{playlist.slug}</Typography>
+      <Typography variant="h4">{playlist.name || playlist.slug}</Typography>
       <Box>
         <Chip label={playlist.songs_count} sx={styles.playlistCard.box.chip} />
       </Box>

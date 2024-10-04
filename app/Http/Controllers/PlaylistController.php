@@ -21,7 +21,12 @@ class PlaylistController extends Controller
 
     public function index()
     {
-        return PlaylistResource::collection(Playlist::all());
+        return PlaylistResource::collection(
+            Playlist::query()
+                ->withCount('songs')
+                ->orderBy('songs_count', 'desc')
+                ->get(),
+        );
     }
 
     public function show(Playlist $playlist)
