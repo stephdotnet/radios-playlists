@@ -3,6 +3,7 @@ import { Song } from './Song';
 export interface Playlist {
   id: number;
   slug: string;
+  name: string;
   songs_count: number;
   url: string | null;
   songs?: Song[];
