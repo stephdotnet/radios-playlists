@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\PlaylistStatsController;
 use App\Http\Controllers\SpotifyAuthController;
 use App\Http\Controllers\SpotifyPlaylistController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,9 @@ Route::get('/playlists', PlaylistController::class . '@index')
 
 Route::get('/playlists/{playlist}', PlaylistController::class . '@show')
     ->name('playlist.show');
+
+Route::get('/playlists/{playlist}/stats', PlaylistStatsController::class . '@show')
+    ->name('playlist.stats.show');
 
 Route::get('/playlists/{playlist}/songs', PlaylistController::class . '@songs')
     ->name('playlist.songs');
