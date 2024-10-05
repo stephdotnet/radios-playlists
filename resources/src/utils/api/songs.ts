@@ -11,20 +11,20 @@ interface SongsRequestOptions {
   signal?: AbortSignal;
 }
 
-export interface getSongsResponse {
+export interface GetSongsResponse {
   songs: Song[];
   meta: HttpMeta;
 }
 
-interface getSongsFunction {
+interface GetSongsFunction {
   (
     playlistId?: string,
     page?: number,
     options?: SongsRequestOptions,
-  ): Promise<getSongsResponse>;
+  ): Promise<GetSongsResponse>;
 }
 
-interface queryParameters {
+interface QueryParameters {
   limit?: number;
   page?: number;
   filter?: {
@@ -34,8 +34,8 @@ interface queryParameters {
 
 const ENDPOINT = 'playlists';
 
-const get: getSongsFunction = async (playlistId, page, options) => {
-  const queryParameters: queryParameters = {
+const get: GetSongsFunction = async (playlistId, page, options) => {
+  const queryParameters: QueryParameters = {
     limit: dataGetValue(options, 'limit', 50),
     page: page ?? 1,
   };
@@ -58,7 +58,7 @@ const get: getSongsFunction = async (playlistId, page, options) => {
   };
 };
 
-interface deleteSongFunction {
+interface DeleteSongFunction {
   (
     playlistId: string,
     songId: number,
@@ -66,7 +66,7 @@ interface deleteSongFunction {
   ): Promise<AxiosResponse>;
 }
 
-const remove: deleteSongFunction = async (playlistId, songId) => {
+const remove: DeleteSongFunction = async (playlistId, songId) => {
   return apiClient.delete(`${ENDPOINT}/${playlistId}/songs/${songId}`);
 };
 
