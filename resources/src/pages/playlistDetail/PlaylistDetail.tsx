@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { Clear, Favorite } from '@mui/icons-material';
@@ -32,10 +32,10 @@ import useSyncPlaylist from '@/hooks/useSyncPlaylist';
 import useDebouncedState from '@/hooks/utils/useDebouncedState';
 import { Song } from '@/types/Song';
 import { useAppContext } from '@/utils/context/AppContext';
-import { usePlaylistStats } from '@hooks/useGetPlaylistStats';
 import DeleteModal from './components/DeleteModal/DeleteModal';
 import PlaylistSyncSummary from './components/PlaylistSyncSummary';
 import SongCard from './components/SongCard';
+import PlaylistStats from "@components/PlaylistStats/PlaylistStats";
 
 type Props = {
   id: string;
@@ -52,9 +52,6 @@ const PlaylistDetail: React.FC = () => {
   const [songToDelete, setSongToDelete] = useState<Song | null>(null);
   const [term, setTerm] = useDebouncedState<string | null>(null, 500);
   const theme = useTheme();
-  const { isLoading: isStatsLoading, data: dataStats } = usePlaylistStats(
-    Number(id),
-  );
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleConfirmDeleteSong = (song: Song | null) => {
@@ -107,8 +104,8 @@ const PlaylistDetail: React.FC = () => {
     data: dataSongs,
   } = useGetSongs(id, page, term);
 
-  const handleSyncPlaylist = async () => {
-    await mutate(id, {
+  const handleSyncPlaylist = () => {
+    mutate(id, {
       onError: () => {
         addAlert({
           type: 'error',
@@ -119,19 +116,11 @@ const PlaylistDetail: React.FC = () => {
   };
 
   const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
+    _: React.ChangeEvent<unknown>,
     page: number,
   ) => {
     setPage(page);
   };
-
-  useEffect(() => {
-    console.log(dataStats);
-    if (dataStats) {
-      console.log(Object.keys(dataStats));
-      console.log(Object.values(dataStats).map((stat) => stat.total));
-    }
-  }, [dataStats]);
 
   return (
     <>
@@ -146,34 +135,6 @@ const PlaylistDetail: React.FC = () => {
           <Link to={pages.home.path} component={RouterLink}>
             {t('pages.playlist.go_back_to_playlists')}
           </Link>
-        </Box>
-        <Box>
-          {isStatsLoading || !dataStats ? (
-            <Skeleton
-              variant="rectangular"
-              height={200}
-              width="100%"
-              component="div"
-            />
-          ) : (
-            <LineChart
-              xAxis={[
-                {
-                  scaleType: 'band',
-                  valueFormatter: () => '',
-                  data: Object.keys(dataStats),
-                  tickInterval: () => false,
-                },
-              ]}
-              series={[
-                {
-                  data: Object.values(dataStats).map((stat) => stat.total),
-                  showMark: false,
-                },
-              ]}
-              height={300}
-            />
-          )}
         </Box>
 
         {isLoadingPlaylist || !dataPlaylist ? (
@@ -219,7 +180,9 @@ const PlaylistDetail: React.FC = () => {
             </Box>
           )}
         </Box>
-
+        <Box marginY={2}>
+          <PlaylistStats playlistId={Number(id)} />
+        </Box>
         <Box display="flex" justifyContent="center" marginBottom={2}>
           {isLoadingPlaylist ? (
             <Skeleton variant="rectangular" height={35} width={200} />
