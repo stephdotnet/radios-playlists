@@ -23,7 +23,7 @@ const SpotifyAuth = ({
 
   const AuthComponent = () => {
     if (!dataMe?.display_name) {
-      return <SpotifyAuthButton />;
+      return <></>;
     }
     return (
       <Typography textAlign={textAlign}>

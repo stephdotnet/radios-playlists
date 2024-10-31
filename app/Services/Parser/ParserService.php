@@ -46,4 +46,9 @@ class ParserService extends Manager
     {
         return Arr::get(config('services.parser.driver'), $radio);
     }
+
+    public static function isRadioActive(string $radio): bool
+    {
+        return in_array($radio, config('services.parser.radios'));
+    }
 }

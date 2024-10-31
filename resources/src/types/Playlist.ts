@@ -5,6 +5,7 @@ export interface Playlist {
   slug: string;
   name: string;
   songs_count: number;
+  active: boolean;
   url: string | null;
   songs?: Song[];
 }

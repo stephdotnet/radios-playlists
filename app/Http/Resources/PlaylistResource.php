@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\Parser\ParserService;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 use JsonSerializable;
@@ -23,6 +24,7 @@ class PlaylistResource extends JsonResource
             'name'        => $this->name,
             'songs'       => SongResource::collection($this->whenLoaded('songs')),
             'songs_count' => $this->songs()->count(),
+            'active'      => ParserService::isRadioActive($this->slug),
             'url'         => Arr::get($this->spotifyPlaylist?->data, 'external_urls.spotify'),
         ];
     }
