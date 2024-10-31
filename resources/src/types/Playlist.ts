@@ -9,11 +9,11 @@ export interface Playlist {
   songs?: Song[];
 }
 
-export interface playlistsHttpResponse {
+export interface PlaylistsHttpResponse {
   data: Playlist[];
 }
 
-export interface playlistHttpResponse {
+export interface PlaylistHttpResponse {
   data: Playlist;
 }
 
@@ -26,11 +26,20 @@ export interface SpotifyPlaylist {
   recently_created: boolean;
 }
 
-export interface playlistSyncHttpResponse {
+export interface PlaylistSyncHttpResponse {
   data: {
     synced_songs: number;
     spotify_playlist: SpotifyPlaylist;
   };
 }
 
-export type PlaylistSync = playlistSyncHttpResponse['data'];
+export type PlaylistSync = PlaylistSyncHttpResponse['data'];
+
+export type PlaylistStats = {
+  [key: string]: {
+    total: number;
+    count: number;
+  };
+};
+
+export type PlaylistStatsHttpResponse = PlaylistStats;

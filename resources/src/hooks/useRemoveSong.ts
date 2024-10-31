@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Song } from '@/types/Song';
-import songs, { getSongsResponse } from '@/utils/api/songs';
+import songs, { GetSongsResponse } from '@/utils/api/songs';
 import { getQueryKeyList } from './useGetSongs';
 
 export function useRemoveSong() {
@@ -30,29 +30,29 @@ export function useRemoveSong() {
         queryKey: getQueryKeyList(playlistId, currentPage, term),
       });
 
-      const previousSongs = queryClient.getQueryData<getSongsResponse>(
+      const previousSongs = queryClient.getQueryData<GetSongsResponse>(
         getQueryKeyList(playlistId, currentPage, term),
       );
 
       if (previousSongs) {
-        queryClient.setQueryData<getSongsResponse>(
+        queryClient.setQueryData<GetSongsResponse>(
           getQueryKeyList(playlistId, currentPage, term),
           (old) =>
             ({
               ...old,
               songs: old?.songs.filter((song) => song.id !== songId),
-            } as getSongsResponse),
+            } as GetSongsResponse),
         );
 
         if (currentPage != previousSongs.meta.last_page) {
-          const nextPageSongs = queryClient.getQueryData<getSongsResponse>(
+          const nextPageSongs = queryClient.getQueryData<GetSongsResponse>(
             getQueryKeyList(playlistId, currentPage + 1, term),
           );
 
           if (nextPageSongs) {
             const songToPush: Song = nextPageSongs.songs.shift() as Song;
 
-            queryClient.setQueryData<getSongsResponse>(
+            queryClient.setQueryData<GetSongsResponse>(
               getQueryKeyList(playlistId, currentPage, term),
               (old) => {
                 const newSongs = [...(old?.songs ?? []), songToPush];
@@ -60,18 +60,18 @@ export function useRemoveSong() {
                 return {
                   ...old,
                   songs: newSongs,
-                } as getSongsResponse;
+                } as GetSongsResponse;
               },
             );
 
             if (nextPageSongs) {
-              queryClient.setQueryData<getSongsResponse>(
+              queryClient.setQueryData<GetSongsResponse>(
                 getQueryKeyList(playlistId, currentPage + 1, term),
                 (old) => {
                   return {
                     ...old,
                     songs: nextPageSongs.songs,
-                  } as getSongsResponse;
+                  } as GetSongsResponse;
                 },
               );
             }

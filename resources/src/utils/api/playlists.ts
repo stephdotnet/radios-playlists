@@ -1,10 +1,12 @@
 import { AxiosResponse } from 'axios';
 import {
   Playlist,
+  PlaylistHttpResponse,
+  PlaylistStats,
+  PlaylistStatsHttpResponse,
   PlaylistSync,
-  playlistHttpResponse,
-  playlistSyncHttpResponse,
-  playlistsHttpResponse,
+  PlaylistSyncHttpResponse,
+  PlaylistsHttpResponse,
 } from '@/types/Playlist';
 import { dataGetValue } from '@/utils';
 import { apiClient } from './api';
@@ -22,7 +24,7 @@ interface getPlaylistsFunction {
 const ENDPOINT = 'playlists';
 
 const get: getPlaylistsFunction = async (page, options) => {
-  const response: AxiosResponse<playlistsHttpResponse> = await apiClient.get(
+  const response: AxiosResponse<PlaylistsHttpResponse> = await apiClient.get(
     ENDPOINT,
     {
       params: { limit: dataGetValue(options, 'limit', 50), page: page ?? 1 },
@@ -38,7 +40,7 @@ interface getPlaylistFunction {
 }
 
 const show: getPlaylistFunction = async (id, options) => {
-  const response: AxiosResponse<playlistHttpResponse> = await apiClient.get(
+  const response: AxiosResponse<PlaylistHttpResponse> = await apiClient.get(
     `${ENDPOINT}/${id}`,
     {
       params: {
@@ -57,14 +59,26 @@ interface syncPlaylistFunction {
 }
 
 const sync: syncPlaylistFunction = async (id) => {
-  const response: AxiosResponse<playlistSyncHttpResponse> =
+  const response: AxiosResponse<PlaylistSyncHttpResponse> =
     await apiClient.post(`${ENDPOINT}/${id}/sync`, {});
 
   return response.data.data;
+};
+
+interface GetPlaylistStatsFunction {
+  (id: number, options?: PlaylistsRequestOptions): Promise<PlaylistStats>;
+}
+
+const stats: GetPlaylistStatsFunction = async (id, options) => {
+  const response: AxiosResponse<PlaylistStatsHttpResponse> =
+    await apiClient.get(`${ENDPOINT}/${id}/stats`, { signal: options?.signal });
+
+  return response.data;
 };
 
 export default {
   get,
   show,
   sync,
+  stats,
 };

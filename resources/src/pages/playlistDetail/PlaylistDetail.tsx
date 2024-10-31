@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { Clear, Favorite } from '@mui/icons-material';
@@ -11,7 +11,9 @@ import {
   InputAdornment,
   Pagination,
   Skeleton,
-  TextField, useMediaQuery, useTheme,
+  TextField,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
@@ -29,6 +31,7 @@ import useSyncPlaylist from '@/hooks/useSyncPlaylist';
 import useDebouncedState from '@/hooks/utils/useDebouncedState';
 import { Song } from '@/types/Song';
 import { useAppContext } from '@/utils/context/AppContext';
+import PlaylistStats from '@components/PlaylistStats/PlaylistStats';
 import DeleteModal from './components/DeleteModal/DeleteModal';
 import PlaylistSyncSummary from './components/PlaylistSyncSummary';
 import SongCard from './components/SongCard';
@@ -100,8 +103,8 @@ const PlaylistDetail: React.FC = () => {
     data: dataSongs,
   } = useGetSongs(id, page, term);
 
-  const handleSyncPlaylist = async () => {
-    await mutate(id, {
+  const handleSyncPlaylist = () => {
+    mutate(id, {
       onError: () => {
         addAlert({
           type: 'error',
@@ -111,10 +114,7 @@ const PlaylistDetail: React.FC = () => {
     });
   };
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    page: number,
-  ) => {
+  const handlePageChange = (_: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
   };
 
@@ -176,7 +176,9 @@ const PlaylistDetail: React.FC = () => {
             </Box>
           )}
         </Box>
-
+        <Box marginY={2}>
+          <PlaylistStats playlistId={Number(id)} />
+        </Box>
         <Box display="flex" justifyContent="center" marginBottom={2}>
           {isLoadingPlaylist ? (
             <Skeleton variant="rectangular" height={35} width={200} />
@@ -247,7 +249,7 @@ const PlaylistDetail: React.FC = () => {
                 count={dataSongs.meta.last_page}
                 defaultPage={page}
                 siblingCount={isSmall ? 0 : 2}
-                size={isSmall ? "small" : "medium"}
+                size={isSmall ? 'small' : 'medium'}
                 onChange={handlePageChange}
               />
             </Box>
