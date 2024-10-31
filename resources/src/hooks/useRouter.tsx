@@ -4,6 +4,7 @@ import Home from '@/pages/home/Home';
 import PlaylistDetail from '@/pages/playlistDetail/PlaylistDetail';
 import i18n from '@/utils/localisation/i18n';
 import Layout from '@layouts/Layout';
+import AuthPage from '@pages/auth/Auth';
 
 export interface headerNavItem {
   path: string;
@@ -18,6 +19,10 @@ export const pages = {
   playlistDetail: {
     path: 'playlists/:id',
     slug: 'playlist-detail',
+  },
+  auth: {
+    path: '/auth',
+    slug: 'auth',
   },
 };
 
@@ -41,6 +46,10 @@ const useRouter = () => {
         {
           path: pages.playlistDetail.path,
           element: <PlaylistDetail />,
+        },
+        {
+          path: pages.auth.path,
+          element: <AuthPage />,
         },
       ],
       errorElement: <ErrorPage />,

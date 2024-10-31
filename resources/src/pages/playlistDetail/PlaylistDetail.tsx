@@ -166,14 +166,7 @@ const PlaylistDetail: React.FC = () => {
               <Skeleton variant="rectangular" height={35} width={200} />
             </Box>
           ) : (
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <Box marginBottom={1}>
-                {t('pages.playlist_detail.login_info')}
-              </Box>
-              <Box>
-                <SpotifyAuthButton />
-              </Box>
-            </Box>
+            <></>
           )}
         </Box>
         <Box marginY={2}>
