@@ -15,7 +15,6 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { LineChart } from '@mui/x-charts';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
 import { SpotifyAuthButton } from '@/components/SpotifyAuth';
@@ -32,10 +31,10 @@ import useSyncPlaylist from '@/hooks/useSyncPlaylist';
 import useDebouncedState from '@/hooks/utils/useDebouncedState';
 import { Song } from '@/types/Song';
 import { useAppContext } from '@/utils/context/AppContext';
+import PlaylistStats from '@components/PlaylistStats/PlaylistStats';
 import DeleteModal from './components/DeleteModal/DeleteModal';
 import PlaylistSyncSummary from './components/PlaylistSyncSummary';
 import SongCard from './components/SongCard';
-import PlaylistStats from "@components/PlaylistStats/PlaylistStats";
 
 type Props = {
   id: string;
@@ -115,10 +114,7 @@ const PlaylistDetail: React.FC = () => {
     });
   };
 
-  const handlePageChange = (
-    _: React.ChangeEvent<unknown>,
-    page: number,
-  ) => {
+  const handlePageChange = (_: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
   };
 

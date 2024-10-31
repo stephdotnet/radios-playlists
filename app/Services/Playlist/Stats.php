@@ -24,9 +24,10 @@ class Stats
         $total = 1;
 
         foreach ($this->playlist->songs()->orderBy('created_at')->cursor() as $song) {
-            $data[$song->created_at->format('Y-m-d')] = [
+            $key        = $song->created_at->startOfDay()->toIso8601String();
+            $data[$key] = [
                 'total' => $total++,
-                'count' => Arr::get($data, $song->created_at->format('Y-m-d') . '.count', 0) + 1
+                'count' => Arr::get($data, $key . '.count', 0) + 1
             ];
         }
 
@@ -36,10 +37,11 @@ class Stats
 
         $total = 0;
         foreach (CarbonPeriod::create($oldest->created_at, '1 day', $latest->created_at) as $period) {
-            if (isset($data[$period->format('Y-m-d')])) {
-                $total = $data[$period->format('Y-m-d')]['total'];
+            $key = $period->startOfDay()->toIso8601String();
+            if (isset($data[$key])) {
+                $total = $data[$key]['total'];
             } else {
-                $data[$period->format('Y-m-d')] = [
+                $data[$key] = [
                     'total' => $total,
                     'count' => 0
                 ];
