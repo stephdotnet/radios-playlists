@@ -6,6 +6,7 @@ use App\DataTransferObjects\SpotifySongDTO;
 use App\Facades\Parser;
 use App\Models\Playlist;
 use App\Models\Song;
+use App\Services\Parser\ParserService;
 use App\Services\Spotify\SpotifyApi;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
@@ -82,7 +83,7 @@ class ParseOneCommand extends Command
 
     protected function isRadioAllowed($radio): bool
     {
-        return in_array($radio, config('services.parser.radios'));
+        return ParserService::isRadioActive($radio);
     }
 
     protected function logInfo($message): void

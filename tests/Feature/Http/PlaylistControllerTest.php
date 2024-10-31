@@ -38,6 +38,7 @@ class PlaylistControllerTest extends TestCase
                     'id',
                     'slug',
                     'songs_count',
+                    'active',
                 ],
             ]);
     }

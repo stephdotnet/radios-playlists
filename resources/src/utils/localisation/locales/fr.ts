@@ -27,6 +27,8 @@ const components = {
   'auth.login.button_text': 'Se connecter à Spotify',
   'auth.greeting': 'Bonjour {{name}} !',
   'auth.logout': 'Se déconnecter',
+  'playlist.status.active': 'Activée',
+  'playlist.status.inactive': 'Désactivée',
 };
 
 const system = {
