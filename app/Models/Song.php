@@ -21,7 +21,7 @@ class Song extends Model
 
     public function playlists()
     {
-        return $this->belongsToMany(Playlist::class);
+        return $this->belongsToMany(Playlist::class)->withTimestamps();
     }
 
     public function getArtistsAttribute()

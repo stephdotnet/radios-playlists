@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 
 class Stats
 {
-    public function __construct(public Playlist $playlist, public ?array $data = null) {}
+    public function __construct(public Playlist $playlist, public array $data = []) {}
 
     public function setPlaylist(Playlist $playlist): self
     {
@@ -23,8 +23,11 @@ class Stats
         $data  = [];
         $total = 1;
 
-        foreach ($this->playlist->songs()->orderBy('created_at')->cursor() as $song) {
-            $key        = $song->created_at->startOfDay()->toIso8601String();
+        foreach ($this->playlist->songs()->orderByPivot('created_at')->cursor() as $song) {
+            $key = $song->pivot->created_at?->startOfDay()?->toIso8601String();
+            if (! $key) {
+                continue;
+            }
             $data[$key] = [
                 'total' => $total++,
                 'count' => Arr::get($data, $key . '.count', 0) + 1
@@ -32,11 +35,15 @@ class Stats
         }
 
         // Fill in the gaps
-        $oldest = $this->playlist->songs()->oldest()->first();
-        $latest = $this->playlist->songs()->latest()->first();
+        $oldest = $this->playlist->oldestSong();
+        $latest = $this->playlist->newestSong();
+
+        if (! $oldest || ! $latest) {
+            return $this;
+        }
 
         $total = 0;
-        foreach (CarbonPeriod::create($oldest->created_at, '1 day', $latest->created_at) as $period) {
+        foreach (CarbonPeriod::create($oldest->pivot->created_at, '1 day', $latest->pivot->created_at) as $period) {
             $key = $period->startOfDay()->toIso8601String();
             if (isset($data[$key])) {
                 $total = $data[$key]['total'];
@@ -58,5 +65,10 @@ class Stats
     public function json(): bool|string
     {
         return json_encode($this->data, true);
+    }
+
+    public function array(): array
+    {
+        return $this->data;
     }
 }
