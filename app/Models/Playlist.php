@@ -21,12 +21,12 @@ class Playlist extends Model
 
     public function songs(): BelongsToMany
     {
-        return $this->belongsToMany(Song::class);
+        return $this->belongsToMany(Song::class)->withTimestamps();
     }
 
     public function forbiddenSongs(): BelongsToMany
     {
-        return $this->belongsToMany(Song::class, 'playlist_forbidden_songs');
+        return $this->belongsToMany(Song::class, 'playlist_forbidden_songs')->withTimestamps();
     }
 
     public function spotifyPlaylist(): HasOne
@@ -39,17 +39,27 @@ class Playlist extends Model
         return (bool) $this->spotifyPlaylist;
     }
 
-    public function getRepository()
+    public function getRepository(): PlaylistRepository
     {
-        return new PlaylistRepository($this);
+        return new PlaylistRepository;
     }
 
-    public function hasSong(Song $song)
+    public function hasSong(Song $song): bool
     {
         return $this->getRepository()->hasSong($this, $song);
     }
 
-    public function hasForbiddenSong(Song $song)
+    public function oldestSong(): ?Song
+    {
+        return $this->getRepository()->oldestSong($this);
+    }
+
+    public function newestSong(): ?Song
+    {
+        return $this->getRepository()->newestSong($this);
+    }
+
+    public function hasForbiddenSong(Song $song): bool
     {
         return $this->getRepository()->hasForbiddenSong($this, $song);
     }
