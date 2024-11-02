@@ -1,6 +1,6 @@
 <?php
 
-namespace Services\Playlist;
+namespace Tests\Unit\Services\Playlist;
 
 use App\Models\Playlist;
 use App\Models\Song;

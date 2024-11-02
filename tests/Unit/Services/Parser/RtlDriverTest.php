@@ -1,6 +1,6 @@
 <?php
 
-namespace Services\Parser;
+namespace Tests\Unit\Services\Parser;
 
 use App\Exceptions\Services\Parser\InvalidResponseException;
 use App\Facades\Parser;

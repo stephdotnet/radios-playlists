@@ -1,6 +1,6 @@
 <?php
 
-namespace Http;
+namespace Tests\Feature\Http;
 
 use App\Models\Playlist;
 use App\Services\Playlist\Stats;
