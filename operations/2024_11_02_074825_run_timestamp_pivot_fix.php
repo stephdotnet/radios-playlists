@@ -1,32 +1,32 @@
 <?php
 
-namespace App\Console\Commands\Fixes;
-
 use App\Models\Playlist;
 use App\Models\Song;
-use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use TimoKoerber\LaravelOneTimeOperations\OneTimeOperation;
 
-class FixTimestampsPlaylistSong extends Command
+return new class extends OneTimeOperation
 {
     /**
-     * @var string
+     * Determine if the operation is being processed asynchronously.
      */
-    protected $signature = 'app:fix-timestamps-playlist-song';
+    protected bool $async = true;
 
     /**
-     * The console command description.
-     *
-     * @var string
+     * The queue that the job will be dispatched to.
      */
-    protected $description = 'Fix Timestamps Playlist Song';
+    protected string $queue = 'default';
 
     /**
-     * Execute the console command.
+     * A tag name, that this operation can be filtered by.
      */
-    public function handle(): void
+    protected ?string $tag = null;
+
+    /**
+     * Process the operation.
+     */
+    public function process(): void
     {
-        // Parcours les playlists
         Playlist::all()->each(function (Playlist $playlist) {
             $this->log('Fix for Playlist : ' . $playlist->id);
             $playlist->songs()->chunk(50, function (Collection $songs) use ($playlist) {
@@ -48,7 +48,6 @@ class FixTimestampsPlaylistSong extends Command
 
     protected function log($message): void
     {
-        $this->line($message);
-        $this->info($message);
+        Log::info($message);
     }
-}
+};

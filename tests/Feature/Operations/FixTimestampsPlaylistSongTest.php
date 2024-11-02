@@ -1,11 +1,11 @@
 <?php
 
-namespace Commands\Fixes;
+namespace Tests\Feature\Operations;
 
 use App\Models\Playlist;
 use App\Models\Song;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
+use TiMacDonald\Log\LogFake;
 
 class FixTimestampsPlaylistSongTest extends TestCase
 {
@@ -14,6 +14,8 @@ class FixTimestampsPlaylistSongTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        LogFake::bind();
 
         $this->playlist = Playlist::factory([
             'created_at' => now()->subMonth()
@@ -29,7 +31,7 @@ class FixTimestampsPlaylistSongTest extends TestCase
         $this->playlist->songs->first()->pivot
             ->update(['created_at' => null, 'updated_at' => null]);
 
-        Artisan::call('app:fix-timestamps-playlist-song');
+        $this->artisan('operations:process 2024_11_02_074825_run_timestamp_pivot_fix');
 
         $this->assertEquals(
             $this->playlist->songs->first()->pivot->refresh()->created_at->format('Y-m-d'),
@@ -46,7 +48,7 @@ class FixTimestampsPlaylistSongTest extends TestCase
         $this->playlist->songs->first()->pivot
             ->update(['created_at' => null, 'updated_at' => null]);
 
-        Artisan::call('app:fix-timestamps-playlist-song');
+        $this->artisan('operations:process 2024_11_02_074825_run_timestamp_pivot_fix');
 
         $this->assertNull($this->playlist->songs->first()->pivot->refresh()->created_at);
     }
