@@ -7,7 +7,7 @@ use App\Models\Song;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
-class FixTimestampsPlaylistSong extends TestCase
+class FixTimestampsPlaylistSongTest extends TestCase
 {
     protected Playlist $playlist;
 
