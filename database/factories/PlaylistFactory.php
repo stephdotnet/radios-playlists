@@ -28,6 +28,11 @@ class PlaylistFactory extends Factory
         return $this->has(SongFactory::new()->count($count), 'songs');
     }
 
+    public function withSpotifyPlaylist(int $count = 10)
+    {
+        return $this->has(SpotifyPlaylistFactory::new()->count($count), 'songs');
+    }
+
     public function hasForbiddenSongAttached(Song $song)
     {
         return $this->hasAttached($song, [], 'forbiddenSongs');

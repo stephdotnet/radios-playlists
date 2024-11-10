@@ -33,6 +33,13 @@ class SpotifyPlaylistFactory extends Factory
         ]);
     }
 
+    public function song(Playlist $playlist)
+    {
+        return $this->state([
+            'playlist_id' => $playlist->id,
+        ]);
+    }
+
     public function withSongs(int $count = 10)
     {
         return $this->has(SongFactory::new()->count($count));
