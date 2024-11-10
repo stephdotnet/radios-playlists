@@ -6,6 +6,7 @@ use App\Services\Parser\ParserService;
 use App\Services\Spotify\SpotifyApi;
 use App\Services\Spotify\SpotifyApiClient;
 use App\Services\Spotify\SpotifyApiSync;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use SpotifyWebAPI\Session;
 use SpotifyWebAPI\SpotifyWebAPI;
@@ -50,6 +51,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Model::shouldBeStrict();
     }
 }
