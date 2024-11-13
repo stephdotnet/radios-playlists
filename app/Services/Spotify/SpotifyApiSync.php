@@ -118,7 +118,7 @@ class SpotifyApiSync
     /**
      * Sync all the remote spotify tracks with the local database
      */
-    protected function syncRemoteTracks(SpotifyPlaylist $spotifyPlaylist)
+    protected function syncRemoteTracks(SpotifyPlaylist $spotifyPlaylist): void
     {
         $remoteTracksIds = [];
         for ($i = 0; $i < data_get($spotifyPlaylist->data, 'tracks.total'); $i += 100) {
@@ -140,7 +140,7 @@ class SpotifyApiSync
         $spotifyPlaylist->refresh();
     }
 
-    protected function addMissingSongsToRemotePlaylist(SpotifyPlaylist $spotifyPlaylist)
+    protected function addMissingSongsToRemotePlaylist(SpotifyPlaylist $spotifyPlaylist): int
     {
         $songsToAdd = $spotifyPlaylist->getMissingSongs();
 

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Playlist;
+use App\Models\SpotifyPlaylist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,6 +26,11 @@ class SongFactory extends Factory
     }
 
     public function playlist(Playlist $playlist)
+    {
+        return $this->hasAttached($playlist);
+    }
+
+    public function spotifyPlaylist(SpotifyPlaylist $playlist)
     {
         return $this->hasAttached($playlist);
     }

@@ -25,6 +25,13 @@ const PlaylistCardStyles = (theme: Theme) => {
         chip: {
           marginLeft: 1,
           fontSize: '12',
+          padding: 1.5,
+        },
+        sync: {
+          marginLeft: 1,
+          fontSize: '10',
+          padding: 0.5,
+          height: '22px',
         },
       },
     },

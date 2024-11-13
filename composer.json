@@ -17,6 +17,7 @@
         "timokoerber/laravel-one-time-operations": "^1.4.2"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.23.1",
         "laravel/pint": "^1.18.1",
         "laravel/sail": "^1.37.1",

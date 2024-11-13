@@ -1,6 +1,3 @@
-import { useTranslation } from 'react-i18next';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import { Box, Chip, Tooltip, Typography, useTheme } from '@mui/material';
 import { Playlist } from '@/types/Playlist';
 import PlaylistStatus from '@components/PlaylistCard/PlaylistStatus';
@@ -24,6 +21,16 @@ const PlaylistCard = ({ playlist }: PlaylistCardProps) => {
       <Box ml={1}>
         <PlaylistStatus active={playlist.active} />
       </Box>
+      {playlist.active && (
+        <Box>
+          <Tooltip title={`${playlist.songs_to_sync} songs to sync`}>
+            <Chip
+              label={playlist.songs_to_sync}
+              sx={styles.playlistCard.box.sync}
+            />
+          </Tooltip>
+        </Box>
+      )}
     </Box>
   );
 };

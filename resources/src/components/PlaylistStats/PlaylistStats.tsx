@@ -2,7 +2,6 @@ import {
   BarPlot,
   ChartsXAxis,
   ChartsYAxis,
-  LineChart,
   LinePlot,
   ResponsiveChartContainer,
 } from '@mui/x-charts';

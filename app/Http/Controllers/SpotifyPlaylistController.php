@@ -12,7 +12,7 @@ class SpotifyPlaylistController extends Controller
     {
         $syncResponse = app(SpotifyApiSync::class)
             ->setPlaylist($playlist)
-            ->sync($playlist);
+            ->sync();
 
         return response()->json(['data' => [
             'synced_songs'     => $syncResponse['syncedSongs'],
