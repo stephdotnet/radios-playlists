@@ -3,7 +3,6 @@ import ExitToApp from '@mui/icons-material/ExitToApp';
 import { Box, Link, Skeleton, Typography, useTheme } from '@mui/material';
 import { AxiosError } from 'axios';
 import { Me } from '@/types/Me';
-import SpotifyAuthButton from './SpotifyAuthButton';
 
 interface SpotifyAuthProps {
   dataMe?: Me;

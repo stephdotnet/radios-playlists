@@ -29,7 +29,7 @@ const initialState: AppContextStateType = {
 
 interface Action {
   type: string;
-  payload: any;
+  payload: any; // eslint-disable-line
 }
 
 function appReducer(state: AppContextStateType, action: Action) {

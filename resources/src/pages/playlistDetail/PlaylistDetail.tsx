@@ -17,7 +17,6 @@ import {
 } from '@mui/material';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
-import { SpotifyAuthButton } from '@/components/SpotifyAuth';
 import { SpotifyButton } from '@/components/SpotifyButton';
 import Link from '@/components/atoms/Link';
 import PlaylistsSkeleton from '@/components/skeletons/PlaylistsSkeleton';

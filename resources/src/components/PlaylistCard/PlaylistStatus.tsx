@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
-import { Tooltip, useTheme } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
 export interface PlaylistStatusProps {
