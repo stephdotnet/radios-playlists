@@ -4,6 +4,7 @@
         "dev": "vite",
         "build": "vite build",
         "lint": "eslint ./resources/src --ext .ts,.tsx --fix",
+        "lint-check": "eslint ./resources/src --ext .ts,.tsx",
         "prettier": "prettier-eslint --write ./resources/src/**/*.{ts,tsx}"
     },
     "devDependencies": {
