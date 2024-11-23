@@ -14,7 +14,7 @@ class JazzRadioDriverTest extends TestCase
 {
     use ParserMockTrait;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
