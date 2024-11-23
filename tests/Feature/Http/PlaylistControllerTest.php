@@ -7,11 +7,9 @@ use App\Models\Song;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
-use Tests\Traits\DuplicateQueries;
 
 class PlaylistControllerTest extends TestCase
 {
-    use DuplicateQueries;
     use RefreshDatabase;
 
     public function test_index()
