@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http;
 
 use App\Models\Playlist;
+use App\Models\Song;
 use App\Models\SpotifyPlaylist;
 use App\Services\Spotify\SpotifyApiClient;
 use App\Services\Spotify\SpotifyApiSync;
@@ -48,5 +49,27 @@ class SpotifyPlaylistControllerTest extends TestCase
         $this
             ->post(route('spotify.playlist.sync', ['playlist' => Playlist::factory()->create()]))
             ->assertRedirect(route('index'));
+    }
+
+    public function test_songs_to_sync()
+    {
+        $songs = Song::factory()->count(2)->create();
+
+        $playlist = Playlist::factory()
+            ->hasAttached($songs)
+            ->create();
+
+        SpotifyPlaylist::factory()
+            ->hasAttached($songs->first())
+            ->for($playlist)
+            ->create();
+
+        $this->getJson(route('spotify.playlist.sync-count', ['playlist' => $playlist->id]))
+            ->assertOk()
+            ->assertJsonFragment([
+                'data' => [
+                    'count' => 1
+                ]
+            ]);
     }
 }

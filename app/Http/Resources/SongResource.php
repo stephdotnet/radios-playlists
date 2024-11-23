@@ -22,6 +22,7 @@ class SongResource extends JsonResource
             'artists'     => $this->artists,
             'spotify_url' => $this->spotify_url,
             'created_at'  => $this->created_at,
+            'added_at'    => $this->pivot->created_at,
         ];
     }
 }
