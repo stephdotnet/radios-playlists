@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class SpotifyAuthControllerTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

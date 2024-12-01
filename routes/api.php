@@ -32,6 +32,9 @@ Route::get('/playlists/{playlist}/stats', PlaylistStatsController::class . '@sho
 Route::get('/playlists/{playlist}/songs', PlaylistController::class . '@songs')
     ->name('playlist.songs');
 
+Route::get('/playlists/{playlist}/sync-count/', SpotifyPlaylistController::class . '@count')
+    ->name('spotify.playlist.sync-count');
+
 Route::group(['middleware' => 'spotify'], function () {
     Route::post('/playlists/{playlist}/sync/', SpotifyPlaylistController::class . '@sync')
         ->name('spotify.playlist.sync');

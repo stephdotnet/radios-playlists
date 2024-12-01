@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Song;
+use App\Models\SpotifyPlaylist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -23,17 +24,20 @@ class PlaylistFactory extends Factory
         ];
     }
 
-    public function withSongs(int $count = 10)
+    public function withSongs(int $count = 10): PlaylistFactory|Factory
     {
         return $this->has(SongFactory::new()->count($count), 'songs');
     }
 
-    public function withSpotifyPlaylist(int $count = 10)
+    public function withSpotifyPlaylist(?SpotifyPlaylistFactory $spotifyPlaylist = null): PlaylistFactory|Factory
     {
-        return $this->has(SpotifyPlaylistFactory::new()->count($count), 'songs');
+        return $this->has(
+            $spotifyPlaylist ?? SpotifyPlaylist::factory(),
+            'songs',
+        );
     }
 
-    public function hasForbiddenSongAttached(Song $song)
+    public function hasForbiddenSongAttached(Song $song): PlaylistFactory|Factory
     {
         return $this->hasAttached($song, [], 'forbiddenSongs');
     }

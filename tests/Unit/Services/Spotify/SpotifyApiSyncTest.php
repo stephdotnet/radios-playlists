@@ -17,7 +17,7 @@ use Tests\TestCase;
 
 class SpotifyApiSyncTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
