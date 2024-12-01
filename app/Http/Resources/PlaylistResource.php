@@ -21,7 +21,10 @@ class PlaylistResource extends JsonResource
             'songs'       => SongResource::collection($this->whenLoaded('songs')),
             'songs_count' => $this->songs()->count(),
             'active'      => ParserService::isRadioActive($this->slug),
-            'url'         => Arr::get($this->spotifyPlaylist?->data, 'external_urls.spotify'),
+            'url'         => $this->whenLoaded(
+                'spotifyPlaylist',
+                fn () => Arr::get($this->spotifyPlaylist?->data, 'external_urls.spotify'),
+            ),
         ];
     }
 }

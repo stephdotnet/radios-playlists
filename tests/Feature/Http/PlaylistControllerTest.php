@@ -14,7 +14,10 @@ class PlaylistControllerTest extends TestCase
 
     public function test_index()
     {
-        Playlist::factory()->withSongs(5)->create();
+        Playlist::factory()
+            ->withSongs(5)
+            ->withSpotifyPlaylist()
+            ->create();
 
         $this->getJson(route('playlist.index'))
             ->assertOk()

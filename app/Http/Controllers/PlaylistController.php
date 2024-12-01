@@ -24,6 +24,7 @@ class PlaylistController extends Controller
         return PlaylistResource::collection(
             Playlist::query()
                 ->withCount('songs')
+                ->with('spotifyPlaylist')
                 ->orderBy('songs_count', 'desc')
                 ->get(),
         );
