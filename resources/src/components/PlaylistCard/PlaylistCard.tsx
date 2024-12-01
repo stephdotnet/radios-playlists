@@ -1,6 +1,7 @@
-import { Box, Chip, Tooltip, Typography, useTheme } from '@mui/material';
+import { Box, Chip, Typography, useTheme } from '@mui/material';
 import { Playlist } from '@/types/Playlist';
 import PlaylistStatus from '@components/PlaylistCard/PlaylistStatus';
+import PlaylistSyncCount from '@components/PlaylistCard/PlaylistSyncCount';
 import PlaylistCardStyles from './PlaylistCard.style';
 
 export interface PlaylistCardProps {
@@ -21,16 +22,7 @@ const PlaylistCard = ({ playlist }: PlaylistCardProps) => {
       <Box ml={1}>
         <PlaylistStatus active={playlist.active} />
       </Box>
-      {playlist.active && (
-        <Box>
-          <Tooltip title={`${playlist.songs_to_sync} songs to sync`}>
-            <Chip
-              label={playlist.songs_to_sync}
-              sx={styles.playlistCard.box.sync}
-            />
-          </Tooltip>
-        </Box>
-      )}
+      {playlist.active && <PlaylistSyncCount playlist={playlist} />}
     </Box>
   );
 };

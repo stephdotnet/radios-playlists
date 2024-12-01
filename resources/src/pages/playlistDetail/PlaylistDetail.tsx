@@ -15,6 +15,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import HttpErrorBox from '@/components/HttpErrorBox';
 import { PlaylistCard } from '@/components/PlaylistCard';
 import { SpotifyButton } from '@/components/SpotifyButton';
@@ -22,7 +23,7 @@ import Link from '@/components/atoms/Link';
 import PlaylistsSkeleton from '@/components/skeletons/PlaylistsSkeleton';
 import SongsSkeleton from '@/components/skeletons/SongsSkeleton';
 import { useGetMe } from '@/hooks/useGetMe';
-import { useShowPlaylist } from '@/hooks/useGetPlaylists';
+import { getQueryKeySyncCount, useShowPlaylist } from '@/hooks/useGetPlaylists';
 import { useGetSongs } from '@/hooks/useGetSongs';
 import { useRemoveSong } from '@/hooks/useRemoveSong';
 import { pages } from '@/hooks/useRouter';
@@ -49,6 +50,7 @@ const PlaylistDetail: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [songToDelete, setSongToDelete] = useState<Song | null>(null);
   const [term, setTerm] = useDebouncedState<string | null>(null, 500);
+  const queryClient = useQueryClient();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -109,6 +111,9 @@ const PlaylistDetail: React.FC = () => {
           type: 'error',
           title: t('pages.playlist_detail.sync.error'),
         });
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(getQueryKeySyncCount(id));
       },
     });
   };

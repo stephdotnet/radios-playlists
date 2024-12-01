@@ -45,3 +45,17 @@ export type PlaylistStats = {
 };
 
 export type PlaylistStatsHttpResponse = PlaylistStats;
+
+/*
+|--------------------------------------------------------------------------
+| Sync Count
+|--------------------------------------------------------------------------
+*/
+
+export type PlaylistSyncCount = {
+  count: number;
+};
+
+export type PlaylistSyncCountHttpResponse = {
+  data: PlaylistSyncCount;
+};
