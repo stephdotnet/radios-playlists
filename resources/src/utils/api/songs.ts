@@ -8,6 +8,10 @@ interface SongsRequestOptions {
   page?: number;
   limit?: number;
   term?: string | null;
+  sort?: {
+    field: string;
+    direction: '+' | '-';
+  };
   signal?: AbortSignal;
 }
 
@@ -27,6 +31,7 @@ interface GetSongsFunction {
 interface QueryParameters {
   limit?: number;
   page?: number;
+  sort?: string;
   filter?: {
     term?: string;
   };
@@ -42,6 +47,12 @@ const get: GetSongsFunction = async (playlistId, page, options) => {
 
   if (dataGetValue(options, 'term')) {
     queryParameters['filter'] = { term: dataGetValue(options, 'term') };
+  }
+
+  if (dataGetValue(options, 'sort')) {
+    queryParameters['sort'] =
+      dataGetValue(options, 'sort.direction') +
+      dataGetValue(options, 'sort.field');
   }
 
   const response: AxiosResponse<songsHttpResponse> = await apiClient.get(
