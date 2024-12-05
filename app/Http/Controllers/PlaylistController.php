@@ -11,6 +11,7 @@ use App\Services\Spotify\SpotifyApi;
 use App\Services\Spotify\SpotifyApiSync;
 use Illuminate\Http\Response;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PlaylistController extends Controller
@@ -32,11 +33,7 @@ class PlaylistController extends Controller
 
     public function show(Playlist $playlist)
     {
-        return PlaylistResource::make(
-            $playlist->load([
-                'songs' => fn ($q) => $q->orderByPivot('created_at', 'desc'),
-            ]),
-        );
+        return PlaylistResource::make($playlist);
     }
 
     public function songs(Playlist $playlist)
@@ -44,6 +41,9 @@ class PlaylistController extends Controller
         $query = QueryBuilder::for($playlist->songs())
             ->allowedFilters([
                 AllowedFilter::custom('term', new SongTermSimpleFilter),
+            ])
+            ->allowedSorts([
+                AllowedSort::field('created_at', 'pivot_created_at'),
             ]);
 
         return SongResource::collection(

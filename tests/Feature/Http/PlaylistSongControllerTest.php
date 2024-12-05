@@ -7,6 +7,7 @@ use App\Models\Song;
 use App\Models\SpotifyPlaylist;
 use App\Services\Spotify\SpotifyApiClient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Arr;
 use Mockery;
 use Tests\Fixtures\Spotify\SpotifyPlaylistFixtures;
 use Tests\Mocks\SpotifyApiClientMock;
@@ -124,5 +125,25 @@ class PlaylistSongControllerTest extends TestCase
         )
             ->assertOk()
             ->assertJsonCount(1, 'data');
+    }
+
+    public function test_songs_order()
+    {
+        $playlist = Playlist::factory()->create();
+
+        for ($i = 1; $i <= 2; $i++) {
+            $song = Song::factory()->create();
+            $playlist->songs()->attach($song, ['created_at' => now()->addDay($i)]);
+        }
+
+        $songs = $this->getJson(route('playlist.songs', [
+            'playlist' => $playlist->id,
+            'sort'     => '-created_at',
+        ]))
+            ->assertOk()
+            ->json('data');
+
+        $this->assertEquals(2, Arr::get($songs, '0.id'));
+        $this->assertEquals(1, Arr::get($songs, '1.id'));
     }
 }
