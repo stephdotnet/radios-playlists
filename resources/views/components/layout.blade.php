@@ -2,7 +2,7 @@
     <head>
         @php
             $title = "Radios Playlists - Creating playlists from your radios while you sleep";
-            $description= "This pre-alpha app's goal is to listen your favorite radios for you, and to make playlists that you can listen later.";    
+            $description= "This pre-alpha app's goal is to listen your favorite radios for you, and to make playlists that you can listen later.";
         @endphp
         <!-- Primary Meta Tags -->
         <meta name="title" content="{{ $title }}">
@@ -10,10 +10,10 @@
 
         <title>{{ $title }}</title>
 
-        <!-- Favicon -->  
+        <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="{{ asset('favicon/favicon.svg') }}">
-        <link rel="icon" type="image/png" href="{{ asset('favicon/favicon.png') }}">              
-        
+        <link rel="icon" type="image/png" href="{{ asset('favicon/favicon.png') }}">
+
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ route('index') }}">
@@ -26,7 +26,7 @@
         <meta property="twitter:url" content="{{ route('index') }}">
         <meta property="twitter:title" content="{{ $title }}">
         <meta property="twitter:description" content="{{ $description }}">
-        <meta property="twitter:image" content="{{ asset('images/social.jpg') }}">        
+        <meta property="twitter:image" content="{{ asset('images/social.jpg') }}">
 
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link
@@ -36,8 +36,13 @@
 
         @viteReactRefresh
         @vite(['resources/src/index.tsx'])
+        <style>
+            body {
+                background: rgb(18, 18, 18);
+            }
+        </style>
     </head>
-    <body>
+    <body
         {{ $content }}
     </body>
 </html>

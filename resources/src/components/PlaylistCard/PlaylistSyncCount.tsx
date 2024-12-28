@@ -10,13 +10,17 @@ export interface PlaylistSyncCountProps {
 const PlaylistSyncCount = ({ playlist }: PlaylistSyncCountProps) => {
   const theme = useTheme();
 
-  const { data, isLoading } = useSyncCountPlaylist(playlist.id.toString());
+  const { data, isFetching } = useSyncCountPlaylist(playlist.id.toString());
 
   const styles = PlaylistCardStyles(theme);
 
+  if (!playlist.active) {
+    return null;
+  }
+
   return (
     <Box>
-      {isLoading ? (
+      {isFetching ? (
         <Chip
           label={<CircularProgress size={14} />}
           sx={styles.playlistCard.box.sync}

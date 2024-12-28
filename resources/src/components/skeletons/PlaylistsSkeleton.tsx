@@ -10,7 +10,7 @@ const PlaylistsSkeleton = ({ count = 2 }: PlaylistsSkeletongProps) => {
       {Array.from(Array(count)).map((_, index) => (
         <Box key={index} marginY={1}>
           <Skeleton
-            variant="rectangular"
+            variant="rounded"
             height={50}
             width="100%"
             component="div"

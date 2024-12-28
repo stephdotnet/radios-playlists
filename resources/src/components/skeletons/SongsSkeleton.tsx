@@ -5,28 +5,49 @@ interface SongsSkeletonProps {
   count?: number;
 }
 
-const SongsSkeleton = ({ count = 5 }: SongsSkeletonProps) => {
-  const SongSkeleton = () => (
-    <Skeleton variant="rectangular" height={40} width="100%" component="div" />
-  );
+const SongSkeleton = () => (
+  <Skeleton variant="rounded" height={40} width="100%" component="div" />
+);
 
+const PaginationSkeleton = () => (
+  <Skeleton
+    variant="rounded"
+    height={30}
+    sx={{
+      margin: 1,
+    }}
+    width="50%"
+    component="div"
+  />
+);
+
+const SongsSkeleton = ({ count = 10 }: SongsSkeletonProps) => {
   return (
-    <Box display="flex" justifyContent="left" flexDirection="column">
-      {Array.from(Array(count)).map((_, index) => (
-        <Grid container columnSpacing={2} key={index}>
-          <Grid item xs={12} md={6}>
-            <Box marginY={1}>
-              <SongSkeleton />
-            </Box>
+    <>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection="column"
+      >
+        <PaginationSkeleton />
+        {Array.from(Array(count)).map((_, index) => (
+          <Grid container columnSpacing={2} key={index}>
+            <Grid item xs={12} md={6}>
+              <Box marginY={1}>
+                <SongSkeleton />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box marginY={1}>
+                <SongSkeleton />
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Box marginY={1}>
-              <SongSkeleton />
-            </Box>
-          </Grid>
-        </Grid>
-      ))}
-    </Box>
+        ))}
+        <PaginationSkeleton />
+      </Box>
+    </>
   );
 };
 

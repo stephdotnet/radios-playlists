@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { Box } from '@mui/material';
 import { Chip } from '@mui/material';
 import { Typography } from '@mui/material';
-import Link from '@/components/atoms/Link';
 import { PlaylistSync } from '@/types/Playlist';
 
 const PlaylistSyncSummary = ({ data }: { data: PlaylistSync }) => {
@@ -22,9 +21,6 @@ const PlaylistSyncSummary = ({ data }: { data: PlaylistSync }) => {
           })}
         />
       </Box>
-      <Link target="_blank" href={data.spotify_playlist.url}>
-        {t('pages.playlist_detail.sync.playlist.spotify_url')}
-      </Link>
     </Box>
   );
 };

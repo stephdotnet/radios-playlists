@@ -4,7 +4,7 @@ import { HttpMeta } from '@/types/httpMeta';
 import { dataGetValue } from '@/utils';
 import { apiClient } from './api';
 
-interface SongsRequestOptions {
+export interface SongsRequestOptions {
   page?: number;
   limit?: number;
   term?: string | null;
