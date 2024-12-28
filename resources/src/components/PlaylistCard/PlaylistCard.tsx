@@ -22,7 +22,7 @@ const PlaylistCard = ({ playlist }: PlaylistCardProps) => {
       <Box ml={1}>
         <PlaylistStatus active={playlist.active} />
       </Box>
-      {playlist.active && <PlaylistSyncCount playlist={playlist} />}
+      <PlaylistSyncCount playlist={playlist} />
     </Box>
   );
 };

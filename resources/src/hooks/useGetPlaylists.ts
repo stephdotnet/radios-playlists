@@ -5,7 +5,7 @@ import playlists from '@/utils/api/playlists';
 
 const QUERY_KEY_PLAYLISTS = 'playlists';
 const QUERY_KEY_PLAYLIST = 'playlist';
-const QUERY_KEY_SYNC_COUNT = 'playlist';
+const QUERY_KEY_SYNC_COUNT = 'sync-count';
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ export function useShowPlaylist(id: string) {
 */
 
 export function getQueryKeySyncCount(id?: string): QueryKey {
-  return [QUERY_KEY_PLAYLIST, QUERY_KEY_SYNC_COUNT, id];
+  return [QUERY_KEY_PLAYLIST, id, QUERY_KEY_SYNC_COUNT];
 }
 
 export function useSyncCountPlaylist(id: string) {

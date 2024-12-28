@@ -167,7 +167,7 @@ const PlaylistDetail: React.FC = () => {
             )
           ) : isLoadingMe ? (
             <Box>
-              <Skeleton variant="rectangular" height={35} width={200} />
+              <Skeleton variant="rounded" height={35} width={200} />
             </Box>
           ) : (
             <></>
@@ -178,7 +178,7 @@ const PlaylistDetail: React.FC = () => {
         </Box>
         <Box display="flex" justifyContent="center" marginBottom={2}>
           {isLoadingPlaylist ? (
-            <Skeleton variant="rectangular" height={35} width={200} />
+            <Skeleton variant="rounded" height={35} width={200} />
           ) : (
             dataPlaylist?.url && (
               <SpotifyButton
@@ -227,6 +227,15 @@ const PlaylistDetail: React.FC = () => {
           <HttpErrorBox error={errorSongs} />
         ) : (
           <Box marginTop={2} position="relative">
+            <Box display="flex" justifyContent="center" my={2}>
+              <Pagination
+                count={dataSongs.meta.last_page}
+                defaultPage={page}
+                siblingCount={isSmall ? 0 : 2}
+                size={isSmall ? 'small' : 'medium'}
+                onChange={handlePageChange}
+              />
+            </Box>
             <Grid container columnSpacing={2} rowSpacing={1}>
               {dataSongs &&
                 dataSongs.songs.map((song) => {
