@@ -9,13 +9,19 @@ import { slugify } from '@/utils/system/string';
 
 const QUERY_KEY_SONGS = 'songs';
 
+const defaultSort = {
+  field: 'created_at',
+  direction: '-',
+} as const;
+
 export function getQueryKeyList(
   playlistId: string,
   page: number,
   term: string | null,
-  sort: SongsRequestOptions['sort'],
+  sort?: SongsRequestOptions['sort'],
 ): QueryKey {
-  const keys = [QUERY_KEY_SONGS, playlistId, page, sort];
+  const queryKeySort = sort ?? defaultSort;
+  const keys = [QUERY_KEY_SONGS, playlistId, page, queryKeySort];
 
   if (term !== null && term != '') {
     keys.push(slugify(term));
@@ -26,10 +32,7 @@ export function getQueryKeyList(
 
 export function useGetSongs(playlistId: string, page = 1, term: string | null) {
   const queryClient = useQueryClient();
-  const sort = {
-    field: 'created_at',
-    direction: '-',
-  } as const;
+  const sort = defaultSort;
 
   const query = useQuery<GetSongsResponse, AxiosError>({
     queryKey: getQueryKeyList(playlistId, page, term, sort),
