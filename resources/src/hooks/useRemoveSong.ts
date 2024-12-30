@@ -34,50 +34,45 @@ export function useRemoveSong() {
         getQueryKeyList(playlistId, currentPage, term),
       );
 
-      if (previousSongs) {
-        queryClient.setQueryData<GetSongsResponse>(
-          getQueryKeyList(playlistId, currentPage, term),
-          (old) =>
-            ({
-              ...old,
-              songs: old?.songs.filter((song) => song.id !== songId),
-            } as GetSongsResponse),
-        );
+      if (!previousSongs) return;
+      if (currentPage === previousSongs.meta.last_page) return;
 
-        if (currentPage != previousSongs.meta.last_page) {
-          const nextPageSongs = queryClient.getQueryData<GetSongsResponse>(
-            getQueryKeyList(playlistId, currentPage + 1, term),
-          );
+      queryClient.setQueryData<GetSongsResponse>(
+        getQueryKeyList(playlistId, currentPage, term),
+        (old) =>
+          ({
+            ...old,
+            songs: old?.songs.filter((song) => song.id !== songId),
+          } as GetSongsResponse),
+      );
 
-          if (nextPageSongs) {
-            const songToPush: Song = nextPageSongs.songs.shift() as Song;
+      const nextPageSongs = queryClient.getQueryData<GetSongsResponse>(
+        getQueryKeyList(playlistId, currentPage + 1, term),
+      );
 
-            queryClient.setQueryData<GetSongsResponse>(
-              getQueryKeyList(playlistId, currentPage, term),
-              (old) => {
-                const newSongs = [...(old?.songs ?? []), songToPush];
+      if (!nextPageSongs) return;
 
-                return {
-                  ...old,
-                  songs: newSongs,
-                } as GetSongsResponse;
-              },
-            );
+      const songToPush: Song = nextPageSongs.songs.shift() as Song;
 
-            if (nextPageSongs) {
-              queryClient.setQueryData<GetSongsResponse>(
-                getQueryKeyList(playlistId, currentPage + 1, term),
-                (old) => {
-                  return {
-                    ...old,
-                    songs: nextPageSongs.songs,
-                  } as GetSongsResponse;
-                },
-              );
-            }
-          }
-        }
-      }
+      queryClient.setQueryData<GetSongsResponse>(
+        getQueryKeyList(playlistId, currentPage, term),
+        (old) => {
+          return {
+            ...old,
+            songs: [...(old?.songs ?? []), songToPush],
+          } as GetSongsResponse;
+        },
+      );
+
+      queryClient.setQueryData<GetSongsResponse>(
+        getQueryKeyList(playlistId, currentPage + 1, term),
+        (old) => {
+          return {
+            ...old,
+            songs: nextPageSongs.songs,
+          } as GetSongsResponse;
+        },
+      );
     },
     onSettled: (data, error, variables) => {
       const { playlistId, currentPage, term } = variables;
